@@ -18,6 +18,21 @@ class Index extends MY_Controller {
 		$this->load->view('template/template',$this->data);
 	}
 
+	public function getDashboard(){
+		$this->data['main_content'] = 'stakeholders/main_content';
+		// $this->data['JudulPanelBesar'] = 'Upload Data';
+		$this->data['modal'] = "stakeholders/Modal";
+		$this->data['css'] = null;
+
+		$this->load->view('index',$this->data);
+	}
+
+	public function page_info(){
+		$data['breadcrumb_item'] = array("Stakeholders","All Perusahaan");
+
+		echo json_encode($data);
+	}
+
 	public function getLocation(){
 		$data = $this->perusahaan->getLocationTPB();
 

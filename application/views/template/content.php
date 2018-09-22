@@ -13,10 +13,7 @@
       </section>
       <!-- Main content -->
       <section id="main-content" class="content">
-        <div class="row">
-          <div id="mapGoogle" style="height: 765px"></div>
-        </div>
-        <?php $this->load->view('stakeholders/Modal.php'); ;?>
+        <?php $this->load->view('index'); ?>
       </section>
       <!-- /.content -->
     </div>
