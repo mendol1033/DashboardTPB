@@ -44,7 +44,7 @@ class Monevcctvit extends MY_Controller {
 
 		foreach ($list as $ListData){
 			if(isset($ListData->IdPerusahaan)){
-				$dataPT = $this->perusahaan->getById($ListData->IdPerusahaan);
+				$dataPT = $this->perusahaan->getById2($ListData->IdPerusahaan);
 			}
 
 			if ($ListData->statusCCTV == "Y" && $ListData->realtimeCCTV == "Y" && $ListData->statusIT == "Y" && $ListData->realtimeIT == "Y") {

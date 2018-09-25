@@ -78,50 +78,23 @@
             id: val.id,
             animation: google.maps.Animation.DROP
           });
+
+          // Marker On Click
+          marker.addListener('click',function(event){
+            $.ajax({
+              url: base_url + "perusahaan/tpb/getById",
+              type: "GET",
+              dataType: "JSON",
+              data: {id: this.id},
+              success: function(data){
+                $("#ProfilNama").text(data.nama_perusahaan);
+                $("#modal").modal('show');
+              }
+            })      
+          });
         });
       }
     })
-    
-
-    // Add Marker
-    marker = new google.maps.Marker({
-      position:{lat:-6.287869,lng:107.150520}, // Koordinat Perusahaan
-      map:map,
-      title : "Click Me", // Nama Perusahaan
-      label: 'KB', // Fasilitas TPB
-      icon : icons["hijau"].icon, // Icon Jalur
-      animation: google.maps.Animation.DROP,
-      id: 25
-    });
-
-    // Marker On Click
-    marker.addListener('click',function(event){
-      $.ajax({
-        url: "<?php echo base_url().'perusahaan/tpb/getById';?>",
-        type: "GET",
-        dataType: "JSON",
-        data: {id: this.id},
-        success: function(data){
-          console.log(data);
-        }
-      })      
-    });
-
-    marker = new google.maps.Marker({
-      position:{lat:-6.287869,lng:107.160520}, // Koordinat Perusahaan
-      map:map,
-      title : "Another Click Me", // Nama Perusahaan
-      // snippet : "NAMA PERUSAHAAN",
-      label: 'KB', // Fasilitas TPB
-      icon : icons["kuning"].icon, // Icon Jalur
-      animation: google.maps.Animation.DROP
-    });
-    marker.addListener('click',function(event){
-      markerTitle = marker.getId();
-      // markerSnippet = marker.getSnippet();
-      // console.log(markerSnippet);
-      console.log(markerTitle);
-    });
   }
 
   function openModal() {

@@ -123,6 +123,15 @@ class Cctv_model extends CI_Model {
 		return $query->result_array();
 	}
 
+	public function getByName($search,$column){
+		$this->peloro->from($this->table);
+		$this->peloro->select($column);
+		$this->peloro->like('NmPerusahaan',$search);
+
+		$query = $this->peloro->get();
+		return $query->result_array();
+	}
+
 	public function add(){
 		$this->peloro->trans_begin();
 
@@ -163,7 +172,7 @@ class Cctv_model extends CI_Model {
 			'Playback' => $_POST['Playback'],
 			'Status' => $_POST['Status'],
 			'Keterangan' => $_POST['Keterangan'],
-			'PtgsRekam' => $_POST['NipUser']
+			'PtgsUpdate' => $_POST['NipUser']
 		);
 
 		$this->peloro->where('id',$_POST['id']);

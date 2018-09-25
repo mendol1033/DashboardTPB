@@ -104,6 +104,15 @@ class Perusahaan_model extends CI_Model {
 		return $query->row();
 	}
 
+	// Get Data Perusahaan By ID
+	public function getById2($id){
+		$this->sikabayan_db->from('tb_perusahaan');
+		$this->sikabayan_db->where('id_perusahaan',$id);
+		$query = $this->sikabayan_db->get();
+
+		return $query->row();
+	}
+
 	public function getByNama($search,$column){
 		$this->sikabayan_db->from($this->table);
 		$this->sikabayan_db->select($column);

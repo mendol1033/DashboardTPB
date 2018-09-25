@@ -152,7 +152,7 @@ class It_model extends CI_Model {
 			'Realtime' => $_POST['Realtime'],
 			'Status' => $_POST['Status'],
 			'Keterangan' => $_POST['Keterangan'],
-			'PtgsRekam' => $_POST['NipUser']
+			'PtgsUpdate' => $_POST['NipUser']
 		);
 
 		$this->peloro->where('id',$_POST['id']);

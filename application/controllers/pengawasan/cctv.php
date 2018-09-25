@@ -110,16 +110,11 @@ class Cctv extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	public function getDropDownById($id){
+	public function getByName(){
 		$column = array('IdPerusahaan','NmPerusahaan');
-		$data = $this->cctv->getTpbCctvById($id,$column);
+		$data = $this->cctv->getByName($_GET['nama'],$column);
 
-		$dataEncode = array(
-			'Id' => $data[0]['IdPerusahaan'],
-			'Nama' => $data[0]['NmPerusahaan']
-		);
-
-		echo json_encode($dataEncode);
+		echo json_encode($data);
 	}
 
 	public function ajax_add(){

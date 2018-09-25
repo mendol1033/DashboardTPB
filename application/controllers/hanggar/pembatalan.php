@@ -45,7 +45,7 @@ class Pembatalan extends MY_Controller {
 
 		foreach ($list as $ListData){
 			if(isset($ListData->IdPerusahaan)){
-				$dataPT = $this->perusahaan->getById($ListData->IdPerusahaan);
+				$dataPT = $this->perusahaan->getById2($ListData->IdPerusahaan);
 			}
 			if(isset($ListData->JnsDok)){
 				$jnsDok = $this->menu->getJenisDokumenByKode($ListData->JnsDok);

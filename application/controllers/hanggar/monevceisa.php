@@ -51,7 +51,7 @@ class Monevceisa extends MY_Controller {
 
 		foreach ($list as $ListData){
 			if(isset($ListData->IdPerusahaan)){
-				$dataPT = $this->perusahaan->getById($ListData->IdPerusahaan);
+				$dataPT = $this->perusahaan->getById2($ListData->IdPerusahaan);
 			}
 			switch ($ListData->Kendala) {
 				case '1':

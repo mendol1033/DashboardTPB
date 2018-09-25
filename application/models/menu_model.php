@@ -177,6 +177,10 @@ class Menu_model extends CI_Model {
 					'url' => 'pengawasan/it',
 					'menu' => 'IT Inventory'
 				),
+				'random_check' => array(
+					'url' => 'pengawasan/random_check',
+					'menu' => 'Random Check CCTV dan IT'
+				)
 
 			),
 		);
