@@ -187,7 +187,7 @@ class Random_check extends MY_Controller {
 
 		$worksheet->getCell('F'.$cell)->setValue('CIKARANG, '.date('d-m-Y'));
 		$worksheet->getCell('F'.($cell+1))->setValue('PETUGAS PEMERIKSA');
-		$worksheet->getCell('F'.($cell+5))->setValue($this->session->userdata('NamaUser'));
+		$worksheet->getCell('F'.($cell+5))->setValue($this->session->userdata('NamaPegawai'));
 		$worksheet->getCell('F'.($cell+6))->setValue($this->session->userdata('NipUser'));
 
 
