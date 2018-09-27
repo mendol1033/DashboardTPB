@@ -159,7 +159,7 @@ class Random_check extends MY_Controller {
 		$lastCell = sizeof($data)+15;
 
 		for ($i = 15; $i < $lastCell ; $i++) {
-			$spreadsheet->getActiveSheet()->getRowDimension($i)->setRowHeight(30);	
+			$spreadsheet->getActiveSheet()->getRowDimension($i)->setRowHeight(45);	
 		}
 
 		$a = $data;
@@ -167,19 +167,10 @@ class Random_check extends MY_Controller {
 		$last = key($a);
 		$cell = 15 + $last + 4;
 
-		$worksheet->getCell('F'.$cell)->setValue('CIKARANG, '.date('d-m-Y'));
-		$worksheet->getCell('F'.($cell+1))->setValue('PETUGAS PEMERIKSA');
-		$worksheet->getCell('F'.($cell+5))->setValue($this->session->userdata('NamaPegawai'));
-		$worksheet->getCell('F'.($cell+6))->setValue($this->session->userdata('NipUser'));
-
-
-		// $worksheet->getCell('A14')->setValue(1);
-		// $worksheet->getCell('B14')->setValue('012345678000000');
-		// $worksheet->getCell('C14')->setValue('PT. ABC INDONESIA');
-		// $worksheet->getCell('D14')->setValue('123.456.789.255');
-		// $worksheet->getCell('E14')->setValue('AKTIF');
-		// $worksheet->getCell('F14')->setValue('123.456.789.255:8080');
-		// $worksheet->getCell('G14')->setValue('TIDAK AKTIF');
+		$worksheet->getCell('H'.$cell)->setValue('CIKARANG, '.date('d-m-Y'));
+		$worksheet->getCell('H'.($cell+1))->setValue('PETUGAS PEMERIKSA');
+		$worksheet->getCell('H'.($cell+5))->setValue($this->session->userdata('NamaPegawai'));
+		$worksheet->getCell('H'.($cell+6))->setValue($this->session->userdata('NipUser'));
 
 		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet,'Xlsx');
 

@@ -152,7 +152,7 @@
 							'<td>'+
 							'<select class="form-control select2" name="StatusIT[]" id="StatusIT"><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
 							'</td>'+
-							'<td>'+'<textarea class="form-control" id="tindakLanjut" name="tindakLanjut[]" rows="2"></textarea>'+'</td>'+
+							'<td>'+'<select class="form-control select2" id="tindakLanjut" name="tindakLanjut[]"><option value="Patroli">Patroli</option><option value="Analisa Intelijen">Analisa</option></select>'+'</td>'+
 							"<tr>"	
 							);
 					});
