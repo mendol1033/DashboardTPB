@@ -17,9 +17,8 @@
 							<th class="text-center">Username <br> Password</th>
 							<th class="text-center">View</th>
 							<th style="width: 8%">Status CCTV</th>
-							<th style="width: 20%">Keterangan CCTV</th>
 							<th style="width: 8%">Status IT</th>
-							<th style="width: 20%">Keterangan IT</th>
+							<th style="width: 30%">Tindak Lanjut</th>
 						</thead>
 						<tbody id="random">
 							

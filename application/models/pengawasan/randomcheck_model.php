@@ -117,6 +117,38 @@ class Randomcheck_model extends CI_Model {
 		}
 	}
 
+	public function getReportData(){
+		$this->peloro->from('tb_cek_cctv_detail');
+		$this->peloro->where('DATE(WktRekam)',DATE('Y-m-d'));
+		$query = $this->peloro->get()->result_array();
+		$a = $query;
+		end($a);
+		$last = key($a) + 1;
+		$data = array();
+		$no = 0;
+
+		for ($i = 0; $i < $last ; $i++) {
+			if($query[$i]['StatusCCTV'] === "Y"){
+				$StatusCCTV = "AKTIF";
+			} else {
+				$StatusCCTV = "TIDAK AKTIF";
+			}
+
+			if($query[$i]['StatusInventory'] === "Y"){
+				$StatusIT = "AKTIF";
+			} else {
+				$StatusIT = "TIDAK AKTIF";
+			}
+
+			$no++;
+			$data[] = array(
+				$no, $query[$i]['NPWP'], $query[$i]['NmPerusahaan'], $query[$i]['IpCCTV'], $StatusCCTV, $query[$i]['IpIT'], $StatusIT
+			);
+		}
+
+		return $data;
+	}
+
 }
 
 /* End of file randomcheck_model.php */

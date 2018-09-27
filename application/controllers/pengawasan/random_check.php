@@ -1,6 +1,9 @@
 <?php
 if(!defined('BASEPATH'))exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Random_check extends MY_Controller {
 
 	public function __construct()
@@ -116,8 +119,7 @@ class Random_check extends MY_Controller {
 					'IdInventory' => $_POST['IdIT'][$i],
 					'StatusCCTV' => $_POST['StatusCCTV'][$i],
 					'StatusInventory' => $_POST['StatusIT'][$i],
-					'KetCCTV' => $_POST['ketCCTV'][$i],
-					'KetIT' => $_POST['ketIT'][$i],
+					'TindakLanjut' => $_POST['tindakLanjut'][$i],
 					'PtgsRekam' => $this->session->userdata('NipUser'),
 				);		
 			}
@@ -135,6 +137,77 @@ class Random_check extends MY_Controller {
 		$data = $this->random->getRandom();
 
 		echo json_encode($data);
+	}
+
+	public function printLaporan(){
+
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('vendor/template/template_laporan.xlsx');
+
+		$worksheet = $spreadsheet->getActiveSheet();
+		$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+		$drawing->setName('Logo');
+		$drawing->setDescription('Logo');
+		$drawing->setPath('vendor/template/logo.png');
+		$drawing->setOffsetX(45);
+		$drawing->setOffsetY(10);
+
+		$drawing->setWorksheet($spreadsheet->getActiveSheet());
+
+		$data = $this->random->getReportData();
+
+		// $data = array(
+		// 	array(1,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(2,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(3,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(4,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(5,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(6,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(7,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(8,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(9,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(10,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(11,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(12,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(13,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(14,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(15,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(16,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(17,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(18,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(19,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(20,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF'),
+		// 	array(21,'012345678000000','PT. ABC INDONESIA','123.456.789.255','AKTIF','123.456.789.255:8080','TIDAK AKTIF')
+		// );
+
+		$worksheet->fromArray($data,NULL,'A15');
+		$a = $data;
+		end($a);
+		$last = key($a);
+		$cell = 14 + $last + 4;
+
+		$worksheet->getCell('F'.$cell)->setValue('CIKARANG, '.date('d-m-Y'));
+		$worksheet->getCell('F'.($cell+1))->setValue('PETUGAS PEMERIKSA');
+		$worksheet->getCell('F'.($cell+5))->setValue($this->session->userdata('NamaUser'));
+		$worksheet->getCell('F'.($cell+6))->setValue($this->session->userdata('NipUser'));
+
+
+		// $worksheet->getCell('A14')->setValue(1);
+		// $worksheet->getCell('B14')->setValue('012345678000000');
+		// $worksheet->getCell('C14')->setValue('PT. ABC INDONESIA');
+		// $worksheet->getCell('D14')->setValue('123.456.789.255');
+		// $worksheet->getCell('E14')->setValue('AKTIF');
+		// $worksheet->getCell('F14')->setValue('123.456.789.255:8080');
+		// $worksheet->getCell('G14')->setValue('TIDAK AKTIF');
+
+		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet,'Xlsx');
+
+		$filename = 'Laporan Harian '.date('Y-m-d').'.xlsx';
+
+		$writer->save('vendor/laporan_harian_cctv_it/'.$filename);
+		force_download('vendor/laporan_harian_cctv_it/'.$filename,NULL);
+
+		echo $cell;
+
 	}
 
 }

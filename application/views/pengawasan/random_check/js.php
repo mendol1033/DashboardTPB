@@ -149,11 +149,10 @@
 							'<input type="hidden" id="IdIT" name="IdIT[]" value="'+val.IdIT+'">'+
 							'<select class="form-control select2" name="StatusCCTV[]" id="StatusCCTV"><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
 							'</td>'+
-							'<td>'+'<textarea class="form-control" id="ketCCTV" name="ketCCTV[]" rows="2"></textarea>'+'</td>'+
 							'<td>'+
 							'<select class="form-control select2" name="StatusIT[]" id="StatusIT"><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
 							'</td>'+
-							'<td>'+'<textarea class="form-control" id="ketIT" name="ketIT[]" rows="2"></textarea>'+'</td>'+
+							'<td>'+'<textarea class="form-control" id="tindakLanjut" name="tindakLanjut[]" rows="2"></textarea>'+'</td>'+
 							"<tr>"	
 							);
 					});

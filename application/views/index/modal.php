@@ -31,6 +31,16 @@
 								<table class="table table-striped table-hover">
 									<tbody>
 										<tr>
+											<td class="tableLabel"><b>NPWP</b></td>
+											<td class="semicolon">:</td>
+											<td id="NPWP"></td>
+										</tr>
+										<tr>
+											<td class="tableLabel"><b>NAMA PERUSAHAAN</b></td>
+											<td class="semicolon">:</td>
+											<td id="ProfilNama"></td>
+										</tr>
+										<tr>
 											<td class="tableLabel"><b>NAMA PERUSAHAAN</b></td>
 											<td class="semicolon">:</td>
 											<td id="ProfilNama"></td>
