@@ -143,7 +143,7 @@ class Randomcheck_model extends CI_Model {
 
 				$no++;
 				$data[] = array(
-					$no, $query[$i]['NPWP'], $query[$i]['NmPerusahaan'], $query[$i]['IpCCTV'], $StatusCCTV, $query[$i]['IpIT'], $StatusIT
+					$no, $query[$i]['NPWP'], $query[$i]['NmPerusahaan'], $query[$i]['IpCCTV'], $StatusCCTV, $query[$i]['IpIT'], $StatusIT, $query[$i]['TindakLanjut']
 				);
 			}
 		}
