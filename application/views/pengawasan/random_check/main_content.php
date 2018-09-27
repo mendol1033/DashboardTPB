@@ -43,6 +43,7 @@
 			</div> -->
 			<div class="col-lg-6 col-md-6 col-sm-6">
 				<button type="button" class="btn btn-primary pull-right " id="btnTambah" style="margin-bottom: 5px;">TAMBAH</button>
+				<a href="<?php echo base_url().'pengawasan/random_check/printLaporan' ;?>"><button type="button" class="btn btn-success pull-right" id="btnPrint" style="margin-right: 5px; margin-bottom: 5px;">PRINT</button></a>
 			</div>
 		</div>
 		<div class="row">

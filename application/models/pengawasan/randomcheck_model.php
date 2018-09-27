@@ -127,23 +127,25 @@ class Randomcheck_model extends CI_Model {
 		$data = array();
 		$no = 0;
 
-		for ($i = 0; $i < $last ; $i++) {
-			if($query[$i]['StatusCCTV'] === "Y"){
-				$StatusCCTV = "AKTIF";
-			} else {
-				$StatusCCTV = "TIDAK AKTIF";
-			}
+		if(sizeof($query) > 0){
+			for ($i = 0; $i < $last ; $i++) {
+				if($query[$i]['StatusCCTV'] === "Y"){
+					$StatusCCTV = "AKTIF";
+				} else {
+					$StatusCCTV = "TIDAK AKTIF";
+				}
 
-			if($query[$i]['StatusInventory'] === "Y"){
-				$StatusIT = "AKTIF";
-			} else {
-				$StatusIT = "TIDAK AKTIF";
-			}
+				if($query[$i]['StatusInventory'] === "Y"){
+					$StatusIT = "AKTIF";
+				} else {
+					$StatusIT = "TIDAK AKTIF";
+				}
 
-			$no++;
-			$data[] = array(
-				$no, $query[$i]['NPWP'], $query[$i]['NmPerusahaan'], $query[$i]['IpCCTV'], $StatusCCTV, $query[$i]['IpIT'], $StatusIT
-			);
+				$no++;
+				$data[] = array(
+					$no, $query[$i]['NPWP'], $query[$i]['NmPerusahaan'], $query[$i]['IpCCTV'], $StatusCCTV, $query[$i]['IpIT'], $StatusIT
+				);
+			}
 		}
 
 		return $data;
