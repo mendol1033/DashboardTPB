@@ -9,7 +9,7 @@ class Randomcheck_model extends CI_Model {
 	{
 		parent::__construct();
 		$this->peloro = $this->load->database('peloro',TRUE);
-		
+		$this->load->model('log_model','app_log',TRUE);
 	}
 
 	var $table = "tb_cek_cctv_detail";
@@ -105,15 +105,47 @@ class Randomcheck_model extends CI_Model {
 	}
 
 	public function add($post){
+		$dataPost = $post;
 		$this->peloro->trans_begin();
+		// Add Data Cek Random
 		$this->peloro->insert_batch('tb_cek_cctv',$post);
+
+		foreach ($dataPost as $value) {
+			$dataCCTV = array(
+				'Status' => $value['StatusCCTV'],
+				'PtgsUpdate' => $value['PtgsRekam']
+			);
+
+			$dataIT = array(
+				'Status' => $value['StatusInventory'],
+				'PtgsUpdate' => $value['PtgsRekam']
+			);
+
+			// Update Table CCTV
+			$this->peloro->where('Id',$value['IdCCTV']);
+			$this->peloro->update('tb_cctv',$dataCCTV);
+
+			// Update Table IT Inventory
+			$this->peloro->where('Id',$value['IdInventory']);
+			$this->peloro->update('tb_it',$dataIT);
+		}
 
 		if($this->peloro->trans_status() === FALSE){
 			$this->peloro->trans_rollback();
 			return FALSE;
 		} else {
-			$this->peloro->trans_commit();
-			return TRUE;
+			$IdUser = $this->session->userdata('IdUser');
+			$operation = "Tambah";
+			$app = "Random Check CCTV dan IT Inventory";
+			$status = $this->app_log->addHistory($IdUser,$operation,$app);
+			if ($status === TRUE) {
+				$this->peloro->trans_commit();
+				return TRUE;	
+			} else {
+				$this->peloro->trans_rollback();
+				return FALSE;
+			}
+			
 		}
 	}
 

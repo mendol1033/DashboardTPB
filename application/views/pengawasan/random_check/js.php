@@ -101,17 +101,14 @@
 			rules : {
 				StatusCCTV : "required",
 				StatusIT : "required",
+				tindakLanjut : "required",
 			},
 			messages : {
 				StatusIT : "Pilih Status IT",
 				StatusCCTV : "Pilih Status CCTV",
+				tindakLanjut : "Pilih Tindak Lanjut",
 			},
 			errorElement : "span",
-			errorPlacement:function(error,element){
-				offset = element.offset();
-				error.insertAfter(element);
-				$("#mainFormCeisa > .form-group").addClass('has-error');
-			}
 		});
 
 		$("#btnTambah").on('click', function(event) {
@@ -180,6 +177,10 @@
 						$("#modal").modal("hide");
 						alert(data);
 						ajax_reload();
+					},
+					error: function(e,exception){
+						console.log(e);
+						alert(e.responseText);
 					}
 				})
 			}

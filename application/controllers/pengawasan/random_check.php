@@ -76,7 +76,7 @@ class Random_check extends MY_Controller {
 				$statusIT = "Aktif";
 				$backgroundIT = "bg-green";
 			} else {
-				$statusIT = "Aktif";
+				$statusIT = "Tidak Aktif";
 				$backgroundIT = "bg-red";
 			}
 
