@@ -129,6 +129,12 @@
 					var no = 0;
 					$.each(data, function(index, val) {
 						/* iterate through array or object */
+						var idCek, idStatCCTV, idStatIT;
+						if (typeof val.Id == 'undefined') {idCek = "NULL"} else {idCek = val.Id};
+						idStatCCTV = "StatusCCTV"+index;
+						idStatIT = "StatusIT"+index;
+						idTindakLanjut = "tindakLanjut"+index;
+
 						no++;
 						$("#random").append(
 							"<tr>"+
@@ -144,17 +150,24 @@
 							'<input type="hidden" id="IdPerusahaan" name="IdPerusahaan[]" value="'+val.IdPerusahaan+'">'+
 							'<input type="hidden" id="IdCCTV" name="IdCCTV[]" value="'+val.IdCCTV+'">'+
 							'<input type="hidden" id="IdIT" name="IdIT[]" value="'+val.IdIT+'">'+
-							'<select class="form-control select2" name="StatusCCTV[]" id="StatusCCTV"><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
+							'<input type="hidden" id="Id" name="Id[]" value="'+idCek+'">'+
+							'<select class="form-control select2" name="StatusCCTV[]" id="'+idStatCCTV+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
 							'</td>'+
 							'<td>'+
-							'<select class="form-control select2" name="StatusIT[]" id="StatusIT"><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
+							'<select class="form-control select2" name="StatusIT[]" id="'+idStatIT+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
 							'</td>'+
 							'<td>'+'<select class="form-control select2" id="tindakLanjut" name="tindakLanjut[]"><option value="">Pilih Tindakan Yang Diambil</option><option value="Patroli">Patroli</option><option value="Analisa Intelijen">Analisa</option></select>'+'</td>'+
 							"<tr>"	
 							);
+						$(".select2").select2({width:"100%"});
+						$("#"+idStatCCTV).val(val.StatusCCTV);
+						$("#"+idStatIT).val(val.StatusInventory);
+						$("#"+idTindakLanjut).val(val.TindakLanjut);
+
+						$("#StatusCCTV").trigger("change");
+						$("#StatusIT").trigger("change");
 					});
-					$(".select2").select2({width:"100%"});
-					console.log(data);				
+					// console.log(data);			
 				}
 			})
 			
@@ -174,13 +187,13 @@
 					dataType: "JSON",
 					data: data,
 					success : function(data){
-						$("#modal").modal("hide");
-						alert(data);
+						// $("#modal").modal("hide");
+						console.log(data);
 						ajax_reload();
 					},
 					error: function(e,exception){
 						console.log(e);
-						alert(e.responseText);
+						console.log(e.responseText);
 					}
 				})
 			}
@@ -193,7 +206,7 @@
 		});
 
 		function ajax_reload(){
-		table.ajax.reload(null,null);
-	}
+			table.ajax.reload(null,false);
+		}
 	})
 </script>

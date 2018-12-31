@@ -90,17 +90,22 @@ class Randomcheck_model extends CI_Model {
 	}
 
 	public function getRandom(){
-		// Set Limit
-		$sql = 'SELECT CEIL(COUNT(IdPerusahaan)/5) AS LIM FROM tb_perusahaan WHERE Status = "Y"';
-		$query = $this->peloro->query($sql)->result_array();
-		$limit = $query[0]['LIM'];
+		$sql = 'SELECT * FROM tb_cek_cctv_detail WHERE DATE(WktRekam)=CURDATE()';
+		$query = $this->peloro->query($sql);
+		if ($query->num_rows() != 0) {
+			$lastQuery = $query;
+		} else {
+			// Set Limit
+			$sql = 'SELECT CEIL(COUNT(IdPerusahaan)/5) AS LIM FROM tb_perusahaan WHERE Status = "Y"';
+			$query = $this->peloro->query($sql)->result_array();
+			$limit = $query[0]['LIM'];
 
-		// Get Perusahaan By Random
-		$this->peloro->from('tb_view_random');
-		$this->peloro->limit($limit);
-		$this->peloro->order_by('IdPerusahaan','RANDOM');
-		$lastQuery = $this->peloro->get();
-
+			// Get Perusahaan By Random
+			$this->peloro->from('tb_view_random');
+			$this->peloro->limit($limit);
+			$this->peloro->order_by('IdPerusahaan','RANDOM');
+			$lastQuery = $this->peloro->get();
+		}
 		return $lastQuery->result_array();
 	}
 
@@ -108,8 +113,12 @@ class Randomcheck_model extends CI_Model {
 		$dataPost = $post;
 		$this->peloro->trans_begin();
 		// Add Data Cek Random
-		$this->peloro->insert_batch('tb_cek_cctv',$post);
-
+		if(isset($post[0]['Id'])){
+			$this->peloro->update_batch('tb_cek_cctv',$post,'Id');
+		} else {
+			$this->peloro->insert_batch('tb_cek_cctv',$post);
+		}
+		
 		foreach ($dataPost as $value) {
 			$dataCCTV = array(
 				'Status' => $value['StatusCCTV'],

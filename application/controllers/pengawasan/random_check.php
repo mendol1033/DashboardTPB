@@ -113,7 +113,7 @@ class Random_check extends MY_Controller {
 			end($a);
 			$last = key($a) + 1;
 			for ($i = 0; $i < $last ; $i++) {
-				$post[] = array(
+				$post[$i] = array(
 					'IdPerusahaan' => $_POST['IdPerusahaan'][$i],
 					'IdCCTV' => $_POST['IdCCTV'][$i],
 					'IdInventory' => $_POST['IdIT'][$i],
@@ -121,7 +121,10 @@ class Random_check extends MY_Controller {
 					'StatusInventory' => $_POST['StatusIT'][$i],
 					'TindakLanjut' => $_POST['tindakLanjut'][$i],
 					'PtgsRekam' => $this->session->userdata('NipUser'),
-				);		
+				);	
+				if ($_POST['Id'][$i] != "NULL") {
+					$post[$i]['Id'] = $_POST['Id'][$i];
+				}	
 			}
 			$status = $this->random->add($post);
 			$operation = "Tambah";
@@ -181,6 +184,12 @@ class Random_check extends MY_Controller {
 
 		echo $cell;
 
+	}
+
+	public function test(){
+		$data = $this->random->getRandom();
+
+		print_r($data);
 	}
 
 }
