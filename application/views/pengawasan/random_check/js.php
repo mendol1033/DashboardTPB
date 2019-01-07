@@ -149,7 +149,7 @@
 							'<td>'+
 							'<input type="hidden" id="IdPerusahaan" name="IdPerusahaan[]" value="'+val.IdPerusahaan+'">'+
 							'<input type="hidden" id="IdCCTV" name="IdCCTV[]" value="'+val.IdCCTV+'">'+
-							'<input type="hidden" id="IdIT" name="IdIT[]" value="'+val.IdIT+'">'+
+							'<input type="hidden" id="IdIT" name="IdIT[]" value="'+val.IdInventory+'">'+
 							'<input type="hidden" id="Id" name="Id[]" value="'+idCek+'">'+
 							'<select class="form-control select2" name="StatusCCTV[]" id="'+idStatCCTV+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
 							'</td>'+
