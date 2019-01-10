@@ -1,23 +1,23 @@
 <?php
-if (!defined('BASEPATH')) exit ('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class It extends MY_Controller {
+class Eseal extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('pengawasan/it_model','it',true);
+		$this->load->model('pengawasan/eseal_model',"eseal",true);
 	}
 
 	public function index()
 	{
 		$this->data['main_content'] = 'pengawasan/cctv/main_content';
 		// $this->data['JudulPanelBesar'] = 'Upload Data';
-		$this->data['js'] = 'pengawasan/cctv/js_it';
-		$this->data['modal'] = "pengawasan/cctv/Modal_it";
+		$this->data['js'] = 'pengawasan/cctv/js_eseal';
+		$this->data['modal'] = "pengawasan/cctv/Modal_eseal";
 		$this->data['css'] = null;
 		$this->data['breadcrumb'] = "Data Perusahaan";
-		$this->data['breadcrumb_item'] = array("Pengawasan","Data IT Inventory");
+		$this->data['breadcrumb_item'] = array("Pengawasan","Data CCTV");
 
 		$browser = array(
 			'' => 'Pilih Jenis Browser',
@@ -44,7 +44,7 @@ class It extends MY_Controller {
 
 	public function ajax_list(){
 		//start datatable
-		$list = $this->it->GetDataTable();
+		$list = $this->eseal->GetDataTable();
 		$data = array();
 		$no = $_POST['start'];
 
@@ -76,8 +76,8 @@ class It extends MY_Controller {
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->it->count_all(),
-			"recordsFiltered" => $this->it->count_filtered(),
+			"recordsTotal" => $this->eseal->count_all(),
+			"recordsFiltered" => $this->eseal->count_filtered(),
 			"data" => $data,
 		);
 		
@@ -85,7 +85,7 @@ class It extends MY_Controller {
 	}
 
 	public function getById(){
-		$data = $this->it->getById();
+		$data = $this->eseal->getById();
 
 		echo json_encode($data);
 	}
@@ -93,14 +93,14 @@ class It extends MY_Controller {
 	public function getDropDownNPWP(){
 		$search = $this->input->get('nama');
 		$column = array('IdPerusahaan','NmPerusahaan', 'Fasilitas', 'NoSkepAkhir');
-		$data = $this->it->getTpbNonIT($search,$column);
+		$data = $this->eseal->getTpbNonIT($search,$column);
 
 		echo json_encode($data);
 	}
 
 		public function ajax_add(){
 		if(!empty($_POST)){
-			$status = $this->it->add();
+			$status = $this->eseal->add();
 			$operation = "Tambah";
 			$app = "IT Inventory";
 
@@ -112,7 +112,7 @@ class It extends MY_Controller {
 
 	public function ajax_update(){
 		if(!empty($_POST)){
-			$status = $this->it->update();
+			$status = $this->eseal->update();
 			$operation = "Ubah";
 			$app = "IT Inventory";
 
@@ -122,5 +122,5 @@ class It extends MY_Controller {
 	}
 }
 
-/* End of file it.php */
-/* Location: ./application/controllers/pengawasan/it.php */
+/* End of file eseal.php */
+/* Location: ./application/controllers/pengawasan/eseal.php */

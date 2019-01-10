@@ -41,7 +41,7 @@
 							<label class="control-label" id="labelIpAddress">Ip Address</label>
 						</div>
 						<div class="col-md-9">
-							<input id="IpAddress" class="form-control" type="text" name="IpAddress" placeholder="IP Addres IT Inventory" autocomplete="off">
+							<input id="IpAddress" class="form-control" type="text" name="IpAddress" placeholder="IP Addres E Seal" autocomplete="off">
 						</div>
 					</div>
 					<div class="form-group">
@@ -49,7 +49,7 @@
 							<label class="control-label" id="labelUsername">Username</label>
 						</div>
 						<div class="col-md-9">
-							<input id="Username" class="form-control" type="text" name="Username" placeholder="Username Akses IT Inventory" autocomplete="off">
+							<input id="Username" class="form-control" type="text" name="Username" placeholder="Username Akses E Seal" autocomplete="off">
 						</div> 
 					</div>
 					<div class="form-group">
@@ -57,7 +57,7 @@
 							<label class="control-label" id="labelPassword">Password</label>
 						</div>
 						<div class="col-md-9">
-							<input id="Password" class="form-control" type="text" name="Password" placeholder="Password Akses IT Inventory" autocomplete="off">
+							<input id="Password" class="form-control" type="text" name="Password" placeholder="Password Akses E Seal" autocomplete="off">
 						</div>
 					</div>
 					<div class="row">
