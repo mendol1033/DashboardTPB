@@ -192,6 +192,19 @@ class Randomcheck_model extends CI_Model {
 		return $data;
 	}
 
+	public function getGraphData($id,$app){
+		if ($app = "cctv"){
+			$sql = 'SELECT MONTHNAME(WktRekam) AS BULAN, YEAR(WktRekam) AS TAHUN, SUM(IF(StatusCCTV = "Y",1,0)) AS AKTIF, SUM(IF(StatusCCTV = "N", 1, 0)) AS TIDAK_AKTIF FROM tb_cek_cctv WHERE IdPerusahaan = ? GROUP BY MONTH(WktRekam) ORDER BY TAHUN ASC, MONTH(WktRekam) ASC';
+		} else {
+			$sql = 'SELECT MONTHNAME(WktRekam) AS BULAN, YEAR(WktRekam) AS TAHUN, SUM(IF(StatusInventory = "Y",1,0)) AS AKTIF, SUM(IF(StatusInventory = "N", 1, 0)) AS TIDAK_AKTIF FROM tb_cek_cctv WHERE IdPerusahaan = ? GROUP BY MONTH(WktRekam) ORDER BY TAHUN ASC, MONTH(WktRekam) ASC';
+		}
+		
+
+		$query = $this->peloro->query($sql,$id);
+
+		return $query->result_array();
+	}
+
 }
 
 /* End of file randomcheck_model.php */

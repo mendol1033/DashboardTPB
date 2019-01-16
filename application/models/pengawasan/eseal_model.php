@@ -106,7 +106,7 @@ class Eseal_model extends CI_Model {
 	}
 
 	public function getTpbNonIT($search,$column){
-		$this->peloro->from('tb_non_it');
+		$this->peloro->from('tb_non_eseal');
 		$this->peloro->select($column);
 		$this->peloro->where('Fasilitas','PLB');
 		$this->peloro->like('NmPerusahaan',$search);

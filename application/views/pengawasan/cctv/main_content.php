@@ -63,7 +63,7 @@
 										</p>
 									</th>
 									<th style="width: 5%;"><p class="text-justify"> View </p></th>
-									<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
+									<th style="width: 5%;"><p class="text-justify"> Action </p></th>
 									<!-- <th style="width: 5%;"><p class="text-justify"> Delete </p></th> -->
 								</tr>
 							</thead>
@@ -81,7 +81,7 @@
 										</p>
 									</th>
 									<th style="width: 5%;"><p class="text-justify"> View </p></th>
-									<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
+									<th style="width: 5%;"><p class="text-justify"> Action </p></th>
 									<!-- <th>Delete</th> -->
 								</tr>
 							</tfoot>

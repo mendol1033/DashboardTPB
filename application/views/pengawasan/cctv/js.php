@@ -64,38 +64,6 @@
 			},
 		});
 
-		// initialize another select2
-		// $("#filterPerusahaan").select2({
-		// 	width : '100%',
-		// 	placeholder: 'Masukkan Nama Perushaan',
-		// 	minimumInputLength: 5,
-		// 	allowClear: true,
-		// 	ajax : {
-		// 		url : "<?php echo base_url().'perusahaan/tpb/getDropDownNPWP/';?>",
-		// 		dataType : "JSON",
-		// 		delay : 250,
-		// 		data : function(params){
-		// 			return{
-		// 				nama : params.term
-		// 			};
-		// 		},
-		// 		processResults: function(data){
-		// 			var results = [];
-
-		// 			$.each(data, function(index, item){
-		// 				results.push({
-		// 					id : item.username,
-		// 					text : item.name
-		// 				})
-		// 			});
-		// 			return{
-		// 				results : results
-		// 			};
-		// 		},
-		// 		cache : true
-		// 	}
-		// });
-
 		$("#NamaPerusahaan").select2({
 			width : '100%',
 			placeholder: 'Masukkan Nama Perusahaan',
@@ -254,5 +222,74 @@
 
 	function ajax_load_table(filter){
 		table.ajax.url("<?php echo base_url().'pengawasan/cctv/ajax_list/'?>" + filter).load();
+	}
+
+	function getGraph(id){
+		$.ajax({
+			url: "<?php echo base_url()?>"+"pengawasan/cctv/getGraph",
+			type: "POST",
+			dataType: "JSON",
+			data: {Id: id},
+			success: function(data){
+				var allData = data.graphData;
+				var label = [];
+				var data_1 = [];
+				var data_2 = [];
+
+				$("#modalGrafik").modal('show');
+				$("#canvasLocation").append('<canvas id="myCanvas" height="505" width="800"></canvas>');
+
+				for(var i in allData){
+					label.push(allData[i].BULAN +" "+ allData[i].TAHUN);
+					data_1.push(allData[i].AKTIF);
+					data_2.push(allData[i].TIDAK_AKTIF);
+				}
+
+				var chartData = {
+					labels: label,
+					datasets: [{
+						label: data.dataLabel.label_1,
+						backgroundColor: window.chartColors.blue,
+						data: data_1
+					}, {
+						label: data.dataLabel.label_2,
+						backgroundColor: window.chartColors.red,
+						data: data_2
+					}]
+
+				};
+
+				var ctx = $("#myCanvas");
+
+				var barGraph = new Chart(ctx,{
+					type: 'bar',
+					data: chartData,
+					options: {
+						title:{
+							display: true,
+							text: "HISTORY KEAKTIFAN CCTV"
+						},
+						tooltips: {
+							mode: 'index',
+							intersect: false
+						},
+						responsive: true,
+						scales: {
+							xAxes:[{
+								stacked: true
+							}],
+							yAxes: [{
+								stacked: true
+							}]
+						}
+					}
+				})
+			}
+		})
+	}
+
+	function closeModal(){
+		$("#modalGrafik").modal('hide');
+		$("#myCanvas").remove();
 	}
 </script>

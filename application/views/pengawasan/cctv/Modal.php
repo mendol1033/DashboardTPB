@@ -105,3 +105,17 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="modalGrafik" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" aria-label="close" onclick="closeModal()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="titleGrafik">Disini Modal Title</h4>
+			</div>
+			<div class="modal-body" id="canvasLocation">
+			</div>
+		</div>
+	</div>
+</div>

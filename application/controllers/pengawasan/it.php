@@ -7,6 +7,7 @@ class It extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->model('pengawasan/it_model','it',true);
+		$this->load->model('pengawasan/randomcheck_model','random',TRUE);
 	}
 
 	public function index()
@@ -67,7 +68,7 @@ class It extends MY_Controller {
 			// $row[] = $ListData->Password;
 			$row[] = '<p class="text-center '.$background.'">'.$statusCCTV.'</p> <br> <p class="text-center">'.$ListData->Keterangan.'</p>';
 			$row[] = '<a href="http://'.$ListData->IpAddress.'" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-globe"><span hidden>View</span></i></button></a>';
-			$row[] = '<button type="button" class="btn btn-success" onclick="edit('.$ListData->Id.')"><i class="icon ion-md-open"><span hidden>Edit</span></i></button>';
+			$row[] = '<div class="btn-group"><button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ACTION<span class="caret"></span></button><ul class="dropdown-menu"><li><a href="javascript:void({})" onclick="edit('.$ListData->Id.')">Edit User</a></li><li><a href="javascript:void({})" onclick="getGraph('.$ListData->IdPerusahaan.')">Cek History</a></li></ul></div>';
 			$row[] = '<button type="submit" onclick="hapus('.$ListData->Id.')" class="btn btn-danger"><i class="icon ion-md-close"><span hidden>Hapus</span></i></button>';
 
 
@@ -119,6 +120,25 @@ class It extends MY_Controller {
 			$pesan = $this->appfeedback($status,$operation,$app);
 		}
 		echo json_encode($pesan);
+	}
+
+	public function getGraph(){
+		$data = $this->random->getGraphData($_GET['Id'],'it');
+
+		foreach ($data as $key => $value) {
+			$periode[] = $value['BULAN'] ." ". $value['TAHUN'];
+			$aktif[] = $value['AKTIF'];
+			$nonAktif[] = $value['TIDAK_AKTIF'];
+		}
+		$set = array(
+			'graphData' => $data,
+			'dataLabel' => array(
+				'label_1' => "AKTIF",
+				'label_2' => "TIDAK AKTIF"
+			)
+		);	
+
+		echo json_encode($set);
 	}
 }
 

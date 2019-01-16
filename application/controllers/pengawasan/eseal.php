@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Eseal extends CI_Controller {
+class Eseal extends MY_Controller {
 
 	public function __construct()
 	{
