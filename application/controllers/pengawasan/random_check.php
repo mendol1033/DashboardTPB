@@ -138,8 +138,19 @@ class Random_check extends MY_Controller {
 
 	public function getRandom(){
 		$data = $this->random->getRandom();
+		if (count($data[0]) === 21) {
+			$random = array(
+				'data' => $data,
+				'proses' => "update"
+			);
+		} else {
+			$random = array(
+				'data' => $data,
+				'proses' => "add"
+			);
+		}
 
-		echo json_encode($data);
+		echo json_encode($random);
 	}
 
 	public function printLaporan(){
