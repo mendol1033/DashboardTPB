@@ -2,6 +2,7 @@
 	var table;
 	var save_method;
 	var idEdit;
+	var proses;
 	$(document).ready(function() {
 		// initialize class select2
 		$(".select2").select2({
@@ -127,68 +128,108 @@
 				dataType: "JSON",
 				success: function(data){
 					var no = 0;
-					$.each(data, function(index, val) {
-						/* iterate through array or object */
-						var idCek, idStatCCTV, idStatIT;
-						if (typeof val.Id == 'undefined') {idCek = "NULL"} else {idCek = val.Id};
-						idStatCCTV = "StatusCCTV"+index;
-						idStatIT = "StatusIT"+index;
-						idTindakLanjut = "tindakLanjut"+index;
+					var idCek, idStatCCTV, idStatIT, idTindakLanjut;
+					proses = data.proses;
 
-						no++;
-						$("#random").append(
-							"<tr>"+
-							'<td class="text-center">'+no+'</td>'+
-							'<td>'+val.NmPerusahaan+'</td>'+
-							'<td class="text-center">'+val.UserCCTV+"<br>"+val.PassCCTV+'</td>'+
-							'<td class="text-center">'+val.UserIT+'<br>'+val.PassIT+'</td>'+
-							'<td class="text-center">'+
-							'<a href="http://'+val.IpCCTV+'" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-videocam"><span hidden>View</span></i></button></a>'+
-							'&nbsp;'+
-							'<a href="http://'+val.IpIT+'" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-desktop"><span hidden>View</span></i></button></a>'+'</td>'+
-							'<td>'+
-							'<input type="hidden" id="IdPerusahaan" name="IdPerusahaan[]" value="'+val.IdPerusahaan+'">'+
-							'<input type="hidden" id="IdCCTV" name="IdCCTV[]" value="'+val.IdCCTV+'">'+
-							'<input type="hidden" id="IdIT" name="IdIT[]" value="'+val.IdInventory+'">'+
-							'<input type="hidden" id="Id" name="Id[]" value="'+idCek+'">'+
-							'<select class="form-control select2" name="StatusCCTV[]" id="'+idStatCCTV+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
-							'</td>'+
-							'<td>'+
-							'<select class="form-control select2" name="StatusIT[]" id="'+idStatIT+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
-							'</td>'+
-							'<td>'+'<select class="form-control select2" id="tindakLanjut" name="tindakLanjut[]"><option value="">Pilih Tindakan Yang Diambil</option><option value="Patroli">Patroli</option><option value="Analisa Intelijen">Analisa</option></select>'+'</td>'+
-							"<tr>"	
-							);
-						$(".select2").select2({width:"100%"});
-						$("#"+idStatCCTV).val(val.StatusCCTV);
-						$("#"+idStatIT).val(val.StatusInventory);
-						$("#"+idTindakLanjut).val(val.TindakLanjut);
+					if (data.proses == 'add') {
+						$.each(data.data, function(index, val) {
+							/* iterate through array or object */
+							var idCek, idStatCCTV, idStatIT;
+							if (typeof val.Id == 'undefined') {idCek = "NULL"} else {idCek = val.Id};
+							idStatCCTV = "StatusCCTV"+index;
+							idStatIT = "StatusIT"+index;
+							idTindakLanjut = "tindakLanjut"+index;
 
-						$("#StatusCCTV").trigger("change");
-						$("#StatusIT").trigger("change");
-					});
+							no++;
+							$("#random").append(
+								"<tr>"+
+								'<td class="text-center">'+no+'</td>'+
+								'<td>'+val.NmPerusahaan+'</td>'+
+								'<td class="text-center">'+val.UserCCTV+"<br>"+val.PassCCTV+'</td>'+
+								'<td class="text-center">'+val.UserIT+'<br>'+val.PassIT+'</td>'+
+								'<td class="text-center">'+
+								'<a href="http://'+val.IpCCTV+'" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-videocam"><span hidden>View</span></i></button></a>'+
+								'&nbsp;'+
+								'<a href="http://'+val.IpIT+'" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-desktop"><span hidden>View</span></i></button></a>'+'</td>'+
+								'<td>'+
+								'<input type="hidden" id="IdPerusahaan" name="IdPerusahaan[]" value="'+val.IdPerusahaan+'">'+
+								'<input type="hidden" id="IdCCTV" name="IdCCTV[]" value="'+val.IdCCTV+'">'+
+								'<input type="hidden" id="IdIT" name="IdIT[]" value="'+val.IdInventory+'">'+
+								'<select class="form-control select2" name="StatusCCTV[]" id="'+idStatCCTV+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
+								'</td>'+
+								'<td>'+
+								'<select class="form-control select2" name="StatusIT[]" id="'+idStatIT+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
+								'</td>'+
+								'<td>'+'<select class="form-control select2" id="'+idTindakLanjut+'" name="tindakLanjut[]"><option value="">Pilih Tindakan Yang Diambil</option><option value="Patroli">Patroli</option><option value="Analisa Intelijen">Analisa</option></select>'+'</td>'+
+								"<tr>"	
+								);
+							$(".select2").select2({width:"100%"});
+						});
+					} else {
+						$.each(data.data, function(index, val) {
+							/* iterate through array or object */
+							idStatCCTV = "StatusCCTV"+index;
+							idStatIT = "StatusIT"+index;
+							idTindakLanjut = "tindakLanjut"+index;
+
+							no++;
+							$("#random").append(
+								"<tr>"+
+								'<td class="text-center">'+no+'</td>'+
+								'<td>'+val.NmPerusahaan+'</td>'+
+								'<td class="text-center">'+val.UserCCTV+"<br>"+val.PassCCTV+'</td>'+
+								'<td class="text-center">'+val.UserIT+'<br>'+val.PassIT+'</td>'+
+								'<td class="text-center">'+
+								'<a href="http://'+val.IpCCTV+'" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-videocam"><span hidden>View</span></i></button></a>'+
+								'&nbsp;'+
+								'<a href="http://'+val.IpIT+'" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-desktop"><span hidden>View</span></i></button></a>'+'</td>'+
+								'<td>'+
+								'<input type="hidden" id="IdPerusahaan" name="IdPerusahaan[]" value="'+val.IdPerusahaan+'">'+
+								'<input type="hidden" id="IdCCTV" name="IdCCTV[]" value="'+val.IdCCTV+'">'+
+								'<input type="hidden" id="IdIT" name="IdIT[]" value="'+val.IdInventory+'">'+
+								'<input type="hidden" id="Id" name="Id[]" value="'+val.Id+'">'+
+								'<select class="form-control select2" name="StatusCCTV[]" id="'+idStatCCTV+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
+								'</td>'+
+								'<td>'+
+								'<select class="form-control select2" name="StatusIT[]" id="'+idStatIT+'" value=""><option value="">Pilih Status</option><option value="Y">AKTIF</option><option value="N">TIDAK AKTIF</option></select>'+
+								'</td>'+
+								'<td>'+'<select class="form-control select2" id="'+idTindakLanjut+'" name="tindakLanjut[]"><option value="">Pilih Tindakan Yang Diambil</option><option value="Patroli">Patroli</option><option value="Analisa Intelijen">Analisa</option></select>'+'</td>'+
+								"<tr>"	
+								);
+							$(".select2").select2({width:"100%"});
+							$("#"+idStatCCTV).val(val.StatusCCTV);
+							$("#"+idStatIT).val(val.StatusInventory);
+							$("#"+idTindakLanjut).val(val.TindakLanjut);
+
+							$("#StatusCCTV").trigger("change");
+							$("#StatusIT").trigger("change");
+							$("#TindakLanjut").trigger('change');
+						});
+					}
 					// console.log(data);			
 				}
 			})
-			
-		}
 
-		$("#simpan").on('click',function(event) {
-			event.preventDefault();
-			/* Act on the event */
-			var data;
-			data = $("#form").serializeArray();
-			if($("#form").valid()){
-				$("#form").remove(".help-block");
-				$("#form > .form-group").removeClass('has-error');
-				$.ajax({
-					url: "<?php echo base_url().'pengawasan/random_check/ajax_add';?>",
-					type: "POST",
-					dataType: "JSON",
-					data: data,
-					success : function(data){
-						// $("#modal").modal("hide");
-						console.log(data);
+}
+
+$("#simpan").on('click',function(event) {
+	event.preventDefault();
+	/* Act on the event */
+	var data;
+	data = $("#form").serializeArray();
+	data[data.length] = {name: "proses", value: proses };
+	if($("#form").valid()){
+		$("#form").remove(".help-block");
+		$("#form > .form-group").removeClass('has-error');
+		$.ajax({
+			url: "<?php echo base_url().'pengawasan/random_check/ajax_add';?>",
+			type: "POST",
+			dataType: "JSON",
+			data: data,
+			success : function(data){
+						$("#modal").modal("hide");
+						// console.log(data);
+						alert(data);
 						ajax_reload();
 					},
 					error: function(e,exception){
@@ -196,17 +237,17 @@
 						console.log(e.responseText);
 					}
 				})
-			}
-		});
+	}
+});
 
-		$("#tutup").on('click', function(event) {
-			event.preventDefault();
-			/* Act on the event */
-			$("#random").text("");
-		});
+$("#tutup").on('click', function(event) {
+	event.preventDefault();
+	/* Act on the event */
+	$("#random").text("");
+});
 
-		function ajax_reload(){
-			table.ajax.reload(null,false);
-		}
-	})
+function ajax_reload(){
+	table.ajax.reload(null,false);
+}
+})
 </script>

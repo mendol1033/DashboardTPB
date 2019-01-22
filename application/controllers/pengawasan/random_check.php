@@ -109,28 +109,51 @@ class Random_check extends MY_Controller {
 
 	public function ajax_add(){
 		if (!empty($_POST)){
-			$a = $_POST['IdPerusahaan'];
-			end($a);
-			$last = key($a) + 1;
-			for ($i = 0; $i < $last ; $i++) {
-				$post[$i] = array(
-					'IdPerusahaan' => $_POST['IdPerusahaan'][$i],
-					'IdCCTV' => $_POST['IdCCTV'][$i],
-					'IdInventory' => $_POST['IdIT'][$i],
-					'StatusCCTV' => $_POST['StatusCCTV'][$i],
-					'StatusInventory' => $_POST['StatusIT'][$i],
-					'TindakLanjut' => $_POST['tindakLanjut'][$i],
-					'PtgsRekam' => $this->session->userdata('NipUser'),
-				);	
-				if ($_POST['Id'][$i] != "NULL") {
-					$post[$i]['Id'] = $_POST['Id'][$i];
-				}	
-			}
-			$status = $this->random->add($post);
-			$operation = "Tambah";
-			$app = "Random Check CCTV dan IT Inventory";
+			$b = $_POST;
+			if ($_POST['proses'] == "add") {
+				$a = $_POST['IdPerusahaan'];
+				end($a);
+				$last = key($a) + 1;
+				for ($i = 0; $i < $last ; $i++) {
+					$post[$i] = array(
+						'IdPerusahaan' => $_POST['IdPerusahaan'][$i],
+						'IdCCTV' => $_POST['IdCCTV'][$i],
+						'IdInventory' => $_POST['IdIT'][$i],
+						'StatusCCTV' => $_POST['StatusCCTV'][$i],
+						'StatusInventory' => $_POST['StatusIT'][$i],
+						'TindakLanjut' => $_POST['tindakLanjut'][$i],
+						'PtgsRekam' => $this->session->userdata('NipUser'),
+					);		
+				}
+				$status = $this->random->add($post);
+				$operation = "Tambah";
+				$app = "Random Check CCTV dan IT Inventory";
 
-			$pesan = $this->appfeedback($status,$operation,$app);
+				$pesan = $this->appfeedback($status,$operation,$app);
+			} else {
+				$a = $_POST['IdPerusahaan'];
+				end($a);
+				$last = key($a) + 1;
+				for ($i = 0; $i < $last ; $i++) {
+					$post[$i] = array(
+						'Id' => $_POST['Id'][$i],
+						'IdPerusahaan' => $_POST['IdPerusahaan'][$i],
+						'IdCCTV' => $_POST['IdCCTV'][$i],
+						'IdInventory' => $_POST['IdIT'][$i],
+						'StatusCCTV' => $_POST['StatusCCTV'][$i],
+						'StatusInventory' => $_POST['StatusIT'][$i],
+						'TindakLanjut' => $_POST['tindakLanjut'][$i],
+						'PtgsRekam' => $this->session->userdata('NipUser'),
+					);		
+				}
+				$status = $this->random->add($post,$_POST['proses']);
+				$operation = "Update";
+				$app = "Random Check CCTV dan IT Inventory";
+
+				$pesan = $this->appfeedback($status,$operation,$app);
+			}	
+		} else {
+			$pesan = "Tidak ada data yang di post";
 		}
 
 		echo json_encode($pesan);

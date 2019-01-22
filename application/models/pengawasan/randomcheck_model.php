@@ -15,7 +15,7 @@ class Randomcheck_model extends CI_Model {
 	var $table = "tb_cek_cctv_detail";
 	var $column_order = array(null,'Id');
 	var $column_search = array('IdPerusahaan','NmPerusahaan');
-	var $order = array('Id'=>'asc');
+	var $order = array('Id'=>'desc');
 
 	private function GetListData(){
 		$this->peloro->from($this->table);
@@ -109,11 +109,11 @@ class Randomcheck_model extends CI_Model {
 		return $lastQuery->result_array();
 	}
 
-	public function add($post){
+	public function add($post,$proses){
 		$dataPost = $post;
 		$this->peloro->trans_begin();
 		// Add Data Cek Random
-		if(isset($post[0]['Id'])){
+		if($proses == "update"){
 			$this->peloro->update_batch('tb_cek_cctv',$post,'Id');
 		} else {
 			$this->peloro->insert_batch('tb_cek_cctv',$post);
