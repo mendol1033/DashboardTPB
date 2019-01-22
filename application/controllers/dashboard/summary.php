@@ -28,6 +28,10 @@ class Summary extends MY_Controller {
 		echo json_encode($data);
 	}
 
+	public function getOption(){
+		$data = $this->dashboard->getOption($_GET['category']);
+	}
+
 	public function getData(){
 		$jumlahDokumen = $this->dokumen->getJumlahDokumenTahunBerjalan();
 		$data['jumlahDokumen'] = $jumlahDokumen;

@@ -182,7 +182,7 @@ class Random_check extends MY_Controller {
 		$writer->save('vendor/laporan_harian_cctv_it/'.$filename);
 		force_download('vendor/laporan_harian_cctv_it/'.$filename,NULL);
 
-		echo $cell;
+		// echo $cell;
 
 	}
 

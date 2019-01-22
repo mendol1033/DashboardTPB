@@ -64,38 +64,6 @@
 			},
 		});
 
-		// initialize another select2
-		// $("#filterPerusahaan").select2({
-		// 	width : '100%',
-		// 	placeholder: 'Masukkan Nama Perushaan',
-		// 	minimumInputLength: 5,
-		// 	allowClear: true,
-		// 	ajax : {
-		// 		url : "<?php echo base_url().'perusahaan/tpb/getDropDownNPWP/';?>",
-		// 		dataType : "JSON",
-		// 		delay : 250,
-		// 		data : function(params){
-		// 			return{
-		// 				nama : params.term
-		// 			};
-		// 		},
-		// 		processResults: function(data){
-		// 			var results = [];
-
-		// 			$.each(data, function(index, item){
-		// 				results.push({
-		// 					id : item.username,
-		// 					text : item.name
-		// 				})
-		// 			});
-		// 			return{
-		// 				results : results
-		// 			};
-		// 		},
-		// 		cache : true
-		// 	}
-		// });
-
 		$("#NamaPerusahaan").select2({
 			width : '100%',
 			placeholder: 'Masukkan Nama Perusahaan',

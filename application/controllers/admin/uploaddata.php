@@ -1,7 +1,12 @@
 <?php
 if (!defined('BASEPATH')) exit ('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Uploaddata extends MY_Controller {
+
+
 
 	public function __construct()
 	{
@@ -40,6 +45,10 @@ class Uploaddata extends MY_Controller {
 				$config["allowed_types"] = "xls|xlsx";
 				$config["file_name"] = date("Y-m-d").'_'.rand(000000,999999);
 
+				if (!is_dir($dir)) {
+					mkdir("./assets/upload/excel/",0777,TRUE);
+				}
+
 				$this->load->library('upload', $config); 
 				
 				if(! $this->upload->do_upload('dataExcel')){
@@ -48,264 +57,196 @@ class Uploaddata extends MY_Controller {
 					$dataPost = array($_POST,$_FILES);
 					$data = $this->upload->data();
 
-					// Setelah Berhasil Upload, Proses File Excel di Server untuk di proses dengan PHPExcel
-					$file_type = PHPExcel_IOFactory::identify($dir.$data['file_name']);
-					$objReader = PHPExcel_IOFactory::createReader($file_type);
-					$objPHPExcel = $objReader->load($dir.$data['file_name']);
-					$worksheet = $objReader->listWorksheetNames($dir.$data['file_name']);
-					foreach ($worksheet as $key => $sheetName) {
-						$sheetData[$sheetName] = $objPHPExcel->getSheetByName($sheetName)->toArray(null,true,true);
-						$highestRow[$sheetName] = $objPHPExcel->getSheetByName($sheetName)->getHighestRow();
-						$higestColumn[$sheetName] = $objPHPExcel->getSheetByName($sheetName)->getHighestColumn();
+					// Setelah Berhasil Upload, Proses File Excel di Server untuk di proses dengan PHPSpreadsheet
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+					$reader->setReadDataOnly(true);
+					$Spreadsheet = $reader->load($dir.$data['file_name']);
+					$sheetCount = $Spreadsheet->getSheetCount();
+					$sheetName = array("Header Dokumen", "Barang", "Barang Tarif", "Dokumen Pelengkap", "Pungutan Dokumen", "Bahan Baku", "Kemasan", "Kontainer");
+					for ($i = 0; $i < $sheetCount; $i++) {
+						$sheet[$sheetName[$i]] = $Spreadsheet->getSheetByName($sheetName[$i]);
+						$sheetData[$i] = $sheet[$sheetName[$i]]->toArray(null,true,true,true);
+						$highestRow[$i] = $sheet[$sheetName[$i]]->getHighestRow();
 					}
 
-					// Get Data From Sheet 1
-					if(isset($worksheet[0])){
-						if($highestRow[$worksheet[0]] > 1){
-							for ($i=1; $i <= max(array_keys($sheetData[$worksheet[0]])) ; $i++) {
-								if ($higestColumn[$worksheet[0]] == "BA") {
-									$dataInput['header'][] = array(
-										"NOMOR_AJU" => $sheetData[$worksheet[0]][$i][1],
-										"NOMOR_DAFTAR" => $sheetData[$worksheet[0]][$i][2],
-										"TANGGAL_DAFTAR" => $sheetData[$worksheet[0]][$i][3],
-										"STATUS_DOKUMEN" => $sheetData[$worksheet[0]][$i][4],
-										"KODE_DOKUMEN" => $sheetData[$worksheet[0]][$i][5],
-										"KODE_KANTOR" => $sheetData[$worksheet[0]][$i][6],
-										"KODE_KANTOR_BONGKAR" => $sheetData[$worksheet[0]][$i][7],
-										"NAMA_PEMASOK" => $sheetData[$worksheet[0]][$i][8],
-										"ALAMAT_PEMASOK" => $sheetData[$worksheet[0]][$i][9],
-										"KODE_NEGARA_PEMASOK" => $sheetData[$worksheet[0]][$i][10],
-										"NOMOR_IJIN_TPB" => $sheetData[$worksheet[0]][$i][11],
-										"TANGGAL_IJIN_TPB" => date('Y-m-d',strtotime($sheetData[$worksheet[0]][$i][12])),
-										"NPWP" => $sheetData[$worksheet[0]][$i][13],
-										"NAMA_PENGUSAHA" => $sheetData[$worksheet[0]][$i][14],
-										"ALAMAT_PENGUSAHA" => $sheetData[$worksheet[0]][$i][15],
-										"ID_PPJK" => $sheetData[$worksheet[0]][$i][16],
-										"NAMA_PPJK" => $sheetData[$worksheet[0]][$i][17],
-										"ALAMAT_PPJK" => $sheetData[$worksheet[0]][$i][18],
-										"NPPPJK" => $sheetData[$worksheet[0]][$i][19],
-										"TANGGAL_NPPPJK" => date('Y-m-d',strtotime($sheetData[$worksheet[0]][$i][20])),
-										"NAMA_PENGANGKUT" => $sheetData[$worksheet[0]][$i][21],
-										"NOMOR_VOY_FLIGHT" => $sheetData[$worksheet[0]][$i][22],
-										"NOMOR_BC11" => $sheetData[$worksheet[0]][$i][23],
-										"TANGGAL_BC11" => date('Y-m-d',strtotime($sheetData[$worksheet[0]][$i][24])),
-										"POS_BC11" => $sheetData[$worksheet[0]][$i][25],
-										"KODE_TPS" => $sheetData[$worksheet[0]][$i][26],
-										"KODE_VALUTA" => $sheetData[$worksheet[0]][$i][27],
-										"KURS" => $sheetData[$worksheet[0]][$i][28],
-										"FOB" => $sheetData[$worksheet[0]][$i][29],
-										"CIF" => $sheetData[$worksheet[0]][$i][30],
-										"CIF_RUPIAH" => $sheetData[$worksheet[0]][$i][31],
-										"BRUTO" => $sheetData[$worksheet[0]][$i][32],
-										"NETTO" => $sheetData[$worksheet[0]][$i][33],
-										"JUMLAH_BARANG" => $sheetData[$worksheet[0]][$i][34],
-										"KODE_TUJUAN_TPB" => $sheetData[$worksheet[0]][$i][35],
-										"JUMLAH_KONTAINER" => $sheetData[$worksheet[0]][$i][36],
-										"JUMLAH_KEMASAN" => $sheetData[$worksheet[0]][$i][37],
-										"ID_PENERIMA" => $sheetData[$worksheet[0]][$i][38],
-										"NAMA_PENERIMA" => $sheetData[$worksheet[0]][$i][39],
-										"ALAMAT_PENERIMA" => $sheetData[$worksheet[0]][$i][40],
-										"NOMOR_API_PENERIMA" => $sheetData[$worksheet[0]][$i][41],
-										"NOMOR_API_PEMILIK" => $sheetData[$worksheet[0]][$i][42],
-										"KODE_KANTOR_TUJUAN" => $sheetData[$worksheet[0]][$i][43],
-										"NOMOR_IZIN_TPB_PENERIMA" => $sheetData[$worksheet[0]][$i][44],
-										"ID_PENGIRIM" => $sheetData[$worksheet[0]][$i][45],
-										"NAMA_PENGIRIM" => $sheetData[$worksheet[0]][$i][46],
-										"ALAMAT_PENGIRIM" => $sheetData[$worksheet[0]][$i][47],
-										"ID_IMPORTIR" => $sheetData[$worksheet[0]][$i][48],
-										"NAMA_IMPORTIR" => $sheetData[$worksheet[0]][$i][49],
-										"ALAMAT_IMPORTIR" => $sheetData[$worksheet[0]][$i][50],
-										"NOMOR_API_IMPORTIR" => $sheetData[$worksheet[0]][$i][51],
-										"NIK" => $sheetData[$worksheet[0]][$i][52],
-									);
-								} else {
-									$dataInput['header'][] = array(
-										"NOMOR_AJU" => $sheetData[$worksheet[0]][$i][1],
-										"KODE_DOKUMEN" => $sheetData[$worksheet[0]][$i][2],
-										"KODE_KANTOR" => $sheetData[$worksheet[0]][$i][3],
-										"KODE_KANTOR_BONGKAR" => $sheetData[$worksheet[0]][$i][4],
-										"NAMA_PEMASOK" => $sheetData[$worksheet[0]][$i][5],
-										"ALAMAT_PEMASOK" => $sheetData[$worksheet[0]][$i][6],
-										"KODE_NEGARA_PEMASOK" => $sheetData[$worksheet[0]][$i][7],
-										"NOMOR_IJIN_TPB" => $sheetData[$worksheet[0]][$i][8],
-										"TANGGAL_IJIN_TPB" => date('Y-m-d',strtotime($sheetData[$worksheet[0]][$i][9])),
-										"NPWP" => $sheetData[$worksheet[0]][$i][10],
-										"NAMA_PENGUSAHA" => $sheetData[$worksheet[0]][$i][11],
-										"ALAMAT_PENGUSAHA" => $sheetData[$worksheet[0]][$i][12],
-										"ID_PPJK" => $sheetData[$worksheet[0]][$i][13],
-										"NAMA_PPJK" => $sheetData[$worksheet[0]][$i][14],
-										"ALAMAT_PPJK" => $sheetData[$worksheet[0]][$i][15],
-										"NPPPJK" => $sheetData[$worksheet[0]][$i][16],
-										"TANGGAL_NPPPJK" => date('Y-m-d',strtotime($sheetData[$worksheet[0]][$i][17])),
-										"NAMA_PENGANGKUT" => $sheetData[$worksheet[0]][$i][18],
-										"NOMOR_VOY_FLIGHT" => $sheetData[$worksheet[0]][$i][19],
-										"NOMOR_BC11" => $sheetData[$worksheet[0]][$i][20],
-										"TANGGAL_BC11" => date('Y-m-d',strtotime($sheetData[$worksheet[0]][$i][21])),
-										"POS_BC11" => $sheetData[$worksheet[0]][$i][22],
-										"KODE_TPS" => $sheetData[$worksheet[0]][$i][23],
-										"KODE_VALUTA" => $sheetData[$worksheet[0]][$i][24],
-										"KURS" => $sheetData[$worksheet[0]][$i][25],
-										"FOB" => $sheetData[$worksheet[0]][$i][26],
-										"CIF" => $sheetData[$worksheet[0]][$i][27],
-										"CIF_RUPIAH" => $sheetData[$worksheet[0]][$i][28],
-										"BRUTO" => $sheetData[$worksheet[0]][$i][29],
-										"NETTO" => $sheetData[$worksheet[0]][$i][30],
-										"JUMLAH_BARANG" => $sheetData[$worksheet[0]][$i][31],
-										"KODE_TUJUAN_TPB" => $sheetData[$worksheet[0]][$i][32],
-										"JUMLAH_KONTAINER" => $sheetData[$worksheet[0]][$i][33],
-										"JUMLAH_KEMASAN" => $sheetData[$worksheet[0]][$i][34],
-										"ID_PENERIMA" => $sheetData[$worksheet[0]][$i][35],
-										"NAMA_PENERIMA" => $sheetData[$worksheet[0]][$i][36],
-										"ALAMAT_PENERIMA" => $sheetData[$worksheet[0]][$i][37],
-										"NOMOR_API_PENERIMA" => $sheetData[$worksheet[0]][$i][38],
-										"NOMOR_API_PEMILIK" => $sheetData[$worksheet[0]][$i][39],
-										"KODE_KANTOR_TUJUAN" => $sheetData[$worksheet[0]][$i][40],
-										"NOMOR_IZIN_TPB_PENERIMA" => $sheetData[$worksheet[0]][$i][41],
-										"ID_PENGIRIM" => $sheetData[$worksheet[0]][$i][42],
-										"NAMA_PENGIRIM" => $sheetData[$worksheet[0]][$i][43],
-										"ALAMAT_PENGIRIM" => $sheetData[$worksheet[0]][$i][44],
-										"ID_IMPORTIR" => $sheetData[$worksheet[0]][$i][45],
-										"NAMA_IMPORTIR" => $sheetData[$worksheet[0]][$i][46],
-										"ALAMAT_IMPORTIR" => $sheetData[$worksheet[0]][$i][47],
-										"NOMOR_API_IMPORTIR" => $sheetData[$worksheet[0]][$i][48],
-										"NIK" => $sheetData[$worksheet[0]][$i][49],
-									);
-								}
+					// Get Data Sheet 1
+					if ($highestRow[0] > 1) {
+						for ($i = 2; $i < $highestRow[0]; $i++) {
+							$dataInput['header'][] = array(
+								"NOMOR_AJU" => $sheetData[0][$i]["B"],
+								"NOMOR_DAFTAR" => $sheetData[0][$i]["C"],
+								"TANGGAL_DAFTAR" => $sheetData[0][$i]["D"],
+								"STATUS_DOKUMEN" => $sheetData[0][$i]["E"],
+								"KODE_DOKUMEN" => $sheetData[0][$i]["F"],
+								"KODE_KANTOR" => $sheetData[0][$i]["G"],
+								"KODE_KANTOR_BONGKAR" => $sheetData[0][$i]["H"],
+								"NAMA_PEMASOK" => $sheetData[0][$i]["I"],
+								"ALAMAT_PEMASOK" => $sheetData[0][$i]["J"],
+								"KODE_NEGARA_PEMASOK" => $sheetData[0][$i]["K"],
+								"NOMOR_IJIN_TPB" => $sheetData[0][$i]["L"],
+								"TANGGAL_IJIN_TPB" => date('Y-m-d',strtotime($sheetData[0][$i]["M"])),
+								"NPWP" => $sheetData[0][$i]["N"],
+								"NAMA_PENGUSAHA" => $sheetData[0][$i]["O"],
+								"ALAMAT_PENGUSAHA" => $sheetData[0][$i]["P"],
+								"ID_PPJK" => $sheetData[0][$i]["Q"],
+								"NAMA_PPJK" => $sheetData[0][$i]["R"],
+								"ALAMAT_PPJK" => $sheetData[0][$i]["S"],
+								"NPPPJK" => $sheetData[0][$i]["T"],
+								"TANGGAL_NPPPJK" => date('Y-m-d',strtotime($sheetData[0][$i]["U"])),
+								"NAMA_PENGANGKUT" => $sheetData[0][$i]["V"],
+								"NOMOR_VOY_FLIGHT" => $sheetData[0][$i]["W"],
+								"NOMOR_BC11" => $sheetData[0][$i]["X"],
+								"TANGGAL_BC11" => date('Y-m-d',strtotime($sheetData[0][$i]["Y"])),
+								"POS_BC11" => $sheetData[0][$i]["Z"],
+								"KODE_TPS" => $sheetData[0][$i]["AA"],
+								"KODE_VALUTA" => $sheetData[0][$i]["AB"],
+								"KURS" => $sheetData[0][$i]["AC"],
+								"FOB" => $sheetData[0][$i]["AD"],
+								"CIF" => $sheetData[0][$i]["AE"],
+								"CIF_RUPIAH" => $sheetData[0][$i]["AF"],
+								"BRUTO" => $sheetData[0][$i]["AG"],
+								"NETTO" => $sheetData[0][$i]["AH"],
+								"JUMLAH_BARANG" => $sheetData[0][$i]["AI"],
+								"KODE_TUJUAN_TPB" => $sheetData[0][$i]["AJ"],
+								"JUMLAH_KONTAINER" => $sheetData[0][$i]["AK"],
+								"JUMLAH_KEMASAN" => $sheetData[0][$i]["AL"],
+								"ID_PENERIMA" => $sheetData[0][$i]["AM"],
+								"NAMA_PENERIMA" => $sheetData[0][$i]["AN"],
+								"ALAMAT_PENERIMA" => $sheetData[0][$i]["AO"],
+								"NOMOR_API_PENERIMA" => $sheetData[0][$i]["AP"],
+								"NOMOR_API_PEMILIK" => $sheetData[0][$i]["AQ"],
+								"KODE_KANTOR_TUJUAN" => $sheetData[0][$i]["AR"],
+								"NOMOR_IZIN_TPB_PENERIMA" => $sheetData[0][$i]["AS"],
+								"ID_PENGIRIM" => $sheetData[0][$i]["AT"],
+								"NAMA_PENGIRIM" => $sheetData[0][$i]["AU"],
+								"ALAMAT_PENGIRIM" => $sheetData[0][$i]["AV"],
+								"ID_IMPORTIR" => $sheetData[0][$i]["AW"],
+								"NAMA_IMPORTIR" => $sheetData[0][$i]["AX"],
+								"ALAMAT_IMPORTIR" => $sheetData[0][$i]["AY"],
+								"NOMOR_API_IMPORTIR" => $sheetData[0][$i]["AZ"],
+								"NIK" => $sheetData[0][$i]["BA"],
+							);
+						}
+					}
 
-							}
-						}
-					}	
-					// Get Data From Sheet 2
-					if(isset($worksheet[1])){
-						if($highestRow[$worksheet[1]] > 1){
-							for ($i=1; $i <= max(array_keys($sheetData[$worksheet[1]])) ; $i++) {
-								$dataInput['barang'][] = array(
-									"NOMOR_AJU" => $sheetData[$worksheet[1]][$i][1],
-									"HS_CODE" => $sheetData[$worksheet[1]][$i][2],
-									"SERI_BARANG" => $sheetData[$worksheet[1]][$i][3],
-									"NAMA_BARANG" => $sheetData[$worksheet[1]][$i][4],
-									"MERK" => $sheetData[$worksheet[1]][$i][5],
-									"TIPE" => $sheetData[$worksheet[1]][$i][6],
-									"KODE_BARANG" => $sheetData[$worksheet[1]][$i][7],
-									"JUMLAH_SATUAN" => $sheetData[$worksheet[1]][$i][8],
-									"KODE_SATUAN" => $sheetData[$worksheet[1]][$i][9],
-									"HARGA_SATUAN" => $sheetData[$worksheet[1]][$i][10],
-									"CIF" => $sheetData[$worksheet[1]][$i][11],
-									"CIF_RUPIAH" => $sheetData[$worksheet[1]][$i][12],
-									"JUMLAH_KEMASAN" => $sheetData[$worksheet[1]][$i][13],
-									"KODE_KEMASAN" => $sheetData[$worksheet[1]][$i][14],
-									"KODE_NEGARA_ASAL" => $sheetData[$worksheet[1]][$i][15],
-									"KODE_JENIS_NILAI" => $sheetData[$worksheet[1]][$i][16],
-									"SKA" => $sheetData[$worksheet[1]][$i][17]
-								);
-							}
+
+		// Get Data From Sheet 2
+					if($highestRow[1] > 1){
+						for ($i=2; $i <= $highestRow[1] ; $i++) {
+							$dataInput['barang'][] = array(
+								"NOMOR_AJU" => $sheetData[1][$i]["B"],
+								"HS_CODE" => $sheetData[1][$i]["C"],
+								"SERI_BARANG" => $sheetData[1][$i]["D"],
+								"NAMA_BARANG" => $sheetData[1][$i]["E"],
+								"MERK" => $sheetData[1][$i]["F"],
+								"TIPE" => $sheetData[1][$i]["G"],
+								"KODE_BARANG" => $sheetData[1][$i]["H"],
+								"JUMLAH_SATUAN" => $sheetData[1][$i]["I"],
+								"KODE_SATUAN" => $sheetData[1][$i]["J"],
+								"HARGA_SATUAN" => $sheetData[1][$i]["K"],
+								"CIF" => $sheetData[1][$i]["L"],
+								"CIF_RUPIAH" => $sheetData[1][$i]["M"],
+								"JUMLAH_KEMASAN" => $sheetData[1][$i]["N"],
+								"KODE_KEMASAN" => $sheetData[1][$i]["O"],
+								"KODE_NEGARA_ASAL" => $sheetData[1][$i]["P"],
+								"KODE_JENIS_NILAI" => $sheetData[1][$i]["Q"],
+								"SKA" => $sheetData[1][$i]["R"]
+							);
 						}
 					}
-					// Get Data From Sheet 3
-					if(isset($worksheet[2])){
-						if ($highestRow[$worksheet[2]] > 1) {
-							for ($i=1; $i <= max(array_keys($sheetData[$worksheet[2]])) ; $i++) { 
-								$dataInput['barangTarif'][] = array(
-									"NOMOR_AJU" => $sheetData[$worksheet[2]][$i][1],
-									"SERI_BARANG" => $sheetData[$worksheet[2]][$i][2],
-									"KODE_BARANG" => $sheetData[$worksheet[2]][$i][3],
-									"NAMA_BARANG" => $sheetData[$worksheet[2]][$i][4],
-									"JENIS_TARIF" => $sheetData[$worksheet[2]][$i][5],
-									"TARIF" => $sheetData[$worksheet[2]][$i][6],
-									"NILAI_BAYAR" => $sheetData[$worksheet[2]][$i][7],
-									"KODE_FASILITAS" => $sheetData[$worksheet[2]][$i][8],
-									"TARIF_FASILITAS" => $sheetData[$worksheet[2]][$i][9],
-									"NILAI_FASILITAS" => $sheetData[$worksheet[2]][$i][10],
-								);
-							}
+		// Get Data From Sheet 3
+					if ($highestRow[2] > 1) {
+						for ($i=2; $i <= $highestRow[2] ; $i++) { 
+							$dataInput['barangTarif'][] = array(
+								"NOMOR_AJU" => $sheetData[2][$i]["B"],
+								"SERI_BARANG" => $sheetData[2][$i]["C"],
+								"KODE_BARANG" => $sheetData[2][$i]["D"],
+								"NAMA_BARANG" => $sheetData[2][$i]["E"],
+								"JENIS_TARIF" => $sheetData[2][$i]["F"],
+								"TARIF" => $sheetData[2][$i]["G"],
+								"NILAI_BAYAR" => $sheetData[2][$i]["H"],
+								"KODE_FASILITAS" => $sheetData[2][$i]["I"],
+								"TARIF_FASILITAS" => $sheetData[2][$i]["J"],
+								"NILAI_FASILITAS" => $sheetData[2][$i]["K"],
+							);
 						}
 					}
-					// Get Data From Sheet 4
-					if(isset($worksheet[3])){
-						if ($highestRow[$worksheet[3]] > 1) {
-							for ($i=1; $i <= max(array_keys($sheetData[$worksheet[3]])) ; $i++) { 
-								$dataInput['dokumenPelengkap'][] = array(
-									"NOMOR_AJU" => $sheetData[$worksheet[3]][$i][1],
-									"JENIS_DOKUMEN" => $sheetData[$worksheet[3]][$i][2],
-									"NOMOR_DOKUMEN" => $sheetData[$worksheet[3]][$i][3],
-									"TANGGAL_DOKUMEN" => date('Y-m-d',strtotime($sheetData[$worksheet[3]][$i][4])),
-									"FLAG_TERIMA" => $sheetData[$worksheet[3]][$i][5],
-								);
-							}
+		// Get Data From Sheet 4
+					if ($highestRow[3] > 1) {
+						for ($i=2; $i <= $highestRow[3] ; $i++) { 
+							$dataInput['dokumenPelengkap'][] = array(
+								"NOMOR_AJU" => $sheetData[3][$i]["B"],
+								"JENIS_DOKUMEN" => $sheetData[3][$i]["C"],
+								"NOMOR_DOKUMEN" => $sheetData[3][$i]["D"],
+								"TANGGAL_DOKUMEN" => date('Y-m-d',strtotime($sheetData[3][$i]["E"])),
+								"FLAG_TERIMA" => $sheetData[3][$i]["F"],
+							);
 						}
 					}
-					// Get Data From Sheet 5
-					if(isset($worksheet[4])){
-						if ($highestRow[$worksheet[4]] > 1) {
-							for ($i=1; $i <= max(array_keys($sheetData[$worksheet[4]])) ; $i++) { 
-								$dataInput['pungutanDokumen'][] = array(
-									"NOMOR_AJU" => $sheetData[$worksheet[4]][$i][1],
-									"JENIS_TARIF" => $sheetData[$worksheet[4]][$i][2],
-									"NILAI_PUNGUTAN" => $sheetData[$worksheet[4]][$i][3],
-									"KODE_FASILITAS" => $sheetData[$worksheet[4]][$i][4],
-								);
-							}
+		// Get Data From Sheet 5
+					if ($highestRow[4] > 1) {
+						for ($i=2; $i <= max(array_keys($sheetData[4])) ; $i++) { 
+							$dataInput['pungutanDokumen'][] = array(
+								"NOMOR_AJU" => $sheetData[4][$i]["B"],
+								"JENIS_TARIF" => $sheetData[4][$i]["C"],
+								"NILAI_PUNGUTAN" => $sheetData[4][$i]["D"],
+								"KODE_FASILITAS" => $sheetData[4][$i]["E"],
+							);
 						}
 					}
-					// Get Data From Sheet 6
-					if(isset($worksheet[5])){
-						if ($highestRow[$worksheet[5]] > 1) {
-							for ($i=1; $i <= max(array_keys($sheetData[$worksheet[5]])) ; $i++) { 
-								$dataInput['bahanBaku'][] = array(
-									"NOMOR_AJU" => $sheetData[$worksheet[5]][$i][1],
-									"SERI_BARANG" => $sheetData[$worksheet[5]][$i][2],
-									"KODE_BARANG" => $sheetData[$worksheet[5]][$i][3],
-									"HS_CODE" => $sheetData[$worksheet[5]][$i][4],
-									"JENIS_SATUAN" => $sheetData[$worksheet[5]][$i][5],
-									"JUMLAH_SATUAN" => $sheetData[$worksheet[5]][$i][6],
-									"CIF" => $sheetData[$worksheet[5]][$i][7],
-									"CIF_RUPIAH" => $sheetData[$worksheet[5]][$i][8],
-									"HARGA_PENYERAHAN" => $sheetData[$worksheet[5]][$i][9],
-									"JENIS_DOK_ASAL" => $sheetData[$worksheet[5]][$i][10],
-									"NOMOR_AJU_DOK_ASAL" => $sheetData[$worksheet[5]][$i][11],
-									"TANGGAL_DAFTAR_DOK_ASAL" => date('Y-m-d',strtotime($sheetData[$worksheet[5]][$i][12])),
-									"KODE_KANTOR" => $sheetData[$worksheet[5]][$i][13],
-								);
-							}
+		// Get Data From Sheet 6
+					if ($highestRow[5] > 1) {
+						for ($i=2; $i <= $highestRow[5] ; $i++) { 
+							$dataInput['bahanBaku'][] = array(
+								"NOMOR_AJU" => $sheetData[5][$i]["B"],
+								"SERI_BARANG" => $sheetData[5][$i]["C"],
+								"KODE_BARANG" => $sheetData[5][$i]["D"],
+								"HS_CODE" => $sheetData[5][$i]["E"],
+								"JENIS_SATUAN" => $sheetData[5][$i]["F"],
+								"JUMLAH_SATUAN" => $sheetData[5][$i]["G"],
+								"CIF" => $sheetData[5][$i]["H"],
+								"CIF_RUPIAH" => $sheetData[5][$i]["I"],
+								"HARGA_PENYERAHAN" => $sheetData[5][$i]["J"],
+								"JENIS_DOK_ASAL" => $sheetData[5][$i]["K"],
+								"NOMOR_AJU_DOK_ASAL" => $sheetData[5][$i]["L"],
+								"TANGGAL_DAFTAR_DOK_ASAL" => date('Y-m-d',strtotime($sheetData[5][$i]["M"])),
+								"KODE_KANTOR" => $sheetData[5][$i]["N"],
+							);
 						}
 					}
-					// // Get Data From Sheet 7
-					if(isset($worksheet[6])){
-						if ($highestRow[$worksheet[1]] > 1) {
-							for ($i=1; $i <= max(array_keys($sheetData[$worksheet[6]])) ; $i++) { 
-								$dataInput['kemasan'][] = array(
-									"NOMOR_AJU" => $sheetData[$worksheet[6]][$i][1],
-									"JUMLAH_KEMASAN" => $sheetData[$worksheet[6]][$i][2],
-									"KODE_JENIS_KEMASAN" => $sheetData[$worksheet[6]][$i][3],
-									"MERK_KEMASAN" => $sheetData[$worksheet[6]][$i][4],
-									"KETERANGAN" => $sheetData[$worksheet[6]][$i][5],
-									"NOMOR_POLISI" => $sheetData[$worksheet[6]][$i][6],
-									"NOMOR_SEGEL" => $sheetData[$worksheet[6]][$i][7],
-									"WAKTU_GATE_IN" =>  date('Y-m-d H:i:s',strtotime($sheetData[$worksheet[6]][$i][8])),
-									"NIP_GATE_IN" => $sheetData[$worksheet[6]][$i][9],
-									"WAKTU_GATE_OUT" =>  date('Y-m-d H:i:s',strtotime($sheetData[$worksheet[6]][$i][10])),
-									"NIP_GATE_OUT" => $sheetData[$worksheet[6]][$i][11],
-								);
-							}
+		// // Get Data From Sheet 7
+					if ($highestRow[6] > 1) {
+						for ($i=2; $i <= $highestRow[6] ; $i++) { 
+							$dataInput['kemasan'][] = array(
+								"NOMOR_AJU" => $sheetData[6][$i]["B"],
+								"JUMLAH_KEMASAN" => $sheetData[6][$i]["C"],
+								"KODE_JENIS_KEMASAN" => $sheetData[6][$i]["D"],
+								"MERK_KEMASAN" => $sheetData[6][$i]["E"],
+								"KETERANGAN" => $sheetData[6][$i]["F"],
+								"NOMOR_POLISI" => $sheetData[6][$i]["G"],
+								"NOMOR_SEGEL" => $sheetData[6][$i]["H"],
+								"WAKTU_GATE_IN" =>  date('Y-m-d H:i:s',strtotime($sheetData[6][$i]["I"])),
+								"NIP_GATE_IN" => $sheetData[6][$i]["J"],
+								"WAKTU_GATE_OUT" =>  date('Y-m-d H:i:s',strtotime($sheetData[6][$i]["K"])),
+								"NIP_GATE_OUT" => $sheetData[6][$i]["L"],
+							);
 						}
 					}
-					// Get Data From Sheet 8
-					if(isset($worksheet[7])){
-						if ($highestRow[$worksheet[7]] > 1) {
-							for ($i=1; $i <= max(array_keys($sheetData[$worksheet[7]])) ; $i++) {
-								$dataInput['kontainer'][] = array(
-									"NOMOR_AJU" => $sheetData[$worksheet[7]][$i][1],
-									"NOMOR_KONTAINER" => $sheetData[$worksheet[7]][$i][2],
-									"KODE_UKURAN_KONTAINER" => $sheetData[$worksheet[7]][$i][3],
-									"KODE_TIPE_KONTAINER" => $sheetData[$worksheet[7]][$i][4],
-									"NOMOR_POLISI" => $sheetData[$worksheet[7]][$i][5],
-									"NOMOR_SEGEL" => $sheetData[$worksheet[7]][$i][6],
-									"WAKTU_GATE_IN" => date('Y-m-d H:i:s',strtotime($sheetData[$worksheet[7]][$i][7])),
-									"NIP_GATE_IN" => $sheetData[$worksheet[7]][$i][8],
-									"WAKTU_GATE_OUT" =>  date('Y-m-d H:i:s',strtotime($sheetData[$worksheet[7]][$i][9])),
-									"NIP_GATE_OUT" => $sheetData[$worksheet[7]][$i][10],
-								);
-							}
+		// Get Data From Sheet 8
+					if ($highestRow[7] > 1) {
+						for ($i=2; $i <= $highestRow[7] ; $i++) {
+							$dataInput['kontainer'][] = array(
+								"NOMOR_AJU" => $sheetData[7][$i]["B"],
+								"NOMOR_KONTAINER" => $sheetData[7][$i]["C"],
+								"KODE_UKURAN_KONTAINER" => $sheetData[7][$i]["D"],
+								"KODE_TIPE_KONTAINER" => $sheetData[7][$i]["E"],
+								"NOMOR_POLISI" => $sheetData[7][$i]["F"],
+								"NOMOR_SEGEL" => $sheetData[7][$i]["G"],
+								"WAKTU_GATE_IN" => date('Y-m-d H:i:s',strtotime($sheetData[7][$i]["H"])),
+								"NIP_GATE_IN" => $sheetData[7][$i]["I"],
+								"WAKTU_GATE_OUT" =>  date('Y-m-d H:i:s',strtotime($sheetData[7][$i]["J"])),
+								"NIP_GATE_OUT" => $sheetData[7][$i]["K"],
+							);
 						}
 					}
 				}
@@ -320,10 +261,6 @@ class Uploaddata extends MY_Controller {
 				echo json_encode(
 					array(
 						'pesan' => $pesan,
-						'data' => $data,
-						'row' => $highestRow,
-						'excel' => $dataInput,
-						'column' => $higestColumn
 					)
 				);
 			}
@@ -335,7 +272,6 @@ class Uploaddata extends MY_Controller {
 			echo json_encode(
 				array(
 					'status' => $status,
-					'data' => $data,
 				)
 			);
 		}
@@ -417,17 +353,6 @@ class Uploaddata extends MY_Controller {
 				)
 			);
 		}
-	}
-
-	public function test(){
-
-		$variable = $this->dokumen->getJumlahDokumenTahunBerjalan();
-		foreach ($variable as $value) {
-			print_r($value);
-			echo "<br>";
-		}
-
-		print_r($variable->result());
 	}
 
 }

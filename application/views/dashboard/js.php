@@ -2,6 +2,7 @@
 
 	var chart = null;
 	var dataPoints = [];
+	var url;
 
 	$(document).ready(function() {
 		$.ajax({
@@ -18,7 +19,49 @@
 				console.log(data.dokPerBulan23.length);
 			}
 		})
+
+		$(".select2").select2({
+			width : "100%"
+		});
+
+		getOption();
 	});
+
+	function getOption() {
+		var category = $("#ddCategory").val();
+		
+		switch (category) {
+			case "namaPerusahaan":
+				url = "<?php echo base_url()?>"+"";
+				break;
+			case "tpb":
+				url = "<?php echo base_url()?>"+"";
+				break;
+			default:
+				url = "<?php echo base_url()?>"+"";
+				break;
+		}
+
+		$.ajax({
+			url: url,
+			type: "GET",
+			dataType: "JSON",
+			data : {category: category},
+			success: function(data){
+
+			}
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+		
+	}
 
 	window.onload = function() {
 		chart = new CanvasJS.chart("chartDokumen",{

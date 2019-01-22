@@ -86,12 +86,12 @@ class Menu_model extends CI_Model {
 					'jumlah' => $totalPerusahaan,
 				),
 				'GB' => array(
-					'url' => '#',
+					'url' => 'perusahaan/guber',
 					'menu' => 'Gudang Berikat',
 					'jumlah' => $jumlahPerusahaan['1'],
 				),
 				'KB' => array(
-					'url' => '#',
+					'url' => 'perusahaan/kaber',
 					'menu' => 'Kawasan Berikat',
 					'jumlah' => $jumlahPerusahaan['2'],
 				),

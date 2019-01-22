@@ -60,6 +60,10 @@ class Perusahaan_model extends CI_Model {
 			$this->sikabayan_db->limit($_POST['length'], $_POST['start']);
 		}
 
+		if (!empty($_POST['tpb'])) {
+			$this->sikabayan_db->where('id_tpb',$_POST['tpb']);
+		}
+
 		if(!empty($_GET['nama'])){
 			$this->sikabayan_db->like('nama_perusahaan',$_GET['nama']);
 		}
@@ -75,6 +79,10 @@ class Perusahaan_model extends CI_Model {
 	public function count_filtered(){
 		$this->GetListData();
 
+		if (!empty($_POST['tpb'])) {
+			$this->sikabayan_db->where('id_tpb',$_POST['tpb']);
+		}
+
 		if(!empty($_GET['nama'])){
 			$this->sikabayan_db->like('nama_perusahaan',$_GET['nama']);
 		}
@@ -88,6 +96,11 @@ class Perusahaan_model extends CI_Model {
 
 	public function count_all(){
 		$this->sikabayan_db->from($this->table);
+
+		if (!empty($_POST['tpb'])) {
+			$this->sikabayan_db->where('id_tpb',$_POST['tpb']);
+		}
+
 		if ($this->Hanggar !== 0) {
 			$this->sikabayan_db->where('IdHanggar',$this->Hanggar);
 		}
@@ -328,6 +341,27 @@ class Perusahaan_model extends CI_Model {
 		return $query->result_array();
 	}
 
+	public function getLokasi($data){
+		$query = 'SELECT lokasi_nama FROM inf_lokasi WHERE lokasi_kode = ?';
+		$provinsi = $this->sikabayan_db->query($query,$data['provinsi'])->result_array();
+
+		$query = 'SELECT lokasi_nama FROM inf_lokasi WHERE lokasi_kode = ?';
+		$kota = $this->sikabayan_db->query($query,$data['kota'])->result_array();
+
+		$query = 'SELECT lokasi_nama FROM inf_lokasi WHERE lokasi_kode = ?';
+		$kecamatan = $this->sikabayan_db->query($query,$data['kecamatan'])->result_array();
+
+		$query = 'SELECT lokasi_nama FROM inf_lokasi WHERE lokasi_kode = ?';
+		$kelurahan = $this->sikabayan_db->query($query,$data['kelurahan'])->result_array();
+
+		$data = array(
+			'provinsi' => $provinsi[0]['lokasi_nama'],
+			'kota' => $kota[0]['lokasi_nama'],
+			'kecamatan' => $kecamatan[0]['lokasi_nama'],
+			'kelurahan' => $kelurahan[0]['lokasi_nama']
+		);
+		return $data;
+	}
 }
 
 /* End of file perusahaan_model.php */

@@ -5,11 +5,6 @@
 	var selectedProvince;
 	var selectedKabupaten;
 	var selectedKecamatan;
-	var provinsi;
-	var kota;
-	var kecamatan;
-	var kelurahan;
-
 	$(document).ready(function() {
 		// initialize class select2
 		$(".select2").select2({
@@ -69,6 +64,9 @@
 			"ajax" : {
 				"url" : "<?php echo base_url().'perusahaan/tpb/ajax_list'?>",
 				"type" : "POST",
+				"data" : {
+					"tpb" : 1
+				}
 			},
 		});
 
@@ -241,93 +239,51 @@
 
 		$("#form").validate({
 			errorClass : "text-danger",
-			validClass : "has-success",
 			rules : {
 				NPWP : "required",
-				namatpb : "required",
-				telepon : "required",
-				fax : "required",
-				alamat : "required",
-				Provinsi : "required",
-				Kota : "required",
-				Kecamatan : "required",
-				Kelurahan : "required",
-				kodepos : "required",
-				JenisTPB : "required",
-				LokasiTPB : "required",
-				izin : "required",
-				latitude : "required",
-				longitude : "required",
-				Hanggar : "required",
-				status : "required",
+				NamaPerusahaan : "required",
+				Fasilitas : "required",
+				Jenis : "required",
+				AlamatPabrik : "required",
+				AlamatKantor : "required",
+				ProfilResiko : "required",
+				NoSkepPendirian : "required",
+				TglSkepPendirian : "required",
+				NoSkepAkhir : "required",
+				TglSkepAkhir : "required",
+				KategoriUsaha : "required",
+				TglJatuhTempo : "required",
+				NamaPenanggungJawab : "required",
+				WNPenanggungJawab : "required",
+				Luas : "required",
+				Status : "required",
+				Lokasi : "required",
 			},
 			messages : {
 				NPWP : "Kolom NPWP Tidak Boleh Kosong",
-				namatpb : "Kolom Nama Perusahaan Tidak Boleh Kosong",
-				telepon : "Kolom Telepon Boleh Kosong",
-				fax : "Kolom Fax Tidak Boleh Kosong",
-				alamat : "Kolom Alamat Tidak Boleh Kosong",
-				Provinsi : "Pilih Provinsi Terlebih Dahulu",
-				Kota : "Pilih Provinsi Terlebih Dahulu",
-				Kecamatan : "Pilih Kota Terlebih Dahulu",
-				Kelurahan : "Pilih Kecamatan Terlebih Dahulu",
-				kodepos : "Kolom Kode Pos Tidak Boleh Kosong",
-				JenisTPB : "Pilih Jenis TPB",
-				LokasiTPB : "Pilih Lokasi TPB",
-				izin : "Kolom No Skep Izin TPB Tidak Boleh Kosong",
-				latitude : "Kolom latitude Tidak Boleh Kosong",
-				Hanggar : "Kolom longitude Tidak Boleh Kosong",
-				Hanggar : "Pilih Hanggar TPB Yang Melayani",
-				status : "Pilih Status TPB",
+				NamaPerusahaan : "Kolom Nama Perusahaan Tidak Boleh Kosong",
+				Fasilitas : "Kolom Fasilitas Tidak Boleh Kosong",
+				Jenis : "Kolom Jenis TPB Tidak Boleh Kosong",
+				AlamatPabrik : "Kolom Alamat Pabrik Tidak Boleh Kosong",
+				AlamatKantor : "Kolom Alamat Kantor Tidak Boleh Kosong",
+				ProfilResiko : "Kolom Profil Resiko Tidak Boleh Kosong",
+				NoSkepPendirian : "Kolom No Skep Pendirian Tidak Boleh Kosong",
+				TglSkepPendirian : "Kolom Tanggal Skep Pendirian Tidak Boleh Kosong",
+				NoSkepAkhir : "Kolom No Skep Terbaru Tidak Boleh Kosong",
+				TglSkepAkhir : "Kolom Tanggal Skep Terbaru Tidak Boleh Kosong",
+				KategoriUsaha : "Kolom Kategori Usaha Tidak Boleh Kosong",
+				TglJatuhTempo : "Kolom Tanggal Jatuh Tempo Skep Tidak Boleh Kosong",
+				NamaPenanggungJawab : "Kolom Nama Penanggung Jawab Tidak Boleh Kosong",
+				WNPenanggungJawab : "Kolom Warga Negara Tidak Boleh Kosong",
+				Luas : "Kolom Luas Tidak Boleh Kosong",
+				Status : "Kolom Status Tidak Boleh Kosong",
+				Lokasi : "Kolom Lokasi Tidak Boleh Kosong",
 			},
 			errorElement : "span",
 			errorPlacement:function(error,element){
 				offset = element.offset();
-				error.insertBefore(element);
+				error.insertAfter(element);
 				$("#mainFormCeisa > .form-group").addClass('has-error');
-			},
-			highlight: function(element,errorClass, validClass){
-				$(element).parents('.form-group').addClass("has-error").removeClass(validClass);
-
-			},
-			unhighlight: function(element, errorClass, validClass){
-				$(element).parents('.form-group').removeClass("has-error").addClass(validClass);
-
-				$('#JenisTPB').on('select2:select', function(event) {
-					$('#labelJenisTPB').parent().removeClass('has-error').addClass('has-success');
-					$("#JenisTPB-error").remove();
-				});
-
-				$("#LokasiTPB").on('select2:select', function(event) {
-					$('#labelLokasiTPB').parent().removeClass('has-error').addClass('has-success');
-					$("#LokasiTPB-error").remove();
-				});
-
-				$("#Hanggar").on('select2:select', function(event) {
-					$("#labelHanggar").parent().removeClass('has-error').addClass('has-success');
-					$("#Hanggar-error").remove();
-				});
-
-				$("#status").on('select2:select', function(event) {
-					$("#labelStatus").parent().removeClass('has-error').addClass('has-success');
-					$("#status-error").remove();
-				});
-				$("#Provinsi").on('select2:select', function(event) {
-					$("#labelProvinsi").parent().removeClass('has-error').addClass('has-success');
-					$("#Provinsi-error").remove();
-				});
-				$("#Kecamatan").on('select2:select', function(event) {
-					$("#labelKecamatan").parent().removeClass('has-error').addClass('has-success');
-					$("#Kecamatan-error").remove();
-				});
-				$("#Kota").on('select2:select', function(event) {
-					$("#labelKota").parent().removeClass('has-error').addClass('has-success');
-					$("#Kota-error").remove();
-				});
-				$("#Kelurahan").on('select2:select', function(event) {
-					$("#labelKelurahan").parent().removeClass('has-error').addClass('has-success');
-					$("#Kelurahan-error").remove();
-				});
 			}
 		});
 	})
@@ -384,21 +340,6 @@ function view(id){
 	})
 }
 
-function getLokasi(ref_1, ref_2, ref_3, ref_4){
-	$.ajax({
-		url: '<?php echo base_url()?>'+'perusahaan/tpb/getLokasi',
-		type: "POST",
-		dataType: "JSON",
-		data: {provinsi: ref_1, kota: ref_2, kecamatan: ref_3, kelurahan: ref_4},
-		success: function(data){
-			provinsi = data.provinsi;
-			kota = data.kota;
-			kecamatan = data.kecamatan;
-			kelurahan = data.kelurahan;
-		}
-	})	
-}
-
 function edit(id){
 	$.ajax({
 		url: "<?php echo base_url().'perusahaan/tpb/getById/';?>"+id,
@@ -408,20 +349,16 @@ function edit(id){
 		success:function(data){
 			idEdit = id;
 			save_method = "edit";
-			getLokasi(data.provinsi, data.kota, data.kecamatan, data.kelurahan);
 			$("#NPWP").val(data.NPWP);
 			$("#namatpb").val(data.nama_perusahaan);
 			$("#telepon").val(data.telepon);
 			$("#fax").val(data.fax);
 			$("#alamat").val(data.alamat);
-			$("#Provinsi").append('<option value='+data.provinsi+'>'+provinsi+'<option>');
-			$("#Provinsi").trigger('change');
-			$("#Kota").append('<option value='+data.kota+'>'+kota+'<option>');
+			$("#provinsi").val(data.provinsi);
+			$("#kota").val(data.kota);
 			$("#kota").trigger('change');
-			$("#Kecamatan").append('<option value='+data.kecamatan+'>'+kecamatan+'<option>');
-			$("#Kecamatan").trigger('change');
-			$("#Kelurahan").append('<option value='+data.kelurahan+'>'+kelurahan+'<option>');
-			$("#Kelurahan").trigger('change');
+			$("#kecamatan").val(data.kecamatan);
+			$("#kelurahan").val(data.kelurahan);
 			$("#kodepos").val(data.kode_pos);
 			$("#JenisTPB").val(data.id_tpb);
 			$("#JenisTPB").trigger('change');

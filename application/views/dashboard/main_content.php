@@ -5,6 +5,28 @@
 		<?php }?>
 		<div class="row">
 			<div class="box">
+				<div class="box-body">
+					<div class="col-lg-6 col-md-8 col-sm-12">
+						<div class="form-group">
+							<div class="col-lg-3 col-md-4 col-sm-6">
+								<select id="ddCategory" class="form-control">
+									<option value="namaPerusahaan">Nama Perusahaan</option>
+									<option value="tpb">Hanggar</option>
+									<option value="seksi">Seksi Pabean</option>
+								</select>
+							</div>
+							<div class="col-lg-9 col-md-8 col-sm-6">
+								<select id="ddFilter" class="form-control select2">
+									
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="box">
 				<div class="box-header with-border">
 					<h3 class="box-title"><strong>Jumlah Dokumen</strong></h3>
 					<div class="box-tools pull-right">
