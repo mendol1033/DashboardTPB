@@ -125,7 +125,7 @@ class Random_check extends MY_Controller {
 						'PtgsRekam' => $this->session->userdata('NipUser'),
 					);		
 				}
-				$status = $this->random->add($post);
+				$status = $this->random->add($post, $_POST['proses']);
 				$operation = "Tambah";
 				$app = "Random Check CCTV dan IT Inventory";
 
