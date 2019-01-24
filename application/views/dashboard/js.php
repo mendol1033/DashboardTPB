@@ -1,3 +1,8 @@
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="<?php echo base_url();?>assets/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
+
 <script type="text/javascript">
 
 	var chart = null;
@@ -28,40 +33,38 @@
 	});
 
 	function getOption() {
-		var category = $("#ddCategory").val();
-		
-		switch (category) {
-			case "namaPerusahaan":
-				url = "<?php echo base_url()?>"+"";
-				break;
-			case "tpb":
-				url = "<?php echo base_url()?>"+"";
-				break;
-			default:
-				url = "<?php echo base_url()?>"+"";
-				break;
-		}
 
 		$.ajax({
-			url: url,
+			url: '<?php echo base_url()?>'+'dashboard/summary/getOption',
 			type: "GET",
 			dataType: "JSON",
-			data : {category: category},
 			success: function(data){
+				$.each(data.kodeDok, function(index, val) {
+					/* iterate through array or object */
+					$("#filterDokumen").append('<option value='+index+'>'+val+'</option>');
+				});
 
+				$.each(data.tahun, function(index, val) {
+					/* iterate through array or object */
+					$("#filterTahun").append('<option value='+index+'>'+val+'</option>');
+				});
+
+				$.each(data.hanggar, function(index, val) {
+					/* iterate through array or object */
+					$("#filterHanggar").append('<option value='+index+'>'+val+'</option>');
+				});
+				$.each(data.hanggar, function(index, val) {
+					/* iterate through array or object */
+					$("#filterTPB").append('<option value='+index+'>'+val+'</option>');
+				});
 			}
 		})
 		.done(function() {
-			console.log("success");
-		})
-		.fail(function() {
-			console.log("error");
-		})
-		.always(function() {
-			console.log("complete");
-		});
-		
+			alert("success");
+		})		
 	}
+
+	
 
 	window.onload = function() {
 		chart = new CanvasJS.chart("chartDokumen",{

@@ -288,6 +288,10 @@ class Uploaddata extends MY_Controller {
 				$config["allowed_types"] = "xls|xlsx";
 				$config["file_name"] = date("Y-m-d").'_'.rand(000000,999999);
 
+				if (!is_dir($dir)) {
+					mkdir("./assets/upload/nopen/",0777,TRUE);
+				}
+
 				$this->load->library('upload', $config); 
 
 				if(! $this->upload->do_upload('dataNopen')){
@@ -296,30 +300,35 @@ class Uploaddata extends MY_Controller {
 					$dataPost = array($_POST,$_FILES);
 					$data = $this->upload->data();
 
-					// Setelah Berhasil Upload, Proses File Excel di Server untuk di proses dengan PHPExcel
-					$file_type = PHPExcel_IOFactory::identify($dir.$data['file_name']);
-					$objReader = PHPExcel_IOFactory::createReader($file_type);
-					$objPHPExcel = $objReader->load($dir.$data['file_name']);
-					$worksheet = $objReader->listWorksheetNames($dir.$data['file_name']);
-					foreach ($worksheet as $key => $sheetName) {
-						$sheetData[$sheetName] = $objPHPExcel->getSheetByName($sheetName)->toArray(null,true,true);
-						$highestRow[$sheetName] = $objPHPExcel->getSheetByName($sheetName)->getHighestRow();
+					// Setelah Berhasil Upload, Proses File Excel di Server untuk di proses dengan PHPSpreadsheet
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+					$reader->setReadDataOnly(true);
+					$Spreadsheet = $reader->load($dir.$data['file_name']);
+					$sheetCount = $Spreadsheet->getSheetCount();
+
+					for ($i = 0; $i < $sheetCount; $i++) {
+						$sheet[$i] = $Spreadsheet->getSheet($i);
+						$sheetData[$i] = $sheet[$i]->toArray(null,true,true,true);
+						$highestRow[$i] = $sheet[$i]->getHighestRow();
 					}
 
-					foreach ($worksheet as $key => $sheetName) {
-						if ($highestRow[$sheetName] > 1){
-							for ($i=1; $i <= max(array_keys($sheetData[$sheetName])) ; $i++) { 
-								$dataInput[$sheetName][] = array(
-									'NOMOR_AJU' => $sheetData[$sheetName][$i][1],
-									'NPWP' => $sheetData[$sheetName][$i][2],
-									'NAMA_PERUSAHAAN' => $sheetData[$sheetName][$i][3],
-									'SKEP' => $sheetData[$sheetName][$i][4],
-									'DOKUMEN' => substr($sheetData[$sheetName][$i][5],3,3),
-									'NOMOR_DAFTAR' => $sheetData[$sheetName][$i][6],
-									'TANGGAL_DAFTAR' => date('Y-m-d',strtotime($sheetData[$sheetName][$i][7])),
-									'STATUS' => $sheetData[$sheetName][$i][8]
-								);
-							}
+					if ($highestRow[0] > 1) {
+						for ($i=2; $i <= $highestRow[0] ; $i++) {
+							$dataInput['nopen'][] = array(
+								"KODE" => $sheetData[0][$i]["A"],
+								"NOMOR_DAFTAR" => $sheetData[0][$i]["B"],
+								"TANGGAL_DAFTAR" => date('Y-m-d',strtotime($sheetData[0][$i]["C"])),
+								"NOMOR_AJU" => $sheetData[0][$i]["D"],
+								"NAMA_PERUSAHAAN" => $sheetData[0][$i]["E"],
+								"NAMA_HANGGAR" => $sheetData[0][$i]["F"],
+								"NPWP" => $sheetData[0][$i]["G"],
+								"STATUS" => $sheetData[0][$i]["H"],
+								"FLAG_SKA" => $sheetData[0][$i]["I"],
+								"WAKTU_REKAM" => date('Y-m-d H:i:s',strtotime($sheetData[0][$i]["J"])),
+								"ASAL_DATA" => $sheetData[0][$i]["K"],
+								"JALUR" => $sheetData[0][$i]["L"],
+								"KATEGORI_LAYANAN" => $sheetData[0][$i]["M"],
+							);
 						}
 					}
 

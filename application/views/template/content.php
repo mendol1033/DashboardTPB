@@ -4,11 +4,11 @@
       <section class="content-header">
         <h1>
           <?php echo $app; ?>
-          <small class="active">Index</small>
+          <small class="breadcrumb_item active">Index</small>
         </h1>
         <ol class="breadcrumb">
           <li id="breadcrumb_home"><a href="#"><i class="fa fa-dashboard"></i>&nbsp;<?php echo $app; ?></a></li>
-          <li class="active">Index</li>
+          <li class="breadcrumb_item active">Index</li>
         </ol>
       </section>
       <!-- Main content -->

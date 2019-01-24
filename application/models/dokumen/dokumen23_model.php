@@ -106,7 +106,7 @@ class Dokumen23_model extends CI_Model {
 	}
 
 	public function getDokPerBulan(){
-		$sql = "SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS DOKUMEN FROM tpb_nopen WHERE DOKUMEN = 23 AND YEAR(TANGGAL_DAFTAR) = ? GROUP BY BULAN";
+		$sql = "SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS DOKUMEN FROM tpb_nopen WHERE KODE = 23 AND YEAR(TANGGAL_DAFTAR) = ? GROUP BY BULAN";
 
 		if (empty($_GET['tahun'])){
 			$query = $this->tpb_db->query($sql,2018);

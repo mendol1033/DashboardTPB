@@ -108,7 +108,7 @@
       dataType: "html",
       success : function(data){
         $("#main-content").html(data);
-        $(".active").remove();
+        $(".breadcrumb_item").remove();
         load_page_info(c);
       },
       error : function(jqXHR, exception){
@@ -119,7 +119,7 @@
             dataType: "html",
             success :function(data){
               $("#main-content").html(data);
-              $(".active").text("error404");
+              $(".breadcrumb").text("error404");
             }
           })
         }
@@ -134,8 +134,8 @@
       dataType: "JSON",
       success: function(data){
         $.each(data.breadcrumb_item,function(index, el) {
-          $("h1").append("<small class="+'active'+">"+el+"</small>");
-          $(".breadcrumb").append("<li class="+'active'+">"+el+"</li>");
+          $("h1").append("<small class="+'breadcrumb_item active'+">"+el+"</small>");
+          $(".breadcrumb").append("<li class="+'breadcrumb_item active'+">"+el+"</li>");
         }); 
       }
     })    

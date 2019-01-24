@@ -29,7 +29,9 @@ class Summary extends MY_Controller {
 	}
 
 	public function getOption(){
-		$data = $this->dashboard->getOption($_GET['category']);
+		$data = $this->dashboard->getOption();
+
+		echo json_encode($data);
 	}
 
 	public function getData(){

@@ -13,9 +13,9 @@ class Dokumen_model extends CI_Model {
 
 	public function getJumlahDokumenTahunBerjalan(){
 		$this->tpb_db->from('tpb_nopen');
-		$this->tpb_db->select('DOKUMEN, COUNT(DOKUMEN) AS JUMLAH_DOKUMEN', FALSE);
+		$this->tpb_db->select('KODE, COUNT(KODE) AS JUMLAH_DOKUMEN', FALSE);
 		$this->tpb_db->where('YEAR(TANGGAL_DAFTAR)',date('Y'));
-		$this->tpb_db->group_by('DOKUMEN');
+		$this->tpb_db->group_by('KODE');
 		$query = $this->tpb_db->get();
 		
 		if ($query->num_rows() > 0) {
@@ -34,7 +34,7 @@ class Dokumen_model extends CI_Model {
 			);
 
 			foreach ($data as $value) {
-				$result["BC".$value->DOKUMEN] = $value->JUMLAH_DOKUMEN;
+				$result["BC".$value->KODE] = $value->JUMLAH_DOKUMEN;
 			} 
 		} else {
 			$result = array(
