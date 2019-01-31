@@ -85,7 +85,7 @@
   <!-- Ion Icon -->
   <script src="https://unpkg.com/ionicons@4.4.2/dist/ionicons.js"></script>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini wysihtml5-supported fixed">
   <div class="wrapper">
 
     <header class="main-header">

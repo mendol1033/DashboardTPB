@@ -15,9 +15,19 @@ class Menu_model extends CI_Model {
 	public function Menu($unit){
 		$jumlahDokumen = $this->dokumen->getJumlahDokumenTahunBerjalan();
 		$Dashboard = array(
-			'url' => 'dashboard/summary',
+			'url' => '#',
 			'icon' => 'fa fa-dashboard',
-			'menu' => 'Dashboard'
+			'menu' => 'Dashboard',
+			'subMenu' => array(
+				'dashboardV1' => array(
+					'url' => 'dashboard/summary',
+					'menu' => 'Dashboard V1'
+				),
+				'dashboardV2' => array(
+					'url' => 'dashboard/',
+					'menu' => 'Dashboard V2'
+				),
+			)
 		);
 
 		$Dokumen = array(

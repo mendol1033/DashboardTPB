@@ -20,7 +20,7 @@ class Dashboard_model extends CI_Model {
 			}
 		}
 
-		$query = "SELECT DISTINCT KODE_DOKUMEN FROM tpb_header";
+		$query = "SELECT DISTINCT KODE FROM tpb_nopen";
 		$kode_dok = $this->dashboard->query($query)->result_array();
 		$kodeDok[0] = "DOKUMEN";
 

@@ -30,6 +30,7 @@
 		});
 
 		getOption();
+		x();
 	});
 
 	function getOption() {
@@ -64,26 +65,6 @@
 		})		
 	}
 
-	
-
-	window.onload = function() {
-		chart = new CanvasJS.chart("chartDokumen",{
-			animationEnabled : true,
-			theme: "light2",
-			title: {
-				text : "DOKUMEN BC 23"
-			},
-			axisY: {
-				title: "Dokumen",
-				titleFontSize: 20
-			},
-			data:[{
-				type: "column",
-				yValueFormatString: "# Dokumen",
-				dataPoints:dataPoints
-			}]
-		})
-	}
 
 	$.ajax({
 		url: "<?php echo base_url().'dashboard/summary/getData';?>",
@@ -93,5 +74,15 @@
 
 		}
 	});
+
+	function x(){
+		var id = {"bc16" : "BC 1.6","bc23" : "BC 2.3","bc25" : "BC 2.5","bc261" : "BC 2.6.1","bc262" : "BC 2.6.2","bc27" : "BC 2.7","bc28" : "BC 2.8","bc30" : "BC 3.0","bc33" : "BC 3.3","p3bet" : "P3BET"}
+;
+		$.each(id, function(index, val) {
+			console.log(index, val);
+			 /* iterate through array or object */
+			 $("#"+index).children('.progress-text').text('Dokumen '+val);
+		});
+	}
 	
 </script>

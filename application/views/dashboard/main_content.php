@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="box">
 				<div class="box-body">
-					<div class="col-lg-6 col-md-8 col-sm-12">
+					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="form-group">
 							<div class="col-lg-2 col-md-2 col-sm-2">
 								<select id="filterTahun" class="form-control">
@@ -22,10 +22,13 @@
 									
 								</select>
 							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
+<!-- 							<div class="col-lg-3 col-md-3 col-sm-3">
 								<select id="filterTPB" class="form-control select2">
 									
 								</select>
+							</div> -->
+							<div class="col-lg-1 col-md-1 col-sm-1 pull-right">
+								<button class="btn btn-info" id="cari">Filter</button>
 							</div>
 						</div>
 					</div>
@@ -46,66 +49,138 @@
 					</div>
 				</div>
 				<div class="box-body">
-					<div class="row">
-						<div id="jumlahDokumen">
-							<div class="col-md-2">
-								<div class="info-box">
-									<span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
-									<div class="info-box-content">
-										<span class="info-box-text">BC 2.3</span>
-										<span class="info-box-number" id="BC23"></span>
-									</div>
-									<!-- /.info-box-content -->
+					<div class="col-md-9">
+						<!-- <div class="nav-tabs-custom">
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="#grafik1" data-toggle="tab">Grafik 1</a>
+								</li>
+								<li>
+									<a href="#grafik2" data-toggle="tab">Grafik 2</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="grafik1">
+									<b>How to use:</b>
+
+									<p>Exactly like the original bootstrap tabs except you should use
+										the custom wrapper <code>.nav-tabs-custom</code> to achieve this style.
+									</p>
+									A wonderful serenity has taken possession of my entire soul,
+									like these sweet mornings of spring which I enjoy with my whole heart.
+									I am alone, and feel the charm of existence in this spot,
+									which was created for the bliss of souls like mine. I am so happy,
+									my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
+									that I neglect my talents. I should be incapable of drawing a single stroke
+									at the present moment; and yet I feel that I never was a greater artist than now.
+								</div>
+								<div class="tab-pane" id="grafik2">
+									<b>How to use:</b>
+
+									<b>
+										<p>Exactly like the original bootstrap tabs except you should use
+											the custom wrapper <code>.nav-tabs-custom</code> to achieve this style.
+										</p>
+										A wonderful serenity has taken possession of my entire soul,
+										like these sweet mornings of spring which I enjoy with my whole heart.
+										I am alone, and feel the charm of existence in this spot,
+										which was created for the bliss of souls like mine. I am so happy,
+										my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
+										that I neglect my talents. I should be incapable of drawing a single stroke
+										at the present moment; and yet I feel that I never was a greater artist than now.
+									</b>
 								</div>
 							</div>
-							<div class="col-md-2">
-								<div class="info-box">
-									<span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
-									<div class="info-box-content">
-										<span class="info-box-text">BC 2.5</span>
-										<span class="info-box-number" id="BC25"></span>
-									</div>
-									<!-- /.info-box-content -->
+						</div> -->
+					</div>
+					<div class="col-md-3">
+						<div class="row">
+							<div class="progress-group" id="bc16">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
 								</div>
 							</div>
-							<div class="col-md-2">
-								<div class="info-box">
-									<span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
-									<div class="info-box-content">
-										<span class="info-box-text">BC 2.6.1 <br> BC 2.6.2</span>
-										<span class="info-box-number" id="BC26"></span>
-									</div>
-									<!-- /.info-box-content -->
+						</div>
+						<div class="row">
+							<div class="progress-group" id="bc23">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
 								</div>
 							</div>
-							<div class="col-md-2">
-								<div class="info-box">
-									<span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
-									<div class="info-box-content">
-										<span class="info-box-text">BC 2.7</span>
-										<span class="info-box-number" id="BC27"></span>
-									</div>
-									<!-- /.info-box-content -->
+						</div>
+						<div class="row">
+							<div class="progress-group" id="bc25">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
 								</div>
 							</div>
-							<div class="col-md-2">
-								<div class="info-box">
-									<span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
-									<div class="info-box-content">
-										<span class="info-box-text">BC 3.0</span>
-										<span class="info-box-number" id="BC30"></span>
-									</div>
-									<!-- /.info-box-content -->
+						</div>
+						<div class="row">
+							<div class="progress-group" id="bc261">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
 								</div>
 							</div>
-							<div class="col-md-2">
-								<div class="info-box">
-									<span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
-									<div class="info-box-content">
-										<span class="info-box-text">BC 4.0 | 4.1</span>
-										<span class="info-box-number" id="BC4"></span>
-									</div>
-									<!-- /.info-box-content -->
+						</div>
+						<div class="row">
+							<div class="progress-group" id="bc262">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="progress-group" id="bc27">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="progress-group" id="bc28">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="progress-group" id="bc30">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="progress-group" id="bc33">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="progress-group" id="p3bet">
+								<span class="progress-text"></span>
+								<span class="progress-number"><b>1800</b> / 2000</span>
+								<div class="progress-sm">
+									<div class="progress-bar progres-bar-aqua" style="width: 80%"></div>
 								</div>
 							</div>
 						</div>

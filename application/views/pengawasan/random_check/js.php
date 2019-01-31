@@ -227,16 +227,15 @@ $("#simpan").on('click',function(event) {
 			dataType: "JSON",
 			data: data,
 			success : function(data){
-						$("#modal").modal("hide");
-						// console.log(data);
-						alert(data);
-						ajax_reload();
-					},
-					error: function(e,exception){
-						console.log(e);
-						console.log(e.responseText);
-					}
-				})
+				$("#modal").modal("hide");
+				alert(data);
+				ajax_reload();
+			},
+			error: function(e,exception){
+				console.log(e, exception);
+				console.log(e.responseText);
+			}
+		})
 	}
 });
 
