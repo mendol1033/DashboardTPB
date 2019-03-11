@@ -48,6 +48,228 @@ class Dashboard_model extends CI_Model {
 		return $data;
 	}
 
+	public function getAllDokumen(){
+
+		// Get MonthName
+		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_nopen GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$bulan = $this->dashboard->query($query)->result_array();
+
+		if (count($bulan) > 0) {
+			foreach ($bulan as $key => $value) {
+				$dataBulan[] = $value['BULAN'];
+			}
+		} else {
+			$dataBulan = array();
+		}
+		
+
+		// Get Current Year Data
+		$query1 = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS ? FROM tpb_nopen WHERE YEAR(TANGGAL_DAFTAR) = ? AND STATUS != "PEMBATALAN" GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$year1 = $this->dashboard->query($query1,array(strval(date('Y')),date('Y')))->result_array();
+
+		if (count($year1) > 0) {
+			foreach ($year1 as $key => $value) {
+				$dataSet3[] = array($value["BULAN"],(int)$value[strval(date('Y'))]);
+			}
+		} else {
+			$dataSet3[] = array();
+		}
+		
+
+		// // Get Last Year Data
+		$year2 = $this->dashboard->query($query1,array(strval(date('Y')-1),date('Y')-1))->result_array();
+
+		if (count($year2) > 0) {
+			foreach ($year2 as $key => $value) {
+				$dataSet2[] = array($value["BULAN"],(int)$value[strval(date('Y')-1)]);
+			}
+		} else {
+			$dataSet2[] = array();
+		}
+		
+
+		// // Get Last Two Year Data
+		$year3 = $this->dashboard->query($query1,array(strval(date('Y')-2),date('Y')-2))->result_array();
+
+		if (count($year3) > 0) {
+			foreach ($year3 as $key => $value) {
+				$dataSet1[] = array($value["BULAN"], (int)$value[strval(date('Y')-2)]);
+			}	
+		} else {
+			$dataSet1[] = array();
+		}
+		
+		if (count($dataSet1) < 13) {
+			switch (count($dataSet1)) {
+				case 9:
+				array_unshift($dataSet1, array("January", null));
+				array_unshift($dataSet1, array("February", null));
+				array_unshift($dataSet1, array("March", null));
+				break;
+
+				case 10:
+				array_unshift($dataSet1, array("January", null));
+				array_unshift($dataSet1, array("February", null));
+				break;
+				case 11:
+				array_unshift($dataSet1, array("January", null));
+				break;
+
+				default:
+					// code...
+				break;
+			}
+		}
+
+		$data = array(
+			'bulan' => $dataBulan,
+			'data' => array(
+				date("Y")-2 => $dataSet1,
+				date("Y")-1 => $dataSet2,
+				date("Y") => $dataSet3
+			)
+		);
+
+		return $data;
+	}
+
+	public function getCurrentDokumen(){
+		// GET MONTH NAME
+		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$bulan = $this->dashboard->query($query)->result_array();
+
+		if (count($bulan) > 0) {
+			foreach ($bulan as $key => $value) {
+				$dataBulan[] = $value['BULAN'];
+			}
+		} else {
+			$dataBulan = array();
+		}	
+
+		$sql = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS ? FROM tpb_header WHERE KODE_KANTOR_BONGKAR = ? AND YEAR(TANGGAL_DAFTAR) = YEAR(CURDATE()) AND STATUS_DOKUMEN != "PEMBATALAN" GROUP BY MONTH(TANGGAL_DAFTAR)';
+
+		$query1 = $this->dashboard->query($sql,array("CIKARANG","051000"))->result_array();
+		$query2 = $this->dashboard->query($sql,array("PRIOK","040300"))->result_array();
+		$query3 = $this->dashboard->query($sql,array("SOETTA","050100"))->result_array();
+
+		if (count($query1) > 0) {
+			foreach ($query1 as $key => $value) {
+				$cikarang[] = array($value["BULAN"], (int)$value['CIKARANG']);
+			}	
+		} else {
+			$cikarang[] = array();
+		}
+
+		if (count($query2) > 0) {
+			foreach ($query2 as $key => $value) {
+				$priok[] = array($value["BULAN"], (int)$value['PRIOK']);
+			}	
+		} else {
+			$priok[] = array();
+		}
+
+		if (count($query3) > 0) {
+			foreach ($query3 as $key => $value) {
+				$soetta[] = array($value["BULAN"], (int)$value['SOETTA']);
+			}	
+		} else {
+			$soetta[] = array();
+		}
+
+		$data = array(
+			'bulan' => $dataBulan,
+			'data' => array(
+				'CIKARANG' => $cikarang,
+				'PRIOK' => $priok,
+				'SOETTA' => $soetta
+			)
+		);
+
+		return $data;
+	}
+
+	public function getNetto(){
+		// GET MONTH NAME
+		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$bulan = $this->dashboard->query($query)->result_array();
+
+		if (count($bulan) > 0) {
+			foreach ($bulan as $key => $value) {
+				$dataBulan[] = $value['BULAN'];
+			}
+		} else {
+			$dataBulan = array();
+		}
+
+		// Get Current Year Data
+		$query1 = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, SUM(NETTO)/1000 AS ? FROM tpb_header WHERE YEAR(TANGGAL_DAFTAR) = ? AND STATUS_DOKUMEN != "PEMBATALAN" GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$year1 = $this->dashboard->query($query1,array(strval(date('Y')),date('Y')))->result_array();
+
+		if (count($year1) > 0) {
+			foreach ($year1 as $key => $value) {
+				$dataSet3[] = array($value["BULAN"],(int)$value[strval(date('Y'))]);
+			}
+		} else {
+			$dataSet3[] = array();
+		}
+		
+
+		// // Get Last Year Data
+		$year2 = $this->dashboard->query($query1,array(strval(date('Y')-1),date('Y')-1))->result_array();
+
+		if (count($year2) > 0) {
+			foreach ($year2 as $key => $value) {
+				$dataSet2[] = array($value["BULAN"],(int)$value[strval(date('Y')-1)]);
+			}
+		} else {
+			$dataSet2[] = array();
+		}
+
+		// // Get Last Two Year Data
+		$year3 = $this->dashboard->query($query1,array(strval(date('Y')-2),date('Y')-2))->result_array();
+
+		if (count($year3) > 0) {
+			foreach ($year3 as $key => $value) {
+				$dataSet1[] = array($value["BULAN"], (int)$value[strval(date('Y')-2)]);
+			}	
+		} else {
+			$dataSet1[] = array();
+		}
+		
+		if (count($dataSet1) < 13) {
+			switch (count($dataSet1)) {
+				case 9:
+				array_unshift($dataSet1, array("January", null));
+				array_unshift($dataSet1, array("February", null));
+				array_unshift($dataSet1, array("March", null));
+				break;
+
+				case 10:
+				array_unshift($dataSet1, array("January", null));
+				array_unshift($dataSet1, array("February", null));
+				break;
+				case 11:
+				array_unshift($dataSet1, array("January", null));
+				break;
+
+				default:
+					// code...
+				break;
+			}
+		}
+
+		$data = array(
+			'bulan' => $dataBulan,
+			'data' => array(
+				date("Y")-2 => $dataSet1,
+				date("Y")-1 => $dataSet2,
+				date("Y") => $dataSet3
+			)
+		);
+
+		return $data;
+	}
+
 }
 
 /* End of file dashboard_model.php */
