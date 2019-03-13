@@ -161,14 +161,14 @@ class Random_check extends MY_Controller {
 
 	public function getRandom(){
 		$data = $this->random->getRandom();
-		if (count($data[0]) === 21) {
+		if ($data['proses'] === 1) {
 			$random = array(
-				'data' => $data,
+				'data' => $data['data'],
 				'proses' => "update"
 			);
 		} else {
 			$random = array(
-				'data' => $data,
+				'data' => $data['data'],
 				'proses' => "add"
 			);
 		}

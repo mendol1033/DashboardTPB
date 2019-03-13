@@ -201,9 +201,9 @@
 							$("#"+idStatIT).val(val.StatusInventory);
 							$("#"+idTindakLanjut).val(val.TindakLanjut);
 
-							$("#StatusCCTV").trigger("change");
-							$("#StatusIT").trigger("change");
-							$("#TindakLanjut").trigger('change');
+							$("#"+idStatCCTV).trigger("change");
+							$("#"+idStatIT).trigger("change");
+							$("#"+idTindakLanjut).trigger('change');
 						});
 					}
 					// console.log(data);			

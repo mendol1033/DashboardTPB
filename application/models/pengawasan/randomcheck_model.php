@@ -93,7 +93,8 @@ class Randomcheck_model extends CI_Model {
 		$sql = 'SELECT * FROM tb_cek_cctv_detail WHERE DATE(WktRekam)=CURDATE()';
 		$query = $this->peloro->query($sql);
 		if ($query->num_rows() != 0) {
-			$lastQuery = $query;
+			$lastQuery = $query->result_array();
+			$proses = 1;
 		} else {
 			// Set Limit
 			$sql = 'SELECT CEIL(COUNT(IdPerusahaan)/5) AS LIM FROM tb_perusahaan WHERE Status = "Y"';
@@ -104,9 +105,12 @@ class Randomcheck_model extends CI_Model {
 			$this->peloro->from('tb_view_random');
 			$this->peloro->limit($limit);
 			$this->peloro->order_by('IdPerusahaan','RANDOM');
-			$lastQuery = $this->peloro->get();
+			$lastQuery = $this->peloro->get()->result_array();
+			$proses = 2;
 		}
-		return $lastQuery->result_array();
+
+		$data = array('data' => $lastQuery,'proses' => $proses);
+		return $data;
 	}
 
 	public function add($post,$proses){
