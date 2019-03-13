@@ -9,6 +9,8 @@ class Monevumum extends MY_Controller {
 		$this->load->model('hanggar/monev_model', "monev", TRUE);
 	}
 
+	var $filePDF;
+
 	public function index() {
 		$this->data['modal'] = "hanggar/monevumum/modal";
 		$this->data['js'] = "hanggar/monevumum/js";
@@ -52,6 +54,9 @@ class Monevumum extends MY_Controller {
 				<a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a>
 				</li>
 				<li>
+				<a href="javascript:void({})" onclick="validasi(' . $ListData->id . ')">Validasi Laporan</a>
+				</li>
+				<li>
 				<a href="javascript:void({})" onclick="hapus(' . $ListData->id . ')">Hapus Laporan</a>
 				</li>
 				</ul>
@@ -70,7 +75,11 @@ class Monevumum extends MY_Controller {
 				<li>
 				<a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a>
 				</li>
-				</div>';
+				<li>
+				<a href="javascript:void({})" onclick="validasi(' . $ListData->id . ')">Validasi Laporan</a>
+				</li>
+				</div>'
+				;
 			}
 
 			$no++;
@@ -139,6 +148,7 @@ class Monevumum extends MY_Controller {
 		$dirPdf = 'assets/upload/monev/report_pdf/';
 		$thick = mb_convert_encoding('&#x2714;', 'UTF-8', 'HTML-ENTITIES');
 		$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template);
+		$fileDir = 'D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\';
 
 		$headerLaporan = $data[0];
 		$isiLaporan = $data[1];
@@ -161,15 +171,57 @@ class Monevumum extends MY_Controller {
 			$templateProcessor->setValue('ket' . $isiLaporan[$i]['item'], $isiLaporan[$i]['keterangan']);
 		}
 
-		$report = $dirDocx . 'Laporan_' . $headerLaporan['nama_perusahaan'] . "_" . date('d-m-Y', strtotime($headerLaporan['tanggalLaporan'])) . ".docx";
+		$fileName = 'Laporan_' . $headerLaporan['idPerusahaan'] . "_" . date('d-m-Y', strtotime($headerLaporan['tanggalLaporan']));
+
+		$report = $dirDocx . $fileName . ".docx";
 
 		$templateProcessor->saveAs($report);
 
-		$reportPdf = $dirPdf . 'Laporan_' . $headerLaporan['nama_perusahaan'] . "_" . date('d-m-Y', strtotime($headerLaporan['tanggalLaporan'])) . "pdf";
+		system('cmd /c D:\xampp\htdocs\DashboardTPB\assets\convert.bat D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_pdf D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\' . $fileName . ".docx", $value);
 
-		$pdf = Gears\Pdf::convert($report, $reportPdf);
+		$pdfFile = $dirPdf . $fileName . ".pdf";
 
-		echo json_encode($reportPdf);
+		unlink($dirDocx . $fileName . ".docx");
+
+		echo json_encode(array($pdfFile, $fileName));
+	}
+
+	public function delete_pdf() {
+		$name = $_GET['name'];
+
+		unlink('assets/upload/monev/report_pdf/' . $name . ".pdf");
+
+		echo json_encode("selesai");
+	}
+
+	public function validate() {
+		if (!empty($_GET)) {
+			$validate_stat = 1;
+			$status = $this->monev->validate($validate_stat);
+
+			if ($status === TRUE) {
+				$pesan = "Laporan monev berhasil di validasi";
+			} else {
+				$pesan = "Laporan monev gagal di validasi";
+			}
+		}
+
+		echo json_encode($pesan);
+	}
+
+	public function delete() {
+		if (!empty($_GET)) {
+			$validate_stat = 99;
+			$status = $this->monev->validate($validate_stat);
+
+			if ($status === TRUE) {
+				$pesan = "Laporan Monev telah dihapus";
+			} else {
+				$pesan = "Laporan Monev gagal dihapus";
+			}
+		}
+
+		echo json_encode($pesan);
 	}
 
 }

@@ -89,20 +89,20 @@
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
-								
+
 							</td>
 						</tr>
 						<tr>
 							<td class="col-md-3">
 								<label class="control-label">Alamat</label>
 							</td>
-							<td class="col-md-9"> 
+							<td class="col-md-9">
 								<input class="form-control" type="text" name="alamat" id="alamat">
 							</td>
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
-								
+
 							</td>
 						</tr>
 						<tr>
@@ -115,10 +115,10 @@
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
-								
+
 							</td>
 						</tr>
-					</table>					
+					</table>
 					<table class="table table-bordered table-responsive table-hover table-striped">
 						<thead>
 							<th rowspan="2" style="text-align: center; vertical-align: middle; width: 5%;">NO</th>
@@ -254,7 +254,7 @@
 											<li>
 												Tersedianya sarana komunikasi akses internet 24 jam
 											</li>
-										</ul> 
+										</ul>
 									</div>
 									<br>
 									<i>Cukup dicentang jika data yang ada masih sama seperti data pada arsip</i>
@@ -378,7 +378,7 @@
 											<li>Uji petik masing-masing jenis pemberitahuan pabean (terutama yang terakhir)</li>
 										</ol>
 									</div>
-									Nomor 2 dan 3 dibuatkan kolom hasilnya. 
+									Nomor 2 dan 3 dibuatkan kolom hasilnya.
 									<br> <br> <i>Mencatat nomor dokumen yang dilakukan uji petik dalam kolom keterangan</i>
 								</td>
 							</tr>
@@ -485,7 +485,7 @@
 											<li>TPB sudah tidak lagi membuat pemberitahuan pabean pemasukan dan pengeluaran</li>
 											<li>Terdapat Pemberitahuan pabean pemasukan atau pengeluaran, tetapi tidak melakukan pengolahan</li>
 										</ol>
-									</div> 
+									</div>
 									<br> <br> <i>Cukup dicentang jika data yang ada masih sama seperti data pada arsip</i>
 								</td>
 							</tr>
@@ -704,7 +704,7 @@
 									<label>Sertakan file jika ada</label>
 									<input class="form-control" type="file" multiple="multiple" name="file17[]" style="width: 100%;">
 								</td>
-								<td style="vertical-align: top;"> 
+								<td style="vertical-align: top;">
 									Mengecek akses CCTV (<i>realtime</i> dan <i>online</i>)
 									<br> <i>Cukup dicentang jika sesuai</i>
 								</td>
@@ -779,7 +779,7 @@
 					<div class="row">
 						<label class="col-md-12 pull-left"><b>Keterangan Lain:</b></label>
 						<div class="col-md-12">
-							<textarea class="form-control" name="keteranganLain" style="width: 100%; height: 200px;"></textarea>						
+							<textarea class="form-control" name="keteranganLain" style="width: 100%; height: 200px;"></textarea>
 						</div>
 					</div>
 				</form>
@@ -787,6 +787,22 @@
 			<div class="modal-footer">
 				<button type="button" id="batal" class="btn btn-default" onclick="closeModal()">Batal</button>
 				<button type="button" id="simpan" class="btn btn-primary" onclick="save()">Simpan</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalDoc" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-lg" role="dokumen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="btn_close" type="button" class="close" onclick="closeModalView()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Disini Modal Title</h4>
+			</div>
+			<div class="modal-body">
+				<iframe id="iframeDoc" style="width: 100%; height: 800px;" src=""></iframe>
 			</div>
 		</div>
 	</div>

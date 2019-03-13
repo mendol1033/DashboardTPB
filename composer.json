@@ -13,7 +13,7 @@
 	"require": {
 		"php": ">=5.3.7",
 		"phpoffice/phpspreadsheet": "^1.4",
-		"gears/pdf": "*",
+		"gears/pdf": "dev-master",
 		"phpoffice/phpword": "^0.16.0"
 	},
 	"suggest": {

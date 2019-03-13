@@ -2,6 +2,7 @@
 	var save_method;
 	var idEdit;
 	var dataEdit;
+	var table;
 
 	$(document).ready(function() {
 		// initialize class select2
@@ -286,8 +287,57 @@
 			dataType: "JSON",
 			data: {id: id},
 			success:function(data){
+				$("#iframeDoc").removeAttr('src');
+				$("#iframeDoc").attr('src', "<?php echo base_url() ?>"+data[0]);
+				$('.modal-title').text(data[1]);
+				$("#btn_close").attr('value', data[1]);
+				$("#modalDoc").modal("show");
 				console.log(data);
 			}
 		})
+	}
+
+	function closeModalView(){
+		var file = $("#btn_close").attr("value");
+		$.ajax({
+			url: "<?php echo base_url() ?>hanggar/monevumum/delete_pdf",
+			type: "GET",
+			dataType: "JSON",
+			data: {name: file},
+			success: function(data){
+				$("#modalDoc").modal("hide");
+				console.log(data);
+			}
+		})
+	}
+
+	function validasi(id){
+		$.ajax({
+			url: "<?php echo base_url() ?>hanggar/monevumum/validate",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id},
+			success: function(data){
+				alert(data);
+				ajax_reload();
+			}
+		})
+	}
+
+	function hapus(id){
+		$.ajax({
+			url: "<?php echo base_url() ?>hanggar/monevumum/delete",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id},
+			success: function(data){
+				alert(data);
+				ajax_reload();
+			}
+		})
+	}
+
+	function ajax_reload(){
+		table.ajax.reload(null, false);
 	}
 </script>

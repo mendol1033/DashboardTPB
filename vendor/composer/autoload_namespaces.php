@@ -9,5 +9,5 @@ return array(
     'org\\bovigo\\vfs' => array($vendorDir . '/mikey179/vfsStream/src/main/php'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'PhantomInstaller\\' => array($vendorDir . '/jakoch/phantomjs-installer/src'),
-    'Icecave\\Parity' => array($vendorDir . '/icecave/parity/src'),
+    'ForceUTF8\\' => array($vendorDir . '/neitanod/forceutf8/src'),
 );
