@@ -71,7 +71,7 @@ class Uploaddata extends MY_Controller {
 
 					// Get Data Sheet 1
 					if ($highestRow[0] > 1) {
-						for ($i = 2; $i < $highestRow[0]; $i++) {
+						for ($i = 2; $i <= $highestRow[0]; $i++) {
 							$dataInput['header'][] = array(
 								"NOMOR_AJU" => $sheetData[0][$i]["B"],
 								"NOMOR_DAFTAR" => $sheetData[0][$i]["C"],

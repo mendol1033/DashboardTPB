@@ -5970,7 +5970,7 @@ button.close {
 }
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 600px;
+    width: 80%;
     margin: 30px auto;
   }
   .modal-content {
@@ -5983,17 +5983,7 @@ button.close {
 }
 @media (min-width: 992px) {
   .modal-lg {
-    width: 900px;
-  }
-}
-@media (min-width: 1600px){
-  .modal-xl {
-    width: 1500px;
-  }
-}
-@media (min-width: 1920px){
-  .modal-xxl {
-    width: 1800px;
+    width: 80%;
   }
 }
 .tooltip {

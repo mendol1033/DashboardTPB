@@ -44,6 +44,25 @@ class Summary extends MY_Controller {
 		echo json_encode($data);
 	}
 
+	public function test(){
+		switch ($_GET['param']) {
+			case "all":
+			$data = $this->dashboard->getAllDokumen();
+			break;
+
+			case "netto":
+			$data = $this->dashboard->getNetto();
+			break;
+			
+			default:
+			$data = $this->dashboard->getCurrentDokumen();
+			break;
+		}
+		
+
+		echo json_encode($data);
+	}
+
 }
 
 /* End of file dashboard.php */

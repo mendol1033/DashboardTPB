@@ -138,35 +138,35 @@ class Menu_model extends CI_Model {
 			'icon' => 'fa fa-indent',
 			'menu' => 'Hanggar',
 			'subMenu' => array(
-				'laporan' => array(
-					'url' => 'hanggar/laporan',
-					'menu' => 'Laporan Monev'
+				'monev' => array(
+					'url' => 'hanggar/monevumum',
+					'menu' => 'Monev Umum'
 				),
-				'monveCCTVIT' => array(
-					'url' => 'hanggar/monevcctvit',
-					'menu' => 'Monev CCTV & IT INVENTORY',
-					'modal' => 'FormCCTVIT'
-				),
-				'monevCEISA' => array(
-					'url' => 'hanggar/monevceisa',
-					'menu' => 'Monev CEISA',
-					'modal' => 'FormCeisa'
-				),
-				'monevDokMasuk' => array(
-					'url' => 'hanggar/monevdokmasuk',
-					'menu' => 'Monev Dokumen Masuk',
-					'modal' => 'FormDokMasuk'
-				),
-				'monevDokKeluar' => array(
-					'url' => 'hanggar/monevdokkeluar',
-					'menu' => 'Monev Dokumen Keluar',
-					'modal' => 'FormDokKeluar'
-				),
-				'monevPembatalan' => array(
-					'url' => 'hanggar/pembatalan',
-					'menu' => 'Monev Pembatalan',
-					'modal' => 'FormPembatalan'
-				),
+				// 'monveCCTVIT' => array(
+				// 	'url' => 'hanggar/monevcctvit',
+				// 	'menu' => 'Monev CCTV & IT INVENTORY',
+				// 	'modal' => 'FormCCTVIT'
+				// ),
+				// 'monevCEISA' => array(
+				// 	'url' => 'hanggar/monevceisa',
+				// 	'menu' => 'Monev CEISA',
+				// 	'modal' => 'FormCeisa'
+				// ),
+				// 'monevDokMasuk' => array(
+				// 	'url' => 'hanggar/monevdokmasuk',
+				// 	'menu' => 'Monev Dokumen Masuk',
+				// 	'modal' => 'FormDokMasuk'
+				// ),
+				// 'monevDokKeluar' => array(
+				// 	'url' => 'hanggar/monevdokkeluar',
+				// 	'menu' => 'Monev Dokumen Keluar',
+				// 	'modal' => 'FormDokKeluar'
+				// ),
+				// 'monevPembatalan' => array(
+				// 	'url' => 'hanggar/pembatalan',
+				// 	'menu' => 'Monev Pembatalan',
+				// 	'modal' => 'FormPembatalan'
+				// ),
 			),
 		);
 
