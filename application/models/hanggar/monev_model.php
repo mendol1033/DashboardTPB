@@ -114,6 +114,7 @@ class Monev_model extends CI_Model {
 		$this->sikabayan->from('tpbdetail');
 		$this->sikabayan->select($column);
 		$this->sikabayan->like('nama_perusahaan', $search);
+		$this->sikabayan->where('status', "Y");
 		$query = $this->sikabayan->get();
 
 		return $query->result_array();
