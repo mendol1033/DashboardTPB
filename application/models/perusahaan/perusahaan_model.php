@@ -159,9 +159,12 @@ class Perusahaan_model extends CI_Model {
 	}
 
 	public function getJumlahTPB() {
-		$sql = 'SELECT id_tpb as jenis, COUNT(*) AS JumlahTPB FROM tb_perusahaan WHERE status = "Y" group by id_tpb';
-		$query = $this->sikabayan_db->query($sql);
+		$this->sikabayan_db->from('tb_perusahaan');
+		$this->sikabayan_db->select(array('id_tpb as jenis', 'COUNT(*) as JumlahTPB'));
+		$this->sikabayan_db->where('status', 'Y');
+		$this->sikabayan_db->group_by('id_tpb');
 
+		$query = $this->sikabayan_db->get();
 		if ($query->num_rows() > 0) {
 			$data = $query->result();
 
@@ -199,8 +202,11 @@ class Perusahaan_model extends CI_Model {
 	}
 
 	public function countAllPerusahaan() {
-		$sql = 'SELECT COUNT(*) AS JumlahTPB FROM tb_perusahaan WHERE status = "Y"';
-		$query = $this->sikabayan_db->query($sql);
+		$this->sikabayan_db->from('tb_perusahaan');
+		$this->sikabayan_db->select('COUNT(*) AS JumlahTPB');
+		$this->sikabayan_db->where('status', "Y");
+
+		$query = $this->sikabayan_db->get();
 
 		$data = $query->result();
 		foreach ($data as $value) {
