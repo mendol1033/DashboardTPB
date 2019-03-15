@@ -1,18 +1,19 @@
 <?php
-if(!defined('BASEPATH'))exit('No direct script access allowed');
+if (!defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 
 class Menu_model extends CI_Model {
 
-	public function __construct()
-	{
+	public function __construct() {
 		parent::__construct();
-		$this->load->model('dokumen/dokumen_model','dokumen',true);
-		$this->load->model('perusahaan/perusahaan_model','perusahaan',true);
+		$this->load->model('dokumen/dokumen_model', 'dokumen', true);
+		$this->load->model('perusahaan/perusahaan_model', 'perusahaan', true);
 	}
 
 	private $selected_db;
 
-	public function Menu($unit){
+	public function Menu($unit) {
 		$jumlahDokumen = $this->dokumen->getJumlahDokumenTahunBerjalan();
 		$Dashboard = array(
 			'url' => '#',
@@ -21,13 +22,13 @@ class Menu_model extends CI_Model {
 			'subMenu' => array(
 				'dashboardV1' => array(
 					'url' => 'dashboard/summary',
-					'menu' => 'Dashboard V1'
+					'menu' => 'Dashboard V1',
 				),
 				'dashboardV2' => array(
 					'url' => 'dashboard/',
-					'menu' => 'Dashboard V2'
+					'menu' => 'Dashboard V2',
 				),
-			)
+			),
 		);
 
 		$Dokumen = array(
@@ -43,44 +44,44 @@ class Menu_model extends CI_Model {
 				'BC23' => array(
 					'url' => 'dokumen/dokumen23',
 					'menu' => 'BC 2.3',
-					'jumlah' => $jumlahDokumen['BC23']
+					'jumlah' => $jumlahDokumen['BC23'],
 				),
 				'BC25' => array(
 					'url' => 'dokumen/dokumen25',
 					'menu' => 'BC 2.5',
-					'jumlah' => $jumlahDokumen['BC25']
+					'jumlah' => $jumlahDokumen['BC25'],
 				),
 				'BC261' => array(
 					'url' => 'dokumen/dokumen261',
 					'menu' => 'BC 2.6.1',
-					'jumlah' => $jumlahDokumen['BC261']
+					'jumlah' => $jumlahDokumen['BC261'],
 				),
 				'BC262' => array(
 					'url' => 'dokumen/dokumen262',
 					'menu' => 'BC 2.6.2',
-					'jumlah' => $jumlahDokumen['BC262']
+					'jumlah' => $jumlahDokumen['BC262'],
 				),
 				'BC27' => array(
 					'url' => 'dokumen/dokumen27',
 					'menu' => 'BC 2.7',
-					'jumlah' => $jumlahDokumen['BC27']
+					'jumlah' => $jumlahDokumen['BC27'],
 				),
 				'BC28' => array(
 					'url' => 'dokumen/dokumen28',
 					'menu' => 'BC 2.8',
-					'jumlah' => $jumlahDokumen['BC28']
+					'jumlah' => $jumlahDokumen['BC28'],
 				),
 				'BC40' => array(
 					'url' => 'dokumen/dokumen40',
 					'menu' => 'BC 4.0',
-					'jumlah' => $jumlahDokumen['BC40']
+					'jumlah' => $jumlahDokumen['BC40'],
 				),
 				'BC41' => array(
 					'url' => 'dokumen/dokumen41',
 					'menu' => 'BC 4.1',
-					'jumlah' => $jumlahDokumen['BC41']
+					'jumlah' => $jumlahDokumen['BC41'],
 				),
-			)
+			),
 		);
 
 		$totalPerusahaan = $this->perusahaan->countAllPerusahaan();
@@ -137,37 +138,24 @@ class Menu_model extends CI_Model {
 			'url' => '#',
 			'icon' => 'fa fa-indent',
 			'menu' => 'Hanggar',
-			'subMenu' => array(
-				'monev' => array(
-					'url' => 'hanggar/monevumum',
-					'menu' => 'Monev Umum'
-				),
-				// 'monveCCTVIT' => array(
-				// 	'url' => 'hanggar/monevcctvit',
-				// 	'menu' => 'Monev CCTV & IT INVENTORY',
-				// 	'modal' => 'FormCCTVIT'
-				// ),
-				// 'monevCEISA' => array(
-				// 	'url' => 'hanggar/monevceisa',
-				// 	'menu' => 'Monev CEISA',
-				// 	'modal' => 'FormCeisa'
-				// ),
-				// 'monevDokMasuk' => array(
-				// 	'url' => 'hanggar/monevdokmasuk',
-				// 	'menu' => 'Monev Dokumen Masuk',
-				// 	'modal' => 'FormDokMasuk'
-				// ),
-				// 'monevDokKeluar' => array(
-				// 	'url' => 'hanggar/monevdokkeluar',
-				// 	'menu' => 'Monev Dokumen Keluar',
-				// 	'modal' => 'FormDokKeluar'
-				// ),
-				// 'monevPembatalan' => array(
-				// 	'url' => 'hanggar/pembatalan',
-				// 	'menu' => 'Monev Pembatalan',
-				// 	'modal' => 'FormPembatalan'
-				// ),
-			),
+			'subMenu' => array(),
+		);
+
+		if ($this->session->userdata('GrupMenu') == 1) {
+			$hanggar['subMenu'][] = array(
+				'url' => 'hanggar/monevumum/admin',
+				'menu' => 'Admin Monev Umum',
+			);
+		} else {
+			$hanggar['subMenu'][] = array(
+				'url' => 'hanggar/monevumum',
+				'menu' => 'Monev Umum',
+			);
+		}
+
+		$hanggar['subMenu'][] = array(
+			'url' => 'hanggar/monevumum/archive',
+			'menu' => 'Arsip Laporan',
 		);
 
 		$pengawasan = array(
@@ -177,7 +165,7 @@ class Menu_model extends CI_Model {
 			'subMenu' => array(
 				'tpb' => array(
 					'url' => 'pengawasan/tpb',
-					'menu' => 'Data Perusahaan'
+					'menu' => 'Data Perusahaan',
 				),
 				'cctv' => array(
 					'url' => 'pengawasan/cctv',
@@ -185,16 +173,16 @@ class Menu_model extends CI_Model {
 				),
 				'it' => array(
 					'url' => 'pengawasan/it',
-					'menu' => 'IT Inventory'
+					'menu' => 'IT Inventory',
 				),
 				'eSeal' => array(
 					'url' => 'pengawasan/eseal',
-					'menu' => 'E Seal'
+					'menu' => 'E Seal',
 				),
 				'random_check' => array(
 					'url' => 'pengawasan/random_check',
-					'menu' => 'Random Check CCTV dan IT'
-				)
+					'menu' => 'Random Check CCTV dan IT',
+				),
 
 			),
 		);
@@ -210,64 +198,63 @@ class Menu_model extends CI_Model {
 				),
 				'Upload TPB' => array(
 					'url' => 'admin/uploadtpb',
-					'menu' => 'Input Data TPB Baru'
+					'menu' => 'Input Data TPB Baru',
 				),
 			),
 		);
 
 		switch ($unit) {
-			case 3:
+		case 3:
 			$data = array(
-				'mainMenu' => array( $Dashboard, $Dokumen, $perusahaan)
-			);
-			break;
-			
-			case 5:
-			$data = array(
-				'mainMenu' => array( $Dashboard, $Dokumen, $perusahaan, $pengawasan)
+				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan),
 			);
 			break;
 
-			case 6:
+		case 5:
 			$data = array(
-				'mainMenu' => array( $Dashboard, $Dokumen, $perusahaan)
+				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan, $pengawasan),
 			);
 			break;
 
-			case 10:
+		case 6:
 			$data = array(
-				'mainMenu' => array( $Dashboard, $Dokumen, $perusahaan)
+				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan),
 			);
 			break;
 
-			case 12:
+		case 10:
 			$data = array(
-				'mainMenu' => array( $Dashboard, $Dokumen, $perusahaan, $hanggar)
+				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan),
 			);
 			break;
 
-			default:
+		case 12:
 			$data = array(
-				'mainMenu' => array( $Dashboard, $Dokumen, $perusahaan, $hanggar, $pengawasan),
+				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan, $hanggar),
+			);
+			break;
+
+		default:
+			$data = array(
+				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan, $hanggar, $pengawasan),
 				'adminMenu' => array($admin),
 			);
 			break;
 		}
-		
 
 		return $data;
 	}
 
-	public function getJenisDokumen(){
+	public function getJenisDokumen() {
 		$this->selected_db = $this->load->database('tpb', TRUE);
 		$query = $this->selected_db->get('tb_jenis_dokumen');
 
 		return $query->result_array();
 	}
 
-	public function getJenisDokumenByKode($filter){
+	public function getJenisDokumenByKode($filter) {
 		$this->selected_db = $this->load->database('tpb', TRUE);
-		$this->selected_db->where('Kd_Dok',$filter);
+		$this->selected_db->where('Kd_Dok', $filter);
 		$query = $this->selected_db->get('tb_jenis_dokumen');
 
 		return $query->row();

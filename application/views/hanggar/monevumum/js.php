@@ -3,6 +3,7 @@
 	var idEdit;
 	var dataEdit;
 	var table;
+	var type = "<?php echo $type ?>";
 
 	$(document).ready(function() {
 		// initialize class select2
@@ -103,6 +104,9 @@
 			"ajax" : {
 				"url" : "<?php echo base_url() . 'hanggar/monevumum/ajax_list' ?>",
 				"type" : "POST",
+				"data" : {
+					"type" : type
+				}
 			},
 		});
 

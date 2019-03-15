@@ -72,7 +72,21 @@ class Monev_model extends CI_Model {
 			$this->monev->where('Tanggal <=', $_GET['tglAkhir']);
 		}
 
-		$this->monev->where('flag', 0);
+		switch ($_POST['type']) {
+		case "hanggar":
+			$this->monev->where('flag', 0);
+			break;
+		case "seksi":
+			$this->monev->where('flag', 1);
+			break;
+		case "arsip":
+			$this->monev->where('flag', 1);
+			break;
+		default:
+
+			break;
+		}
+
 		$query = $this->monev->get();
 		return $query->result();
 	}

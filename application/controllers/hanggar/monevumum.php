@@ -14,6 +14,21 @@ class Monevumum extends MY_Controller {
 	public function index() {
 		$this->data['modal'] = "hanggar/monevumum/modal";
 		$this->data['js'] = "hanggar/monevumum/js";
+		$this->data['type'] = "hanggar";
+		$this->load->view('hanggar/monevumum/main_content', $this->data);
+	}
+
+	public function archive() {
+		$this->data['modal'] = "hanggar/monevumum/modal";
+		$this->data['js'] = "hanggar/monevumum/js";
+		$this->data['type'] = "arsip";
+		$this->load->view('hanggar/monevumum/main_content', $this->data);
+	}
+
+	public function admin() {
+		$this->data['modal'] = "hanggar/monevumum/modal";
+		$this->data['js'] = "hanggar/monevumum/js";
+		$this->data['type'] = "admin";
 		$this->load->view('hanggar/monevumum/main_content', $this->data);
 	}
 
@@ -39,7 +54,8 @@ class Monevumum extends MY_Controller {
 
 		foreach ($list as $ListData) {
 
-			if ($this->session->userdata('GrupMenu') == 1) {
+			switch ($_POST['type']) {
+			case "hanggar":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -47,21 +63,12 @@ class Monevumum extends MY_Controller {
 				<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-				<li>
-				<a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a>
-				</li>
-				<li>
-				<a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a>
-				</li>
-				<li>
-				<a href="javascript:void({})" onclick="validasi(' . $ListData->id . ')">Validasi Laporan</a>
-				</li>
-				<li>
-				<a href="javascript:void({})" onclick="hapus(' . $ListData->id . ')">Hapus Laporan</a>
-				</li>
-				</ul>
-				</div>';
-			} else {
+				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ')">Validasi Laporan</a></li>
+				</ul></div>';
+				break;
+			case "arsip":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,17 +76,35 @@ class Monevumum extends MY_Controller {
 				<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-				<li>
-				<a href="javascript:void({}) onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a>
-				</li>
-				<li>
-				<a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a>
-				</li>
-				<li>
-				<a href="javascript:void({})" onclick="validasi(' . $ListData->id . ')">Validasi Laporan</a>
-				</li>
-				</div>'
-				;
+				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
+				</ul></div>';
+				break;
+			case "seksi":
+				$action =
+				'<div class="btn-group">
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				ACTION
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ')">Validasi Laporan</a></li>
+				</ul></div>';
+				break;
+
+			default:
+				$action =
+				'<div class="btn-group">
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				ACTION
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="hapus(' . $ListData->id . ')">Hapus Laporan</a></li>
+				</ul></div>';
+				break;
 			}
 
 			$no++;
