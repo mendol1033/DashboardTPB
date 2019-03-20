@@ -14,7 +14,11 @@ class Monevumum extends MY_Controller {
 	public function index() {
 		$this->data['modal'] = "hanggar/monevumum/modal";
 		$this->data['js'] = "hanggar/monevumum/js";
-		$this->data['type'] = "hanggar";
+		if ($this->session->userdata('IdHanggar') != 0 || $this->session->userdata('IdHanggar') != NULL) {
+			$this->data['type'] = "hanggar";
+		} else {
+			$this->data['type'] = "seksi";
+		}
 		$this->load->view('hanggar/monevumum/main_content', $this->data);
 	}
 
@@ -65,7 +69,19 @@ class Monevumum extends MY_Controller {
 				<ul class="dropdown-menu">
 				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
-				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ')">Validasi Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')">Validasi Laporan</a></li>
+				</ul></div>';
+				break;
+			case "seksi":
+				$action =
+				'<div class="btn-group">
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				ACTION
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'seksi'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
 				break;
 			case "arsip":
@@ -79,19 +95,6 @@ class Monevumum extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
 				</ul></div>';
 				break;
-			case "seksi":
-				$action =
-				'<div class="btn-group">
-				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				ACTION
-				<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
-				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ')">Validasi Laporan</a></li>
-				</ul></div>';
-				break;
-
 			default:
 				$action =
 				'<div class="btn-group">
@@ -221,11 +224,16 @@ class Monevumum extends MY_Controller {
 
 	public function validate() {
 		if (!empty($_GET)) {
+			if ($_GET['type'] === "hanggar") {
+				$validate_stat = 1;
+			} else {
+				$validate_stat = 2;
+			}
 			$validate_stat = 1;
 			$status = $this->monev->validate($validate_stat);
 
 			if ($status === TRUE) {
-				$pesan = "Laporan monev berhasil di validasi";
+				$pesan = "Laporan monev berhasil di validasi. <br> Jika ada kesalahan silahkan hubungi Admin PKC";
 			} else {
 				$pesan = "Laporan monev gagal di validasi";
 			}
@@ -247,6 +255,12 @@ class Monevumum extends MY_Controller {
 		}
 
 		echo json_encode($pesan);
+	}
+
+	public function test() {
+		$data = $this->session->userdata();
+
+		print_r($data);
 	}
 
 }

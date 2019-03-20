@@ -21,7 +21,10 @@
 			format : 'yyyy-mm-dd'
 		});
 
+		hidden("<?php echo $type; ?>");
+
 		$("#idPerusahaan").select2({
+			dropdownParent:$("#modalForm"),
 			width : '100%',
 			placeholder: 'Pilih Nama Perusahaan',
 			minimumInputLength: 5,
@@ -180,67 +183,75 @@
 		});
 	});
 
-	$("#idPerusahaan").on("select2:selecting", function(e) {
-		id = e.params.args.data.id
-
-		$.ajax({
-			url: "<?php echo base_url(); ?>pengawasan/tpb/getById",
-			type: "GET",
-			dataType: "JSON",
-			data: {id: id},
-			success: function(data){
-				$("[name='alamat']").val(data.AlamatPabrik);
-			}
-		})
-	});
-
-	$("#tambah").on('click', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		save_method = "add";
-		var curdate = "<?php echo date("Y-m-d"); ?>";
-		$("#formMonevUmum")[0].reset();
-		$("#idPerusahaan").children().remove();
-		$(".modal-title").text('Form Laporan Monitoring Umum');
-		$("#modalForm").modal("show");
-		$("#tanggal").val(curdate);
-	});
-
-	function closeModal(){
-		$("input[type='hidden']").remove();
-		$("#modalForm").modal('hide');
+function hidden (a){
+	if (a == "hanggar") {
+		$("#tambah").removeClass('sr-only');
+	} else {
+		$("#tambah").addClass('sr-only');
 	}
+}
 
-	function selectedValue(a,b){
-		var data = [{id:a,text:b}];
-		var selectedVal = $("#idPerusahaan");
-		var option = new Option(b,a,true,true);
-		selectedVal.append(option).trigger('change');
+$("#idPerusahaan").on("select2:selecting", function(e) {
+	id = e.params.args.data.id
 
-		selectedVal.trigger({
-			type: "select2:select",
-			params: {
-				data: data
-			}
-		})
-	}
+	$.ajax({
+		url: "<?php echo base_url(); ?>pengawasan/tpb/getById",
+		type: "GET",
+		dataType: "JSON",
+		data: {id: id},
+		success: function(data){
+			$("[name='alamat']").val(data.AlamatPabrik);
+		}
+	})
+});
 
-	function edit(id){
-		idEdit = id;
-		$.ajax({
-			url: "<?php echo base_url(); ?>hanggar/monevumum/ajax_edit",
-			type: "GET",
-			dataType: "JSON",
-			data: {id: idEdit},
-			success: function(data){
-				save_method = "edit";
-				var isiLaporan = data[1];
-				dataEdit = isiLaporan;
-				selectedValue(data[0].idPerusahaan,data[0].nama_perusahaan);
-				$("[name='alamat']").val(data[0].alamat);
-				$("[name='tanggal']").val(data[0].tanggalLaporan);
-				$("[name='keteranganLain']").val(data[0].keterangan);
-				for (var i = 0; i < isiLaporan.length; i++) {
+$("#tambah").on('click', function(event) {
+	event.preventDefault();
+	/* Act on the event */
+	save_method = "add";
+	var curdate = "<?php echo date("Y-m-d"); ?>";
+	$("#formMonevUmum")[0].reset();
+	$("#idPerusahaan").children().remove();
+	$(".modal-title").text('Form Laporan Monitoring Umum');
+	$("#modalForm").modal("show");
+	$("#tanggal").val(curdate);
+});
+
+function closeModal(){
+	$("input[type='hidden']").remove();
+	$("#modalForm").modal('hide');
+}
+
+function selectedValue(a,b){
+	var data = [{id:a,text:b}];
+	var selectedVal = $("#idPerusahaan");
+	var option = new Option(b,a,true,true);
+	selectedVal.append(option).trigger('change');
+
+	selectedVal.trigger({
+		type: "select2:select",
+		params: {
+			data: data
+		}
+	})
+}
+
+function edit(id){
+	idEdit = id;
+	$.ajax({
+		url: "<?php echo base_url(); ?>hanggar/monevumum/ajax_edit",
+		type: "GET",
+		dataType: "JSON",
+		data: {id: idEdit},
+		success: function(data){
+			save_method = "edit";
+			var isiLaporan = data[1];
+			dataEdit = isiLaporan;
+			selectedValue(data[0].idPerusahaan,data[0].nama_perusahaan);
+			$("[name='alamat']").val(data[0].alamat);
+			$("[name='tanggal']").val(data[0].tanggalLaporan);
+			$("[name='keteranganLain']").val(data[0].keterangan);
+			for (var i = 0; i < isiLaporan.length; i++) {
 					// $("#formMonevUmum").append("<input type='hidden' name='idIsi"+isiLaporan[i].item+"' value='"+isiLaporan[i].id+"'>");
 					$("input[name='checklist"+isiLaporan[i].item+"'][value='"+isiLaporan[i].kondisi+"'").prop('checked', true);
 					$("[name='keterangan"+isiLaporan[i].item+"']").val(isiLaporan[i].keterangan);
@@ -249,99 +260,103 @@
 				$("#modalForm").modal("show");
 			}
 		})
-	}
+}
 
-	function save(){
-		var url;
-		var data;
-		var form = $("#formMonevUmum")[0];
-		data = new FormData(form);
+function save(){
+	var url;
+	var data;
+	var form = $("#formMonevUmum")[0];
+	data = new FormData(form);
 
-		if (save_method == "add") {
-			url = "<?php echo base_url(); ?>hanggar/monevumum/ajax_add";
-		}else{
-			url = "<?php echo base_url() ?>hanggar/monevumum/ajax_update";
-			data.append('id',idEdit);
-			for (var i = 0; i < dataEdit.length; i++) {
-				data.append("idIsi"+dataEdit[i].item,dataEdit[i].id);
-			}
-		}
-
-		if ($("#formMonevUmum").valid()) {
-			$.ajax({
-				url: url,
-				type: "POST",
-				dataType: "JSON",
-				data: data,
-				contentType : false,
-				cache : false,
-				processData : false,
-				success: function(data){
-					alert(data);
-					$("#modalForm").modal('hide');
-				}
-			})
+	if (save_method == "add") {
+		url = "<?php echo base_url(); ?>hanggar/monevumum/ajax_add";
+	}else{
+		url = "<?php echo base_url() ?>hanggar/monevumum/ajax_update";
+		data.append('id',idEdit);
+		for (var i = 0; i < dataEdit.length; i++) {
+			data.append("idIsi"+dataEdit[i].item,dataEdit[i].id);
 		}
 	}
 
-	function cetak(id){
+	if ($("#formMonevUmum").valid()) {
 		$.ajax({
-			url: "<?php echo base_url() ?>hanggar/monevumum/print",
-			type: "GET",
+			url: url,
+			type: "POST",
 			dataType: "JSON",
-			data: {id: id},
-			success:function(data){
-				$("#iframeDoc").removeAttr('src');
-				$("#iframeDoc").attr('src', "<?php echo base_url() ?>"+data[0]);
-				$('.modal-title').text(data[1]);
-				$("#btn_close").attr('value', data[1]);
-				$("#modalDoc").modal("show");
-				console.log(data);
-			}
-		})
-	}
-
-	function closeModalView(){
-		var file = $("#btn_close").attr("value");
-		$.ajax({
-			url: "<?php echo base_url() ?>hanggar/monevumum/delete_pdf",
-			type: "GET",
-			dataType: "JSON",
-			data: {name: file},
-			success: function(data){
-				$("#modalDoc").modal("hide");
-				console.log(data);
-			}
-		})
-	}
-
-	function validasi(id){
-		$.ajax({
-			url: "<?php echo base_url() ?>hanggar/monevumum/validate",
-			type: "GET",
-			dataType: "JSON",
-			data: {id: id},
+			data: data,
+			contentType : false,
+			cache : false,
+			processData : false,
 			success: function(data){
 				alert(data);
-				ajax_reload();
+				$("#modalForm").modal('hide');
 			}
 		})
+		.done(function() {
+			ajax_reload();
+		});
 	}
+}
 
-	function hapus(id){
-		$.ajax({
-			url: "<?php echo base_url() ?>hanggar/monevumum/delete",
-			type: "GET",
-			dataType: "JSON",
-			data: {id: id},
-			success: function(data){
-				alert(data);
-				ajax_reload();
-			}
-		})
-	}
+function cetak(id){
+	$.ajax({
+		url: "<?php echo base_url() ?>hanggar/monevumum/print",
+		type: "GET",
+		dataType: "JSON",
+		data: {id: id},
+		success:function(data){
+			$("#iframeDoc").removeAttr('src');
+			$("#iframeDoc").attr('src', "<?php echo base_url() ?>"+data[0]);
+			$('.modal-title').text(data[1]);
+			$("#btn_close").attr('value', data[1]);
+			$("#modalDoc").modal("show");
+			console.log(data);
+		}
+	})
+}
 
-	function ajax_reload(){
-		table.ajax.reload(null, false);
-	}
+function closeModalView(){
+	var file = $("#btn_close").attr("value");
+	$.ajax({
+		url: "<?php echo base_url() ?>hanggar/monevumum/delete_pdf",
+		type: "GET",
+		dataType: "JSON",
+		data: {name: file},
+		success: function(data){
+			$("#modalDoc").modal("hide");
+			console.log(data);
+		}
+	})
+}
+
+function validasi(id, type){
+if (confirm("Laporan Monev Akan divalidasi?")) {}
+	$.ajax({
+		url: "<?php echo base_url() ?>hanggar/monevumum/validate",
+		type: "GET",
+		dataType: "JSON",
+		data: {id: id, tipe: type},
+		success: function(data){
+			alert(data);
+			ajax_reload();
+		}
+	})
+}
+
+function hapus(id){
+	$.ajax({
+		url: "<?php echo base_url() ?>hanggar/monevumum/delete",
+		type: "GET",
+		dataType: "JSON",
+		data: {id: id},
+		success: function(data){
+			alert(data);
+			ajax_reload();
+		}
+	})
+}
+
+function ajax_reload(){
+	table.ajax.reload(null, false);
+}
 </script>

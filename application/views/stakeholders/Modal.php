@@ -1,54 +1,54 @@
-<?php $attrib_label= array( 'class' => 'col-sm-3 control-label') ;?>
+<?php $attrib_label = array('class' => 'col-sm-3 control-label');?>
 <?php $form = array(
 	'NPWP' => array(
 		'id' => 'NPWP',
 		'name' => 'NPWP',
-		'class' => 'form-control'
-	),	
-	'NamaPerusahaan' => array(	
+		'class' => 'form-control',
+	),
+	'NamaPerusahaan' => array(
 		'id' => 'namatpb',
 		'name' => 'namatpb',
 		'class' => 'form-control',
 	),
-	'Telepon' => array(	
+	'Telepon' => array(
 		'id' => 'telepon',
 		'name' => 'telepon',
 		'class' => 'form-control',
 	),
-	'Fax' => array(	
+	'Fax' => array(
 		'id' => 'fax',
 		'name' => 'fax',
 		'class' => 'form-control',
 	),
-	'Alamat' =>	array(
+	'Alamat' => array(
 		'id' => 'alamat',
-		'name' => 'alamat',	
+		'name' => 'alamat',
 		'class' => 'form-control',
 		'rows' => '2',
 	),
 	'Provinsi' => array(
 		'id' => 'provinsi',
-		'name' => 'provinsi',	
+		'name' => 'provinsi',
 		'class' => 'form-control',
 	),
 	'Kota' => array(
 		'id' => 'kota',
-		'name' => 'kota',		
+		'name' => 'kota',
 		'class' => 'form-control',
 	),
-	'Kecamatan' =>	array(	
+	'Kecamatan' => array(
 		'id' => 'kecamatan',
-		'name' => 'kecamatan',	
+		'name' => 'kecamatan',
 		'class' => 'form-control',
 	),
-	'Kelurahan' =>	array(	
+	'Kelurahan' => array(
 		'id' => 'kelurahan',
-		'name' => 'kelurahan',	
+		'name' => 'kelurahan',
 		'class' => 'form-control',
 	),
-	'KodePos' => array(	
+	'KodePos' => array(
 		'id' => 'kodepos',
-		'name' => 'kodepos',	
+		'name' => 'kodepos',
 		'class' => 'form-control',
 	),
 	'IzinKelola' => array(
@@ -66,7 +66,7 @@
 		'name' => 'longitude',
 		'class' => 'form-control',
 	),
-);	
+);
 ?>
 
 <div class="modal fade" id="modal" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -81,7 +81,7 @@
 			<div class="modal-body">
 				<form class="form-horizontal" id="form" novalidate="true">
 					<div class="form-group">
-						<?php echo form_label('NPWP', 'NPWP', 'class = "col-sm-3 control-label" id="labelNPWP"');?>
+						<?php echo form_label('NPWP', 'NPWP', 'class = "col-sm-3 control-label" id="labelNPWP"'); ?>
 						<div class="col-sm-9">
 							<?php echo form_input($form['NPWP']); ?>
 						</div>
@@ -94,7 +94,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<?php echo form_label('Telepon', 'Telepon','class = "col-sm-3 control-label" id="labelTelepon"'); ?>
+						<?php echo form_label('Telepon', 'Telepon', 'class = "col-sm-3 control-label" id="labelTelepon"'); ?>
 						<div class="col-sm-9">
 							<?php echo form_input($form['Telepon']); ?>
 							<span class="help-blok"></span>
@@ -115,14 +115,14 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<?php echo form_label('Provinsi', 'Provinsi','class = "col-sm-3 control-label" id="labelProvinsi"'); ?>
+						<?php echo form_label('Provinsi', 'Provinsi', 'class = "col-sm-3 control-label" id="labelProvinsi"'); ?>
 						<div class="col-sm-9">
 							<select id="Provinsi" name="provinsi" class="form-control select2"></select>
 							<span class="help-blok"></span>
 						</div>
 					</div>
 					<div class="form-group">
-						<?php echo form_label('Kota', 'Kota','class = "col-sm-3 control-label" id="labelKota"'); ?>
+						<?php echo form_label('Kota', 'Kota', 'class = "col-sm-3 control-label" id="labelKota"'); ?>
 						<div class="col-sm-9">
 							<select id="Kota" name="kota" class="form-control select2"></select>
 							<span class="help-blok"></span>
@@ -152,14 +152,14 @@
 					<div class="form-group">
 						<?php echo form_label('Jenis TPB', 'JenisTPB', 'class = "col-sm-3 control-label" id="labelJenisTPB"'); ?>
 						<div class="col-sm-9">
-							<?php echo form_dropdown('JenisTPB', $option1,'', 'class="form-control select2" id="JenisTPB"'); ?>
+							<?php echo form_dropdown('JenisTPB', $option1, '', 'class="form-control select2" id="JenisTPB"'); ?>
 							<span class="help-blok"></span>
 						</div>
 					</div>
 					<div class="form-group">
 						<?php echo form_label('Lokasi TPB', 'LokasiTPB', 'class = "col-sm-3 control-label" id="labelLokasiTPB"'); ?>
 						<div class="col-sm-9">
-							<?php echo form_dropdown('LokasiTPB', $option2,'', 'class="form-control select2" id="LokasiTPB"'); ?>
+							<?php echo form_dropdown('LokasiTPB', $option2, '', 'class="form-control select2" id="LokasiTPB"'); ?>
 							<span class="help-blok"></span>
 						</div>
 					</div>

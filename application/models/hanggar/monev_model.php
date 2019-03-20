@@ -72,6 +72,10 @@ class Monev_model extends CI_Model {
 			$this->monev->where('Tanggal <=', $_GET['tglAkhir']);
 		}
 
+		if (!empty($this->session->userdata('idSeksiPKC'))) {
+			$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+		}
+
 		switch ($_POST['type']) {
 		case "hanggar":
 			$this->monev->where('flag', 0);
@@ -96,6 +100,11 @@ class Monev_model extends CI_Model {
 		if ($this->Hanggar !== 0) {
 			$this->monev->where('IdHanggar', $this->Hanggar);
 		}
+
+		if (!empty($this->session->userdata('idSeksiPKC'))) {
+			$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+		}
+
 		$this->monev->where('flag', 0);
 		$query = $this->monev->get();
 		return $query->num_rows();
@@ -106,6 +115,11 @@ class Monev_model extends CI_Model {
 		if ($this->Hanggar !== 0) {
 			$this->monev->where('IdHanggar', $this->Hanggar);
 		}
+
+		if (!empty($this->session->userdata('idSeksiPKC'))) {
+			$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+		}
+
 		$this->monev->where('flag', 0);
 		return $this->monev->count_all_results();
 	}
@@ -113,7 +127,10 @@ class Monev_model extends CI_Model {
 	public function getTPB($search, $column) {
 		$this->sikabayan->from('tpbdetail');
 		$this->sikabayan->select($column);
-		$this->sikabayan->like('nama_perusahaan', $search);
+		$this->sikabayan->like('nama_perusahaan', $search, "both");
+		if ($this->session->userdata('IdHanggar') !== 0) {
+			$this->sikabayan->where('IdHanggar', $this->session->userdata('IdHanggar'));
+		}
 		$this->sikabayan->where('status', "Y");
 		$query = $this->sikabayan->get();
 
@@ -127,6 +144,7 @@ class Monev_model extends CI_Model {
 		$keterangan = $_POST['keteranganLain'];
 
 		$laporan = array(
+			'idHanggar' => $this->session->userdata('IdHanggar'),
 			'idPerusahaan' => $idPerusahaan,
 			'tanggalLaporan' => $tanggal,
 			'keterangan' => $keterangan,

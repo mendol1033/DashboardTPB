@@ -9,6 +9,7 @@
 	var kota;
 	var kecamatan;
 	var kelurahan;
+	var tpb = "<?php echo $tpb; ?>";
 
 	$(document).ready(function() {
 		// initialize class select2
@@ -67,8 +68,11 @@
 			"bFilter" 	 : false,
 			"order" : [],
 			"ajax" : {
-				"url" : "<?php echo base_url().'perusahaan/tpb/ajax_list'?>",
+				"url" : "<?php echo base_url() . 'perusahaan/tpb/ajax_list' ?>",
 				"type" : "POST",
+				"data" : {
+					"tpb" : tpb
+				}
 			},
 		});
 
@@ -79,7 +83,7 @@
 			minimumInputLength: 5,
 			allowClear: true,
 			ajax : {
-				url : "<?php echo base_url().'perusahaan/tpb/getProvinsi/';?>",
+				url : "<?php echo base_url() . 'perusahaan/tpb/getProvinsi/'; ?>",
 				dataType : "JSON",
 				delay : 250,
 				data : function(params){
@@ -116,7 +120,7 @@
 			minimumInputLength: 5,
 			allowClear: true,
 			ajax : {
-				url : "<?php echo base_url().'perusahaan/tpb/getKabupaten/';?>",
+				url : "<?php echo base_url() . 'perusahaan/tpb/getKabupaten/'; ?>",
 				dataType : "JSON",
 				delay : 250,
 				data : function(params){
@@ -143,7 +147,7 @@
 						return{
 							results : data
 						}
-					}	
+					}
 				},
 				cache : true,
 			}
@@ -161,7 +165,7 @@
 			minimumInputLength: 5,
 			allowClear: true,
 			ajax : {
-				url : "<?php echo base_url().'perusahaan/tpb/getKecamatan/';?>",
+				url : "<?php echo base_url() . 'perusahaan/tpb/getKecamatan/'; ?>",
 				dataType : "JSON",
 				delay : 250,
 				data : function(params){
@@ -188,7 +192,7 @@
 						return{
 							results : data
 						}
-					}	
+					}
 				},
 				cache : true,
 			}
@@ -206,7 +210,7 @@
 			minimumInputLength: 5,
 			allowClear: true,
 			ajax : {
-				url : "<?php echo base_url().'perusahaan/tpb/getKelurahan/';?>",
+				url : "<?php echo base_url() . 'perusahaan/tpb/getKelurahan/'; ?>",
 				dataType : "JSON",
 				delay : 250,
 				data : function(params){
@@ -233,7 +237,7 @@
 						return{
 							results : data
 						}
-					}	
+					}
 				},
 				cache : true,
 			}
@@ -258,7 +262,6 @@
 				izin : "required",
 				latitude : "required",
 				longitude : "required",
-				Hanggar : "required",
 				status : "required",
 			},
 			messages : {
@@ -276,8 +279,7 @@
 				LokasiTPB : "Pilih Lokasi TPB",
 				izin : "Kolom No Skep Izin TPB Tidak Boleh Kosong",
 				latitude : "Kolom latitude Tidak Boleh Kosong",
-				Hanggar : "Kolom longitude Tidak Boleh Kosong",
-				Hanggar : "Pilih Hanggar TPB Yang Melayani",
+				longitude : "Kolom longitude Tidak Boleh Kosong",
 				status : "Pilih Status TPB",
 			},
 			errorElement : "span",
@@ -340,7 +342,7 @@ $("#btnTambah").click(function(e) {
 	$("#JenisTPB").trigger('change');
 	$("#LokasiTPB").trigger('change');
 	$("#Hanggar").trigger('change');
-	$("#status").trigger('change');	
+	$("#status").trigger('change');
 	$("#Provinsi").trigger('change');
 	$("#Kabupaten").trigger('change');
 	$("#Kecamatan").trigger('change');
@@ -351,7 +353,7 @@ $("#btnTambah").click(function(e) {
 
 function view(id){
 	$.ajax({
-		url: "<?php echo base_url().'perusahaan/tpb/getById/';?>"+id,
+		url: "<?php echo base_url() . 'perusahaan/tpb/getById/'; ?>"+id,
 		type: 'GET',
 		dataType: 'JSON',
 		data: {id: id},
@@ -386,7 +388,7 @@ function view(id){
 
 function getLokasi(ref_1, ref_2, ref_3, ref_4){
 	$.ajax({
-		url: '<?php echo base_url()?>'+'perusahaan/tpb/getLokasi',
+		url: '<?php echo base_url() ?>'+'perusahaan/tpb/getLokasi',
 		type: "POST",
 		dataType: "JSON",
 		data: {provinsi: ref_1, kota: ref_2, kecamatan: ref_3, kelurahan: ref_4},
@@ -396,12 +398,12 @@ function getLokasi(ref_1, ref_2, ref_3, ref_4){
 			kecamatan = data.kecamatan;
 			kelurahan = data.kelurahan;
 		}
-	})	
+	})
 }
 
 function edit(id){
 	$.ajax({
-		url: "<?php echo base_url().'perusahaan/tpb/getById/';?>"+id,
+		url: "<?php echo base_url() . 'perusahaan/tpb/getById/'; ?>"+id,
 		type: 'GET',
 		dataType: 'JSON',
 		data: {id: id},
@@ -438,7 +440,7 @@ function edit(id){
 			$("#simpan").removeClass('sr-only');
 			$("#modal").modal('show');
 		}
-	})		
+	})
 }
 
 function save(){
@@ -447,10 +449,10 @@ function save(){
 	data = $("#form").serializeArray();
 
 	if (save_method == "add"){
-		url = "<?php echo base_url().'perusahaan/tpb/ajax_add';?>";
+		url = "<?php echo base_url() . 'perusahaan/tpb/ajax_add'; ?>";
 	} else {
 		data[data.length] = {name: "id", value: idEdit};
-		url = "<?php echo base_url().'perusahaan/tpb/ajax_update'?>";
+		url = "<?php echo base_url() . 'perusahaan/tpb/ajax_update' ?>";
 	}
 
 	if($("#form").valid()){
@@ -466,12 +468,12 @@ function save(){
 				ajax_reload();
 				alert(data);
 			}
-		})			
+		})
 	}
 }
 
 function ajax_reload(){
-	table.ajax.reload(null,null);
+	table.ajax.reload(null,false);
 }
 
 $("#filterPerusahaan").on('input', function(event) {
@@ -487,6 +489,6 @@ $("#filterPerusahaan").on('input', function(event) {
 });
 
 function ajax_load_table(filter){
-	table.ajax.url("<?php echo base_url().'perusahaan/tpb/ajax_list/'?>"+filter).load();
+	table.ajax.url("<?php echo base_url() . 'perusahaan/tpb/ajax_list/' ?>"+filter).load();
 }
 </script>

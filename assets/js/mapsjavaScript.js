@@ -17,20 +17,6 @@
     // New Map
     var map = new google.maps.Map(document.getElementById('mapGoogle'), options);
 
-    var iconBase = base_url + "assets/img/Marker/";
-
-    var icons = {
-      merah: {
-        icon: iconBase + "Merah.png"
-      },
-      kuning: {
-        icon: iconBase + "Kuning.png"
-      },
-      hijau: {
-        icon: iconBase + "Hijau.png"
-      }
-    };
-
     $.ajax({
       url: base_url + "index/getLocation",
       type: "GET",
@@ -54,21 +40,38 @@
             fasilitas = "PLB";
             break;
             case "4":
-            fasilitas = "CUKAI";
+            fasilitas = "TPS";
             break;
             case "5":
-            fasilitas = "TPPB";
+            fasilitas = "CUKAI";
             break;
             case "6":
-            fasilitas = "TBB";
+            fasilitas = "TPPB";
             break;
             case "7":
+            fasilitas = "TBB";
+            break;
+            case "8":
             fasilitas = "TLB";
             break;
             default:
             fasilitas = "KDUB";
             break;
           }
+
+          var iconBase = base_url + "assets/img/Marker/"+fasilitas+"/";
+
+          var icons = {
+            merah: {
+              icon: iconBase + "Merah.png"
+            },
+            kuning: {
+              icon: iconBase + "Kuning.png"
+            },
+            hijau: {
+              icon: iconBase + "Hijau.png"
+            }
+          };
 
           marker = new google.maps.Marker({
             position: {lat:latitude,lng:longitude},

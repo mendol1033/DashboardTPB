@@ -37,7 +37,7 @@ class Menu_model extends CI_Model {
 			'menu' => 'Dokumen',
 			'subMenu' => array(
 				'BC16' => array(
-					'url' => 'dokumen/dokumen16',
+					'url' => 'dokumen/dokumen/index/16',
 					'menu' => 'BC 1.6',
 					'jumlah' => $jumlahDokumen['BC16'],
 				),
@@ -96,40 +96,50 @@ class Menu_model extends CI_Model {
 					'menu' => 'Semua Perusahaan',
 					'jumlah' => $totalPerusahaan,
 				),
-				'GB' => array(
-					'url' => 'perusahaan/guber',
-					'menu' => 'Gudang Berikat',
-					'jumlah' => $jumlahPerusahaan['1'],
-				),
 				'KB' => array(
-					'url' => 'perusahaan/kaber',
+					'url' => 'perusahaan/tpb/index/2',
 					'menu' => 'Kawasan Berikat',
 					'jumlah' => $jumlahPerusahaan['2'],
 				),
+				'GB' => array(
+					'url' => 'perusahaan/tpb/index/1',
+					'menu' => 'Gudang Berikat',
+					'jumlah' => $jumlahPerusahaan['1'],
+				),
 				'TPPB' => array(
-					'url' => '#',
+					'url' => 'perusahaan/tpb/index/6',
 					'menu' => 'Pameran Berikat',
 					'jumlah' => $jumlahPerusahaan['6'],
 				),
 				'TBB' => array(
-					'url' => '#',
+					'url' => 'perusahaan/tpb/index/7',
 					'menu' => 'Toko Bebas Bea',
 					'jumlah' => $jumlahPerusahaan['7'],
 				),
 				'TLB' => array(
-					'url' => '#',
+					'url' => 'perusahaan/tpb/index/8',
 					'menu' => 'Tempat Lelang Berikat',
 					'jumlah' => $jumlahPerusahaan['8'],
 				),
 				'KDUB' => array(
-					'url' => '#',
+					'url' => 'perusahaan/tpb/index/9',
 					'menu' => 'Kawasan Daur Ulang Berikat',
 					'jumlah' => $jumlahPerusahaan['9'],
 				),
 				'PLB' => array(
-					'url' => '#',
+					'url' => 'perusahaan/tpb/index/3',
 					'menu' => 'Pusat Logistik Berikat',
 					'jumlah' => $jumlahPerusahaan['3'],
+				),
+				'TPS' => array(
+					'url' => 'perusahaan/tpb/index/4',
+					'menu' => 'Tempat Penimbunan Sementara',
+					'jumlah' => $jumlahPerusahaan['4'],
+				),
+				'CUKAI' => array(
+					'url' => 'perusahaan/tpb/index/5',
+					'menu' => 'Pengusaha Barang Kena Cukai',
+					'jumlah' => $jumlahPerusahaan['5'],
 				),
 			),
 		);
@@ -141,16 +151,26 @@ class Menu_model extends CI_Model {
 			'subMenu' => array(),
 		);
 
-		if ($this->session->userdata('GrupMenu') == 1) {
+		switch ((int) $this->session->userdata('GrupMenu')) {
+		case 1:
 			$hanggar['subMenu'][] = array(
 				'url' => 'hanggar/monevumum/admin',
 				'menu' => 'Admin Monev Umum',
 			);
-		} else {
+			break;
+		case 6:
 			$hanggar['subMenu'][] = array(
 				'url' => 'hanggar/monevumum',
 				'menu' => 'Monev Umum',
 			);
+			break;
+
+		default:
+			$hanggar['subMenu'][] = array(
+				'url' => 'hanggar/monevumum',
+				'menu' => 'Monev Umum',
+			);
+			break;
 		}
 
 		$hanggar['subMenu'][] = array(
@@ -218,7 +238,7 @@ class Menu_model extends CI_Model {
 
 		case 6:
 			$data = array(
-				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan),
+				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan, $hanggar),
 			);
 			break;
 
