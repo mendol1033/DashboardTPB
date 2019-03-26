@@ -1,23 +1,14 @@
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               10.1.30-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win32
--- HeidiSQL Version:             9.5.0.5196
--- --------------------------------------------------------
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
--- Dumping database structure for dashboardtpb
+DROP DATABASE IF EXISTS `dashboardtpb`;
 CREATE DATABASE IF NOT EXISTS `dashboardtpb` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `dashboardtpb`;
 
--- Dumping structure for view dashboardtpb.bc_40_detail_barang
--- Creating temporary table to overcome VIEW dependency errors
+DROP VIEW IF EXISTS `bc_40_detail_barang`;
 CREATE TABLE `bc_40_detail_barang` (
 	`NPWP` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
 	`NAMA_PENGUSAHA` VARCHAR(100) NULL COLLATE 'latin1_swedish_ci',
@@ -26,7 +17,40 @@ CREATE TABLE `bc_40_detail_barang` (
 	`NAMA_BARANG` VARCHAR(500) NOT NULL COLLATE 'latin1_swedish_ci'
 ) ENGINE=MyISAM;
 
--- Dumping structure for table dashboardtpb.tpb_bahan_baku
+DROP TABLE IF EXISTS `tb_jenis_dokumen`;
+CREATE TABLE IF NOT EXISTS `tb_jenis_dokumen` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Kd_Dok` int(11) NOT NULL DEFAULT '0',
+  `Nm_Dok` varchar(50) NOT NULL DEFAULT '0',
+  `Ket` varchar(255) NOT NULL DEFAULT '0',
+  `Ptgs_Rkm` varchar(18) NOT NULL DEFAULT '0',
+  `Wkt_Rkm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+DELETE FROM `tb_jenis_dokumen`;
+/*!40000 ALTER TABLE `tb_jenis_dokumen` DISABLE KEYS */;
+INSERT INTO `tb_jenis_dokumen` (`Id`, `Kd_Dok`, `Nm_Dok`, `Ket`, `Ptgs_Rkm`, `Wkt_Rkm`) VALUES
+	(1, 10, 'BC 1.0', 'Rencana Kedatangan Sarana Pengangkut', '199203162014111002', '2018-02-20 18:01:43'),
+	(2, 11, 'BC 1.1', 'Pemberitahuan barang kargo/niaga yang diangkut dalam sarana pengangkut', '199203162014111002', '2018-02-20 18:01:43'),
+	(3, 12, 'BC 1.2', 'Pemberitahuan barang impor yang diangkut lanjut', '199203162014111002', '2018-02-20 18:01:43'),
+	(4, 16, 'BC 1.6', 'Pemberitahuan Impor Barang ke PLB', '199203162014111002', '2018-02-20 18:01:43'),
+	(5, 20, 'BC 2.0', 'Pemberitahuan Impor Barang', '199203162014111002', '2018-02-20 18:01:43'),
+	(6, 21, 'BC 2.1', 'Pemberitahuan Impor Barang Tertentu', '199203162014111002', '2018-02-20 18:01:43'),
+	(7, 22, 'BC 2.2', 'Pemberitahuan Impor Barang penumpang/awak sarana pengangkut', '199203162014111002', '2018-02-20 18:01:43'),
+	(8, 23, 'BC 2.3', 'Pemberitahuan pemasukan barang impor ke Tempat Penimbunan Berikat', '199203162014111002', '2018-02-20 18:01:43'),
+	(9, 25, 'BC 2.5', 'Pemberitahuan pengeluaran barang dari Tempat Penimbunan Berikat ke TLDDP', '199203162014111002', '2018-02-20 18:01:43'),
+	(10, 261, 'BC 2.6.1', 'Pengeluaran Barang Tujuan Subkon TLDDP', '199203162014111002', '2018-02-20 18:01:43'),
+	(11, 262, 'BC 2.6.2', 'Pemasukan Barang Hasil Subkon TLDDP', '199203162014111002', '2018-02-20 18:01:43'),
+	(12, 27, 'BC 2.7', 'Pemberitahuan Pengeluaran Tujuan Tempat Penimbunan Berikat', '199203162014111002', '2018-02-20 18:01:43'),
+	(13, 28, 'BC 2.8', 'Pemberitahuan Impor Barang dari PLB', '199203162014111002', '2018-02-20 18:01:43'),
+	(14, 30, 'BC 3.0', 'Pemberitahuan Ekspor Barang', '199203162014111002', '2018-02-20 18:01:43'),
+	(15, 33, 'BC 3.3', 'Pemberutahuan Ekspor Barang dari PLB', '199203162014111002', '2018-02-20 18:01:43'),
+	(16, 40, 'BC 4.0', 'Pemberitahuan pemasukan barang asal daerah pabean ke Kawasan Berikat', '199203162014111002', '2018-02-20 18:01:43'),
+	(17, 41, 'BC 4.1', 'Pemberitahuan pengeluaran barang asal daerah pabean ke tempat lain dalam daerah pabean', '199203162014111002', '2018-02-20 18:01:43');
+/*!40000 ALTER TABLE `tb_jenis_dokumen` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_bahan_baku`;
 CREATE TABLE IF NOT EXISTS `tpb_bahan_baku` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMOR_AJU` varchar(26) NOT NULL,
@@ -45,8 +69,11 @@ CREATE TABLE IF NOT EXISTS `tpb_bahan_baku` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for table dashboardtpb.tpb_barang
+DELETE FROM `tpb_bahan_baku`;
+/*!40000 ALTER TABLE `tpb_bahan_baku` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_bahan_baku` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_barang`;
 CREATE TABLE IF NOT EXISTS `tpb_barang` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMOR_AJU` varchar(26) NOT NULL,
@@ -67,10 +94,13 @@ CREATE TABLE IF NOT EXISTS `tpb_barang` (
   `KODE_JENIS_NILAI` varchar(3) NOT NULL,
   `SKA` varchar(26) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=131567 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for table dashboardtpb.tpb_barang_tarif
+DELETE FROM `tpb_barang`;
+/*!40000 ALTER TABLE `tpb_barang` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_barang` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_barang_tarif`;
 CREATE TABLE IF NOT EXISTS `tpb_barang_tarif` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMOR_AJU` varchar(26) NOT NULL,
@@ -84,10 +114,13 @@ CREATE TABLE IF NOT EXISTS `tpb_barang_tarif` (
   `TARIF_FASILITAS` int(11) NOT NULL,
   `NILAI_FASILITAS` decimal(18,2) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=401047 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for table dashboardtpb.tpb_dokumen_pelengkap
+DELETE FROM `tpb_barang_tarif`;
+/*!40000 ALTER TABLE `tpb_barang_tarif` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_barang_tarif` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_dokumen_pelengkap`;
 CREATE TABLE IF NOT EXISTS `tpb_dokumen_pelengkap` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMOR_AJU` varchar(26) NOT NULL,
@@ -97,10 +130,13 @@ CREATE TABLE IF NOT EXISTS `tpb_dokumen_pelengkap` (
   `TANGGAL_DOKUMEN` date DEFAULT NULL,
   `FLAG_TERIMA` enum('Y','N') DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=100204 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for table dashboardtpb.tpb_header
+DELETE FROM `tpb_dokumen_pelengkap`;
+/*!40000 ALTER TABLE `tpb_dokumen_pelengkap` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_dokumen_pelengkap` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_header`;
 CREATE TABLE IF NOT EXISTS `tpb_header` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMOR_AJU` varchar(26) NOT NULL,
@@ -157,10 +193,13 @@ CREATE TABLE IF NOT EXISTS `tpb_header` (
   `NIK` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `NOMOR_AJU` (`NOMOR_AJU`)
-) ENGINE=InnoDB AUTO_INCREMENT=26117 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for table dashboardtpb.tpb_kemasan
+DELETE FROM `tpb_header`;
+/*!40000 ALTER TABLE `tpb_header` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_header` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_kemasan`;
 CREATE TABLE IF NOT EXISTS `tpb_kemasan` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMOR_AJU` varchar(26) NOT NULL,
@@ -175,10 +214,13 @@ CREATE TABLE IF NOT EXISTS `tpb_kemasan` (
   `WAKTU_GATE_OUT` datetime DEFAULT NULL,
   `NIP_GATE_OUT` varchar(18) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26127 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for table dashboardtpb.tpb_kontainer
+DELETE FROM `tpb_kemasan`;
+/*!40000 ALTER TABLE `tpb_kemasan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_kemasan` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_kontainer`;
 CREATE TABLE IF NOT EXISTS `tpb_kontainer` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMOR_AJU` varchar(26) NOT NULL,
@@ -192,26 +234,37 @@ CREATE TABLE IF NOT EXISTS `tpb_kontainer` (
   `WAKTU_GATE_OUT` datetime DEFAULT NULL,
   `NIP_GATE_OUT` varchar(18) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12043 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for table dashboardtpb.tpb_nopen
+DELETE FROM `tpb_kontainer`;
+/*!40000 ALTER TABLE `tpb_kontainer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_kontainer` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_nopen`;
 CREATE TABLE IF NOT EXISTS `tpb_nopen` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NOMOR_AJU` varchar(26) NOT NULL,
-  `NPWP` varchar(50) NOT NULL,
-  `NAMA_PERUSAHAAN` varchar(100) NOT NULL,
-  `SKEP` varchar(140) NOT NULL,
-  `DOKUMEN` varchar(20) NOT NULL,
+  `KODE` smallint(3) NOT NULL,
   `NOMOR_DAFTAR` varchar(6) NOT NULL,
   `TANGGAL_DAFTAR` date NOT NULL,
+  `NOMOR_AJU` varchar(26) NOT NULL,
+  `NAMA_PERUSAHAAN` varchar(100) NOT NULL,
+  `NAMA_HANGGAR` varchar(10) NOT NULL,
+  `NPWP` varchar(50) NOT NULL,
   `STATUS` varchar(140) NOT NULL,
+  `FLAG_SKA` varchar(140) NOT NULL,
+  `WAKTU_REKAM` datetime NOT NULL,
+  `ASAL_DATA` varchar(50) NOT NULL,
+  `JALUR` varchar(50) NOT NULL,
+  `KATEGORI_LAYANAN` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `NOMOR_AJU` (`NOMOR_AJU`)
-) ENGINE=InnoDB AUTO_INCREMENT=26088 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for table dashboardtpb.tpb_pungutan_dokumen
+DELETE FROM `tpb_nopen`;
+/*!40000 ALTER TABLE `tpb_nopen` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_nopen` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `tpb_pungutan_dokumen`;
 CREATE TABLE IF NOT EXISTS `tpb_pungutan_dokumen` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMOR_AJU` varchar(26) NOT NULL,
@@ -219,13 +272,15 @@ CREATE TABLE IF NOT EXISTS `tpb_pungutan_dokumen` (
   `NILAI_PUNGUTAN` decimal(18,2) NOT NULL DEFAULT '0.00',
   `KODE_FASILITAS` varchar(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=79581 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
--- Dumping structure for view dashboardtpb.bc_40_detail_barang
--- Removing temporary table and create final VIEW structure
+DELETE FROM `tpb_pungutan_dokumen`;
+/*!40000 ALTER TABLE `tpb_pungutan_dokumen` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpb_pungutan_dokumen` ENABLE KEYS */;
+
+DROP VIEW IF EXISTS `bc_40_detail_barang`;
 DROP TABLE IF EXISTS `bc_40_detail_barang`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bc_40_detail_barang` AS SELECT B.NPWP, B.NAMA_PENGUSAHA, B.KODE_DOKUMEN, A.HS_CODE, A.NAMA_BARANG FROM tpb_barang A
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `bc_40_detail_barang` AS SELECT B.NPWP, B.NAMA_PENGUSAHA, B.KODE_DOKUMEN, A.HS_CODE, A.NAMA_BARANG FROM tpb_barang A
 LEFT JOIN tpb_header B ON A.NOMOR_AJU = B.NOMOR_AJU
 WHERE B.KODE_DOKUMEN = '40'
 GROUP BY A.NAMA_BARANG

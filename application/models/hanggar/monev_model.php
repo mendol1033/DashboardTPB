@@ -127,7 +127,7 @@ class Monev_model extends CI_Model {
 	public function getTPB($search, $column) {
 		$this->sikabayan->from('tpbdetail');
 		$this->sikabayan->select($column);
-		$this->sikabayan->like('nama_perusahaan', $search, "both");
+		$this->sikabayan->like('nama_perusahaan', $search);
 		if ($this->session->userdata('IdHanggar') !== 0) {
 			$this->sikabayan->where('IdHanggar', $this->session->userdata('IdHanggar'));
 		}

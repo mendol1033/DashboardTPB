@@ -199,10 +199,14 @@ class Menu_model extends CI_Model {
 					'url' => 'pengawasan/eseal',
 					'menu' => 'E Seal',
 				),
-				'random_check' => array(
-					'url' => 'pengawasan/random_check',
-					'menu' => 'Random Check CCTV dan IT',
+				'monev' => array(
+					'url' => 'pengawasan/monevmoncer',
+					'menu' => 'Monev Umum',
 				),
+				// 'random_check' => array(
+				// 	'url' => 'pengawasan/random_check',
+				// 	'menu' => 'Random Check CCTV dan IT',
+				// ),
 
 			),
 		);

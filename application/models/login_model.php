@@ -41,8 +41,9 @@ class Login_model extends CI_Model {
 
 		if ($query->num_rows() === 1) {
 			$data = $query->row();
-			$hanggar = $this->db->where('IdPegawai', $data->IdPegawai)->limit(1)->get('tb_petugas_hanggar')->row();
-			if ($hanggar->IdHanggar !== NULL) {
+			$sql = $this->db->where('IdPegawai', $data->IdPegawai)->limit(1)->get('tb_petugas_hanggar');
+			if ($sql->num_rows() === 1) {
+				$hanggar = $sql->row();
 				$IdHanggar = $hanggar->IdHanggar;
 			} else {
 				$IdHanggar = 0;
@@ -57,6 +58,7 @@ class Login_model extends CI_Model {
 				'NamaPegawai' => $data->NamaPegawai,
 				'NIPPegawai' => $data->NIPPegawai,
 				'Jabatan' => $data->NamaJabatan,
+				'Eselon' => $data->Eselon,
 				'NamaUnit' => $data->NmUnit,
 				'Pangkat' => $data->Pangkat,
 				'IdHanggar' => $IdHanggar,
