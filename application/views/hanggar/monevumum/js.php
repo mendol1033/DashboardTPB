@@ -195,7 +195,7 @@ $("#idPerusahaan").on("select2:selecting", function(e) {
 	id = e.params.args.data.id
 
 	$.ajax({
-		url: "<?php echo base_url(); ?>pengawasan/tpb/getById",
+		url: "<?php echo base_url(); ?>perusahaan/tpb/getById",
 		type: "GET",
 		dataType: "JSON",
 		data: {id: id},
@@ -263,6 +263,9 @@ function edit(id){
 }
 
 function save(){
+	var txtSimpan = $("#txtSimpan");
+	$("#segar").removeClass("sr-only");
+	$("#simpan").addClass('disabled');
 	var url;
 	var data;
 	var form = $("#formMonevUmum")[0];
@@ -293,6 +296,8 @@ function save(){
 			}
 		})
 		.done(function() {
+			$("#segar").addClass("sr-only");
+			$("#simpan").removeClass('disabled');
 			ajax_reload();
 		});
 	}
@@ -300,7 +305,7 @@ function save(){
 
 function cetak(id){
 	$.ajax({
-		url: "<?php echo base_url() ?>hanggar/monevumum/print",
+		url: "<?php echo base_url() ?>hanggar/monevumum/cetak",
 		type: "GET",
 		dataType: "JSON",
 		data: {id: id},
@@ -348,7 +353,7 @@ function hapus(id){
 		url: "<?php echo base_url() ?>hanggar/monevumum/delete",
 		type: "GET",
 		dataType: "JSON",
-		data: {id: id},
+		data: {id: id, type: type},
 		success: function(data){
 			alert(data);
 			ajax_reload();

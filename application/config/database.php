@@ -79,7 +79,7 @@ $db['default'] = array(
 	'username' => 'root',
 	'password' => 'r00t',
 	'database' => 'appdashboard',
-	'dbdriver' => 'mysqli',
+	'dbdriver' => 'MySQLi',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
