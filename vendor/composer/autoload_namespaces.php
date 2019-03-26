@@ -10,4 +10,5 @@ return array(
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'PhantomInstaller\\' => array($vendorDir . '/jakoch/phantomjs-installer/src'),
     'ForceUTF8\\' => array($vendorDir . '/neitanod/forceutf8/src'),
+    'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
 );

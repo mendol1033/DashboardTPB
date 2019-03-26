@@ -87,7 +87,9 @@ class Monev_model extends CI_Model {
 			$this->monev->where('flag', 1);
 			break;
 		default:
-
+			$this->monev->where('flag !=', 99);
+			$this->monev->where('flag !=', 1);
+			$this->monev->where('flag !=', 2);
 			break;
 		}
 

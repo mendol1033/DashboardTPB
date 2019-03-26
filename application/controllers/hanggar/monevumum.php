@@ -169,7 +169,7 @@ class Monevumum extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	public function print() {
+	public function cetak() {
 		$data = $this->monev->getById();
 		$template = "assets/upload/monev/template/template_monev_umum_hanggar.docx";
 		$dirDocx = 'assets/upload/monev/report_docx/';
@@ -205,13 +205,14 @@ class Monevumum extends MY_Controller {
 
 		$templateProcessor->saveAs($report);
 
-		system('cmd /c D:\xampp\htdocs\DashboardTPB\assets\convert.bat D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_pdf D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\' . $fileName . ".docx", $value);
+		system('cmd /c C:\xampp\htdocs\DashboardTPB\assets\convert.bat C:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_pdf C:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\' . $fileName . ".docx", $value);
 
 		$pdfFile = $dirPdf . $fileName . ".pdf";
 
-		unlink($dirDocx . $fileName . ".docx");
+		// // unlink($dirDocx . $fileName . ".docx");
 
 		echo json_encode(array($pdfFile, $fileName));
+		// echo json_encode("sudah");
 	}
 
 	public function delete_pdf() {

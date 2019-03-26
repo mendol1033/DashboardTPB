@@ -8,7 +8,7 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
         '58bd4d8c8999c4527113c460e8081f2a' => __DIR__ . '/..' . '/gears/string/src/Functions.php',
         'abede361264e2ae69ec1eee813a101af' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/abs.php',
@@ -53,22 +53,6 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
         '883af48563631547925fa4c3b48ead07' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/multiply.php',
         'f190e3308e6ca23234a2875edc985c03' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/divideby.php',
         'ac9e33ce6841aa5bf5d16d465a2f03a7' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/divideinto.php',
-        '9d8e013a5160a09477beb8e44f8ae97b' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/adjoint.php',
-        '6e78d1bdea6248d6aa117229efae50f2' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/antidiagonal.php',
-        '4623d87924d94f5412fe5afbf1cef31d' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/cofactors.php',
-        '901fd1f6950a637ca85f66b701a45e13' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/determinant.php',
-        '83057abc0e4acc99ba80154ee5d02a49' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/diagonal.php',
-        '07b7fd7a434451149b4fd477fca0ce06' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/identity.php',
-        'c8d43b340583e07ae89f2a3baef2cf89' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/inverse.php',
-        '499bb10ed7a3aee2ba4c09a31a85e8d1' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/minors.php',
-        '1cad2e6414d652e8b1c64e8967f6f37d' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/trace.php',
-        '95a7f134ac17161d07def442b3b737e8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/transpose.php',
-        'b3a6bc628377118d4b4b8ba08d1eb949' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/add.php',
-        '5fef6d0e407f3f8887266dfa4a6c534c' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/directsum.php',
-        '684ba247e1385946e3babdaa054119de' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/subtract.php',
-        'aa53dcba601214d17ad405b7c291b7e8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/multiply.php',
-        '75c79eb1b25749b05a47976f32b0d8a2' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideby.php',
-        '6ab8ad87a734f276a6bcd5a0fe1289be' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideinto.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     );
 
@@ -87,26 +71,18 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
         ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
-            'Symfony\\Contracts\\' => 18,
             'Symfony\\Component\\Yaml\\' => 23,
-            'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\Filesystem\\' => 29,
         ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
-            'Psr\\Container\\' => 14,
             'PhpOffice\\PhpWord\\' => 18,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PhpOffice\\Common\\' => 17,
             'Patchwork\\' => 10,
-        ),
-        'M' => 
-        array (
-            'Matrix\\' => 7,
         ),
         'I' => 
         array (
@@ -121,13 +97,11 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
-            'Doctrine\\Common\\Inflector\\' => 26,
             'DeepCopy\\' => 9,
         ),
         'C' => 
         array (
             'Complex\\' => 8,
-            'Carbon\\' => 7,
         ),
     );
 
@@ -146,25 +120,13 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-        ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Contracts\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/contracts',
-        ),
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
-        ),
-        'Symfony\\Component\\Translation\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/translation',
         ),
         'Symfony\\Component\\Process\\' => 
         array (
@@ -177,10 +139,6 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
-        ),
-        'Psr\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/container/src',
         ),
         'PhpOffice\\PhpWord\\' => 
         array (
@@ -197,10 +155,6 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
         'Patchwork\\' => 
         array (
             0 => __DIR__ . '/..' . '/patchwork/utf8/src/Patchwork',
-        ),
-        'Matrix\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
         'Illuminate\\Support\\' => 
         array (
@@ -223,10 +177,6 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
-        'Doctrine\\Common\\Inflector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
-        ),
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
@@ -234,10 +184,6 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
         'Complex\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
-        ),
-        'Carbon\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
         ),
     );
 
@@ -265,6 +211,13 @@ class ComposerStaticInit6f800e95bb458a871dd5e16f565b748d
             'ForceUTF8\\' => 
             array (
                 0 => __DIR__ . '/..' . '/neitanod/forceutf8/src',
+            ),
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Inflector\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
             ),
         ),
     );
