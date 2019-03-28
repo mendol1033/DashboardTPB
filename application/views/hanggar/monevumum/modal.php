@@ -1,69 +1,69 @@
 <style type="text/css">
-/* Customize the label (the container) */
-.checkcontainer {
-	display: block;
-	position: relative;
-	padding-left: 35px;
-	margin-bottom: 12px;
-	cursor: pointer;
-	font-size: 22px;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
+	/* Customize the label (the container) */
+	.checkcontainer {
+		display: block;
+		position: relative;
+		padding-left: 35px;
+		margin-bottom: 12px;
+		cursor: pointer;
+		font-size: 22px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
 
-/* Hide the browser's default radio button */
-.checkcontainer input {
-	position: absolute;
-	opacity: 0;
-	cursor: pointer;
-	height: 0;
-	width: 0;
-}
+	/* Hide the browser's default radio button */
+	.checkcontainer input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
 
-/* Create a custom radio button */
-.checkmark {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 25px;
-	width: 25px;
-	background-color: #eee;
-	border-radius: 50%;
-}
+	/* Create a custom radio button */
+	.checkmark {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 25px;
+		width: 25px;
+		background-color: #eee;
+		border-radius: 50%;
+	}
 
-/* On mouse-over, add a grey background color */
-.checkcontainer:hover input ~ .checkmark {
-	background-color: #ccc;
-}
+	/* On mouse-over, add a grey background color */
+	.checkcontainer:hover input ~ .checkmark {
+		background-color: #ccc;
+	}
 
-/* When the radio button is checked, add a blue background */
-.checkcontainer input:checked ~ .checkmark {
-	background-color: #2196F3;
-}
+	/* When the radio button is checked, add a blue background */
+	.checkcontainer input:checked ~ .checkmark {
+		background-color: #2196F3;
+	}
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
-	content: "";
-	position: absolute;
-	display: none;
-}
+	/* Create the indicator (the dot/circle - hidden when not checked) */
+	.checkmark:after {
+		content: "";
+		position: absolute;
+		display: none;
+	}
 
-/* Show the indicator (dot/circle) when checked */
-.checkcontainer input:checked ~ .checkmark:after {
-	display: block;
-}
+	/* Show the indicator (dot/circle) when checked */
+	.checkcontainer input:checked ~ .checkmark:after {
+		display: block;
+	}
 
-/* Style the indicator (dot/circle) */
-.checkcontainer .checkmark:after {
-	top: 9px;
-	left: 9px;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: white;
-}
+	/* Style the indicator (dot/circle) */
+	.checkcontainer .checkmark:after {
+		top: 9px;
+		left: 9px;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: white;
+	}
 </style>
 <div class="modal fade" id="modalForm" role="dialog" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-lg" role="dokumen">
@@ -803,6 +803,56 @@
 			</div>
 			<div class="modal-body">
 				<iframe id="iframeDoc" style="width: 100%; height: 800px;" src=""></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalLampiran" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="dokumen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="btn_close" type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="titleLampiran">Disini Modal Title</h4>
+			</div>
+			<div class="modal-body">
+				<table id="dataTableLampiran" class="table table-striped table-responsive table-hover">
+					<thead>
+						<tr>
+							<th style="width: 5%;"><p class="text-justify"> No </p></th>
+							<th style="width: 50%;"><p class="text-justify"> Nama File </p></th>
+							<th style="width: 30%;"><p class="text-justify"> Jenis File</th>
+							<th style="width: 15%;"><p class="text-justify"> Action </p></th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+					<tfoot>
+						<tr>
+							<th style="width: 5%;"><p class="text-justify"> No </p></th>
+							<th style="width: 50%;"><p class="text-justify"> Nama File </p></th>
+							<th style="width: 30%;"><p class="text-justify"> Jenis File</th>
+							<th style="width: 15%;"><p class="text-justify"> Action </p></th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalFile" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="dokumen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="btn_close" type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="titleFile">Disini Modal Title</h4>
+			</div>
+			<div class="modal-body">
+				<iframe id="iframeFile" style="width: 100%; height: 800px;" src=""></iframe>
 			</div>
 		</div>
 	</div>

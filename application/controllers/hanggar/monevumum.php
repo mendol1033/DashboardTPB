@@ -51,8 +51,13 @@ class Monevumum extends MY_Controller {
 	}
 
 	public function ajax_list() {
+
+		$table = 'monev_hanggar_detail';
+		$column_order = array(null, 'idPerusahaan', 'nama_perusahaan', 'tanggal');
+		$column_search = array('idPerusahaan', 'nama_perusahaan', 'tanggal');
+
 		//start datatable
-		$list = $this->monev->GetDataTable();
+		$list = $this->monev->GetDataTable("laporan", $table, $column_order, $column_search);
 		$data = array();
 		$no = $_POST['start'];
 
@@ -69,6 +74,7 @@ class Monevumum extends MY_Controller {
 				<ul class="dropdown-menu">
 				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Edit Lampiran</a></li>
 				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
 				break;
@@ -81,6 +87,7 @@ class Monevumum extends MY_Controller {
 				</button>
 				<ul class="dropdown-menu">
 				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Lihat Lampiran</a></li>
 				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'seksi'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
 				break;
@@ -93,6 +100,7 @@ class Monevumum extends MY_Controller {
 				</button>
 				<ul class="dropdown-menu">
 				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Lihat Lampiran</a></li>
 				</ul></div>';
 				break;
 			default:
@@ -105,6 +113,7 @@ class Monevumum extends MY_Controller {
 				<ul class="dropdown-menu">
 				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
+				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Edit Lampiran</a></li>
 				<li><a href="javascript:void({})" onclick="hapus(' . $ListData->id . ')">Hapus Laporan</a></li>
 				</ul></div>';
 				break;
@@ -125,8 +134,132 @@ class Monevumum extends MY_Controller {
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->monev->count_all(),
-			"recordsFiltered" => $this->monev->count_filtered(),
+			"recordsTotal" => $this->monev->count_all("laporan"),
+			"recordsFiltered" => $this->monev->count_filtered("laporan"),
+			"data" => $data,
+		);
+
+		echo json_encode($output);
+	}
+
+	public function ajax_listLampiran($id = NULL) {
+
+		$table = 'monev_hanggar_file';
+		$column_order = array(null, 'namaFile', 'typeFile');
+		$column_search = array('namaFile', 'typeFile');
+
+		//start datatable
+		$list = $this->monev->GetDataTable("lampiran", $table, $column_order, $column_search, $id);
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($list as $ListData) {
+
+			switch ($ListData->typeFile) {
+			case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+				$jenisFile = "ppt";
+				break;
+			case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+				$jenisFile = "doc";
+				break;
+			case 'application/pdf':
+				$jenisFile = "pdf";
+				break;
+			case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+				$jenisFile = "xls";
+				break;
+			case 'image/jpeg':
+				$jenisFile = "img";
+				break;
+			case 'image/jpg':
+				$jenisFile = "img";
+				break;
+			case 'image/png':
+				$jenisFile = "img";
+				break;
+			case 'image/bmp':
+				$jenisFile = "img";
+				break;
+			default:
+				$jenisFile = "other";
+				break;
+			}
+
+			switch ($jenisFile) {
+			case "pdf":
+				$menu = '<li><a href="javascript:void({})" onclick="lihat(' . $ListData->id . ')">Lihat Lampiran</a></li>';
+				break;
+			case "img":
+				$menu = '<li><a href="javascript:void({})" onclick="lihat(' . $ListData->id . ')">Lihat Lampiran</a></li>';
+				break;
+			default:
+				$menu = '<li><a href="javascript:void({})" onclick="downloadFile(' . $ListData->id . ')">Download Lampiran</a></li>';
+				break;
+			}
+
+			switch ($_POST['type']) {
+			case "hanggar":
+				$action =
+				'<div class="btn-group">
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				ACTION
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				' . $menu . '
+				<li><a href="javascript:void({})" onclick="hapusLampiran(' . $ListData->id . ')">Hapus Lampiran</a></li>
+				</ul></div>';
+				break;
+			case "seksi":
+				$action =
+					'<div class="btn-group">
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				ACTION
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				' . $menu . '
+				</ul></div>';
+				break;
+			case "arsip":
+				$action =
+					'<div class="btn-group">
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				ACTION
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				' . $menu . '
+				</ul></div>';
+				break;
+			default:
+				$action =
+				'<div class="btn-group">
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				ACTION
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+				' . $menu . '
+				<li><a href="javascript:void({})" onclick="hapusLampiran(' . $ListData->id . ')">Hapus Lampiran</a></li>
+				</ul></div>';
+				break;
+			}
+
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $ListData->namaFile;
+			$row[] = $jenisFile;
+			$row[] = $action;
+
+			$data[] = $row;
+		}
+
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->monev->count_all("lampiran", $id),
+			"recordsFiltered" => $this->monev->count_filtered("lampiran", $id),
 			"data" => $data,
 		);
 
@@ -193,12 +326,10 @@ class Monevumum extends MY_Controller {
 				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], $thick);
 				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], "");
 				break;
-
 			case "N":
-
-				break;
 				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], "");
 				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], $thick);
+				break;
 			default:
 				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], "");
 				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], "");
@@ -273,6 +404,17 @@ class Monevumum extends MY_Controller {
 		$data = $this->session->userdata();
 
 		print_r($data);
+	}
+
+	public function getFileById() {
+		$dataFile = $this->monev->getFileById();
+		echo json_encode($dataFile);
+	}
+
+	public function hapusFile() {
+		$data = $this->monev->hapusFile();
+
+		echo json_encode($data);
 	}
 
 }
