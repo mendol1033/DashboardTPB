@@ -188,12 +188,21 @@ class Monevumum extends MY_Controller {
 		$templateProcessor->setValue('nama', $headerLaporan['NamaPegawai']);
 
 		for ($i = 0; $i < count($isiLaporan); $i++) {
-			if ($isiLaporan[$i]['kondisi'] == "Y") {
+			switch ($isiLaporan[$i]['kondisi']) {
+			case "Y":
 				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], $thick);
 				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], "");
-			} else {
+				break;
+
+			case "N":
+
+				break;
 				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], "");
 				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], $thick);
+			default:
+				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], "");
+				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], "");
+				break;
 			}
 
 			$templateProcessor->setValue('ket' . $isiLaporan[$i]['item'], $isiLaporan[$i]['keterangan']);
@@ -209,7 +218,7 @@ class Monevumum extends MY_Controller {
 
 		$pdfFile = $dirPdf . $fileName . ".pdf";
 
-		// // unlink($dirDocx . $fileName . ".docx");
+		unlink($dirDocx . $fileName . ".docx");
 
 		echo json_encode(array($pdfFile, $fileName));
 		// echo json_encode("sudah");
@@ -218,7 +227,9 @@ class Monevumum extends MY_Controller {
 	public function delete_pdf() {
 		$name = $_GET['name'];
 
-		unlink('assets/upload/monev/report_pdf/' . $name . ".pdf");
+		if (is_dir('assets/upload/monev/report_pdf/' . $name . ".pdf")) {
+			unlink('assets/upload/monev/report_pdf/' . $name . ".pdf");
+		}
 
 		echo json_encode("selesai");
 	}

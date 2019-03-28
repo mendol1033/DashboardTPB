@@ -164,6 +164,10 @@ class Monev_model extends CI_Model {
 
 		$isiLaporan = array();
 		for ($i = 1; $i < 20; $i++) {
+			if (isset($isi['checklist' . $i]) === FALSE) {
+				$isi['checklist' . $i] = NULL;
+			}
+
 			$isiLaporan[] = array(
 				'idLaporan' => $idLaporan,
 				'item' => $i,
@@ -256,6 +260,10 @@ class Monev_model extends CI_Model {
 		unset($isi['keteranganLain']);
 
 		for ($i = 1; $i < 20; $i++) {
+			if (isset($isi['checklist' . $i]) === FALSE) {
+				$isi['checklist' . $i] = NULL;
+			}
+
 			$isiLaporan = array(
 				'idLaporan' => $idLaporan,
 				'item' => $i,
