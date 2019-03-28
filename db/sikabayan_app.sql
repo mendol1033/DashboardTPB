@@ -12,11 +12,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Membuang struktur basisdata untuk sikabayan_app
-DROP DATABASE IF EXISTS `sikabayan_app` ;
 CREATE DATABASE IF NOT EXISTS `sikabayan_app` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `sikabayan_app`;
 
 -- membuang struktur untuk view sikabayan_app.detailtpb
+DROP VIEW IF EXISTS `detailtpb`;
 -- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
 CREATE TABLE `detailtpb` (
 	`IdUser` INT(10) UNSIGNED NOT NULL,
@@ -55,6 +55,7 @@ CREATE TABLE `detailtpb` (
 ) ENGINE=MyISAM;
 
 -- membuang struktur untuk table sikabayan_app.historyuser
+DROP TABLE IF EXISTS `historyuser`;
 CREATE TABLE IF NOT EXISTS `historyuser` (
   `IdHistoryUser` int(11) NOT NULL AUTO_INCREMENT,
   `IdUser` int(11) DEFAULT NULL,
@@ -1563,6 +1564,7 @@ INSERT INTO `historyuser` (`IdHistoryUser`, `IdUser`, `KetHistoryUser`, `TimeLog
 /*!40000 ALTER TABLE `historyuser` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.logauthuser
+DROP TABLE IF EXISTS `logauthuser`;
 CREATE TABLE IF NOT EXISTS `logauthuser` (
   `idLogAuthUser` int(11) NOT NULL AUTO_INCREMENT,
   `IdUser` int(11) DEFAULT NULL,
@@ -2565,6 +2567,7 @@ INSERT INTO `logauthuser` (`idLogAuthUser`, `IdUser`, `KetLogAuthUser`, `TimeLog
 /*!40000 ALTER TABLE `logauthuser` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.migrations
+DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `migration` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -2622,6 +2625,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.password_resets
+DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -2636,6 +2640,7 @@ DELETE FROM `password_resets`;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.permissions
+DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -2653,6 +2658,7 @@ DELETE FROM `permissions`;
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.permission_role
+DROP TABLE IF EXISTS `permission_role`;
 CREATE TABLE IF NOT EXISTS `permission_role` (
   `permission_id` int(10) unsigned NOT NULL,
   `role_id` int(10) unsigned NOT NULL,
@@ -2668,6 +2674,7 @@ DELETE FROM `permission_role`;
 /*!40000 ALTER TABLE `permission_role` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.roles
+DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -2703,6 +2710,7 @@ INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `created_at`, 
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.role_user
+DROP TABLE IF EXISTS `role_user`;
 CREATE TABLE IF NOT EXISTS `role_user` (
   `user_id` int(10) unsigned NOT NULL,
   `role_id` int(10) unsigned NOT NULL,
@@ -2754,6 +2762,7 @@ INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
 /*!40000 ALTER TABLE `role_user` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_audit
+DROP TABLE IF EXISTS `tb_audit`;
 CREATE TABLE IF NOT EXISTS `tb_audit` (
   `id_audit` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -2776,6 +2785,7 @@ DELETE FROM `tb_audit`;
 /*!40000 ALTER TABLE `tb_audit` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_cctv_inventory
+DROP TABLE IF EXISTS `tb_cctv_inventory`;
 CREATE TABLE IF NOT EXISTS `tb_cctv_inventory` (
   `id_cctv` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -2954,6 +2964,7 @@ INSERT INTO `tb_cctv_inventory` (`id_cctv`, `id_perusahaan`, `status_online`, `r
 /*!40000 ALTER TABLE `tb_cctv_inventory` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_cukai
+DROP TABLE IF EXISTS `tb_cukai`;
 CREATE TABLE IF NOT EXISTS `tb_cukai` (
   `id_cukai` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -2973,6 +2984,7 @@ DELETE FROM `tb_cukai`;
 /*!40000 ALTER TABLE `tb_cukai` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_dokumen_pelanggaran
+DROP TABLE IF EXISTS `tb_dokumen_pelanggaran`;
 CREATE TABLE IF NOT EXISTS `tb_dokumen_pelanggaran` (
   `id_dok_pelanggaran` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `no_dokumen_pelanggaran` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -2990,6 +3002,7 @@ DELETE FROM `tb_dokumen_pelanggaran`;
 /*!40000 ALTER TABLE `tb_dokumen_pelanggaran` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_dokumen_skep
+DROP TABLE IF EXISTS `tb_dokumen_skep`;
 CREATE TABLE IF NOT EXISTS `tb_dokumen_skep` (
   `id_skep` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -5928,6 +5941,7 @@ INSERT INTO `tb_dokumen_skep` (`id_skep`, `id_perusahaan`, `nama_dokumen`, `no_d
 /*!40000 ALTER TABLE `tb_dokumen_skep` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_foto_perusahaan
+DROP TABLE IF EXISTS `tb_foto_perusahaan`;
 CREATE TABLE IF NOT EXISTS `tb_foto_perusahaan` (
   `IdFoto` int(11) NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -6033,6 +6047,7 @@ INSERT INTO `tb_foto_perusahaan` (`IdFoto`, `id_perusahaan`, `Path`, `NamaFoto`)
 /*!40000 ALTER TABLE `tb_foto_perusahaan` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_gambar_perusahaan
+DROP TABLE IF EXISTS `tb_gambar_perusahaan`;
 CREATE TABLE IF NOT EXISTS `tb_gambar_perusahaan` (
   `id_gambar` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nama_gambar` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
@@ -6047,6 +6062,7 @@ DELETE FROM `tb_gambar_perusahaan`;
 /*!40000 ALTER TABLE `tb_gambar_perusahaan` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_hanggar
+DROP TABLE IF EXISTS `tb_hanggar`;
 CREATE TABLE IF NOT EXISTS `tb_hanggar` (
   `id_hanggar` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_seksi_pkc` int(10) unsigned DEFAULT NULL,
@@ -6137,6 +6153,7 @@ INSERT INTO `tb_hanggar` (`id_hanggar`, `id_seksi_pkc`, `nama_hanggar`, `lokasi_
 /*!40000 ALTER TABLE `tb_hanggar` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_hanggar_tpb
+DROP TABLE IF EXISTS `tb_hanggar_tpb`;
 CREATE TABLE IF NOT EXISTS `tb_hanggar_tpb` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `idPerusahaan` int(11) NOT NULL,
@@ -6355,6 +6372,7 @@ INSERT INTO `tb_hanggar_tpb` (`Id`, `idPerusahaan`, `idHanggar`, `ptgsRekam`, `w
 /*!40000 ALTER TABLE `tb_hanggar_tpb` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_it_inventory
+DROP TABLE IF EXISTS `tb_it_inventory`;
 CREATE TABLE IF NOT EXISTS `tb_it_inventory` (
   `id_inventory` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -6469,6 +6487,7 @@ INSERT INTO `tb_it_inventory` (`id_inventory`, `id_perusahaan`, `status_online`,
 /*!40000 ALTER TABLE `tb_it_inventory` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_jenis_hanggar
+DROP TABLE IF EXISTS `tb_jenis_hanggar`;
 CREATE TABLE IF NOT EXISTS `tb_jenis_hanggar` (
   `id_hanggar` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `jenis_hanggar` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -6483,6 +6502,7 @@ DELETE FROM `tb_jenis_hanggar`;
 /*!40000 ALTER TABLE `tb_jenis_hanggar` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_jenis_relasi
+DROP TABLE IF EXISTS `tb_jenis_relasi`;
 CREATE TABLE IF NOT EXISTS `tb_jenis_relasi` (
   `id_jenis_relasi` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_relasi` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -6501,6 +6521,7 @@ INSERT INTO `tb_jenis_relasi` (`id_jenis_relasi`, `role_relasi`, `created_at`, `
 /*!40000 ALTER TABLE `tb_jenis_relasi` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_jenis_skep
+DROP TABLE IF EXISTS `tb_jenis_skep`;
 CREATE TABLE IF NOT EXISTS `tb_jenis_skep` (
   `IdJnsSkep` int(11) NOT NULL AUTO_INCREMENT,
   `NmJnsSkep` varchar(50) NOT NULL,
@@ -6558,6 +6579,7 @@ INSERT INTO `tb_jenis_skep` (`IdJnsSkep`, `NmJnsSkep`, `NmController`, `created_
 /*!40000 ALTER TABLE `tb_jenis_skep` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_jenis_subkon
+DROP TABLE IF EXISTS `tb_jenis_subkon`;
 CREATE TABLE IF NOT EXISTS `tb_jenis_subkon` (
   `id_jenis_subkon` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nama_subkon` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -6576,6 +6598,7 @@ INSERT INTO `tb_jenis_subkon` (`id_jenis_subkon`, `nama_subkon`, `created_at`, `
 /*!40000 ALTER TABLE `tb_jenis_subkon` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_jenis_tpb
+DROP TABLE IF EXISTS `tb_jenis_tpb`;
 CREATE TABLE IF NOT EXISTS `tb_jenis_tpb` (
   `id_tpb` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nama_tpb` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
@@ -6609,6 +6632,7 @@ INSERT INTO `tb_jenis_tpb` (`id_tpb`, `nama_tpb`, `nama_detail`, `created_at`, `
 /*!40000 ALTER TABLE `tb_jenis_tpb` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_kepegawaian
+DROP TABLE IF EXISTS `tb_kepegawaian`;
 CREATE TABLE IF NOT EXISTS `tb_kepegawaian` (
   `id_pegawai` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_hanggar` int(10) unsigned NOT NULL,
@@ -6934,6 +6958,7 @@ INSERT INTO `tb_kepegawaian` (`id_pegawai`, `id_hanggar`, `nip`, `nama_pegawai`,
 /*!40000 ALTER TABLE `tb_kepegawaian` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_pelanggaran
+DROP TABLE IF EXISTS `tb_pelanggaran`;
 CREATE TABLE IF NOT EXISTS `tb_pelanggaran` (
   `id_pelanggaran` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -6955,6 +6980,7 @@ DELETE FROM `tb_pelanggaran`;
 /*!40000 ALTER TABLE `tb_pelanggaran` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_penanggung_jawab
+DROP TABLE IF EXISTS `tb_penanggung_jawab`;
 CREATE TABLE IF NOT EXISTS `tb_penanggung_jawab` (
   `id_pjwd` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -7158,6 +7184,7 @@ INSERT INTO `tb_penanggung_jawab` (`id_pjwd`, `id_perusahaan`, `nama_pj`, `jenis
 /*!40000 ALTER TABLE `tb_penanggung_jawab` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_perusahaan
+DROP TABLE IF EXISTS `tb_perusahaan`;
 CREATE TABLE IF NOT EXISTS `tb_perusahaan` (
   `id_perusahaan` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `NPWP` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
@@ -7400,6 +7427,7 @@ INSERT INTO `tb_perusahaan` (`id_perusahaan`, `NPWP`, `nama_perusahaan`, `telepo
 /*!40000 ALTER TABLE `tb_perusahaan` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_perusahaan_subkon
+DROP TABLE IF EXISTS `tb_perusahaan_subkon`;
 CREATE TABLE IF NOT EXISTS `tb_perusahaan_subkon` (
   `id_subkon` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -7681,6 +7709,7 @@ INSERT INTO `tb_perusahaan_subkon` (`id_subkon`, `id_perusahaan`, `id_jenis_subk
 /*!40000 ALTER TABLE `tb_perusahaan_subkon` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_produk
+DROP TABLE IF EXISTS `tb_produk`;
 CREATE TABLE IF NOT EXISTS `tb_produk` (
   `id_produk` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -8289,6 +8318,7 @@ INSERT INTO `tb_produk` (`id_produk`, `id_perusahaan`, `nama_produk`, `merk`, `h
 /*!40000 ALTER TABLE `tb_produk` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_relasi_perusahaan
+DROP TABLE IF EXISTS `tb_relasi_perusahaan`;
 CREATE TABLE IF NOT EXISTS `tb_relasi_perusahaan` (
   `id_relasi` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned NOT NULL,
@@ -9903,6 +9933,7 @@ INSERT INTO `tb_relasi_perusahaan` (`id_relasi`, `id_perusahaan`, `id_jenis_rela
 /*!40000 ALTER TABLE `tb_relasi_perusahaan` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.tb_seksipkc
+DROP TABLE IF EXISTS `tb_seksipkc`;
 CREATE TABLE IF NOT EXISTS `tb_seksipkc` (
   `id_seksi_pkc` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nama_seksi` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -9935,6 +9966,7 @@ INSERT INTO `tb_seksipkc` (`id_seksi_pkc`, `nama_seksi`, `created_at`, `updated_
 /*!40000 ALTER TABLE `tb_seksipkc` ENABLE KEYS */;
 
 -- membuang struktur untuk view sikabayan_app.tpbdetail
+DROP VIEW IF EXISTS `tpbdetail`;
 -- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
 CREATE TABLE `tpbdetail` (
 	`id_perusahaan` INT(10) UNSIGNED NOT NULL,
@@ -9967,6 +9999,7 @@ CREATE TABLE `tpbdetail` (
 ) ENGINE=MyISAM;
 
 -- membuang struktur untuk table sikabayan_app.users
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
@@ -9991,6 +10024,7 @@ INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `cr
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- membuang struktur untuk table sikabayan_app.userstpb
+DROP TABLE IF EXISTS `userstpb`;
 CREATE TABLE IF NOT EXISTS `userstpb` (
   `IdUser` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_perusahaan` int(10) unsigned DEFAULT NULL,
@@ -10191,12 +10225,14 @@ INSERT INTO `userstpb` (`IdUser`, `id_perusahaan`, `name`, `username`, `password
 /*!40000 ALTER TABLE `userstpb` ENABLE KEYS */;
 
 -- membuang struktur untuk view sikabayan_app.detailtpb
+DROP VIEW IF EXISTS `detailtpb`;
 -- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
 DROP TABLE IF EXISTS `detailtpb`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `detailtpb` AS SELECT userstpb.IdUser,userstpb.name,userstpb.username,userstpb.password,userstpb.remember_token,userstpb.foto_profile,tpbdetail.* FROM userstpb
 LEFT JOIN tpbdetail ON tpbdetail.id_perusahaan=userstpb.id_perusahaan ;
 
 -- membuang struktur untuk view sikabayan_app.tpbdetail
+DROP VIEW IF EXISTS `tpbdetail`;
 -- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
 DROP TABLE IF EXISTS `tpbdetail`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tpbdetail` AS SELECT 
