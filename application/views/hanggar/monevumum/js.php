@@ -131,7 +131,7 @@
 				checklist9: "required",
 				checklist10: "required",
 				checklist11: "required",
-				checklist12: "required",
+				// checklist12: "required",
 				checklist13: "required",
 				checklist14: "required",
 				checklist15: "required",
@@ -153,7 +153,7 @@
 				checklist9: "Pilih kondisi terkini",
 				checklist10: "Pilih kondisi terkini",
 				checklist11: "Pilih kondisi terkini",
-				checklist12: "Pilih kondisi terkini",
+				// checklist12: "Pilih kondisi terkini",
 				checklist13: "Pilih kondisi terkini",
 				checklist14: "Pilih kondisi terkini",
 				checklist15: "Pilih kondisi terkini",
@@ -252,8 +252,10 @@ function edit(id){
 			$("[name='keteranganLain']").val(data[0].keterangan);
 			for (var i = 0; i < isiLaporan.length; i++) {
 					// $("#formMonevUmum").append("<input type='hidden' name='idIsi"+isiLaporan[i].item+"' value='"+isiLaporan[i].id+"'>");
-					$("input[name='checklist"+isiLaporan[i].item+"'][value='"+isiLaporan[i].kondisi+"'").prop('checked', true);
-					$("[name='keterangan"+isiLaporan[i].item+"']").val(isiLaporan[i].keterangan);
+					if (isiLaporan[i].kondisi != null) {
+						$("input[name='checklist"+isiLaporan[i].item+"'][value='"+isiLaporan[i].kondisi+"'").prop('checked', true);
+						$("[name='keterangan"+isiLaporan[i].item+"']").val(isiLaporan[i].keterangan);
+					}
 				};
 				$(".modal-title").text("Ubah Data Laporan");
 				$("#modalForm").modal("show");
@@ -327,10 +329,18 @@ function closeModalView(){
 		dataType: "JSON",
 		data: {name: file},
 		success: function(data){
-			$("#modalDoc").modal("hide");
 			console.log(data);
 		}
 	})
+	.done(function(){
+		$("#modalDoc").modal("hide");
+	})
+	.fail(function(){
+		$("#modalDoc").modal("hide");
+	})
+	.always(function(){
+		$("#modalDoc").modal("hide");
+	});
 }
 
 function validasi(id, type){

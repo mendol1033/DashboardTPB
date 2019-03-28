@@ -135,13 +135,13 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">1</td>
 								<td style="vertical-align: top;">Izin Usaha perusahaan TPB masih berlaku</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist1" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist1" value="N">
 										<span class="checkmark"></span>
@@ -163,13 +163,13 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">2</td>
 								<td style="vertical-align: top;">Penanggung Jawab TPB yang tercantum dalam izin TPB sesuai dengan akte perusahaan terakhir</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td  class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist2" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist2" value="N">
 										<span class="checkmark"></span>
@@ -191,13 +191,13 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">3</td>
 								<td style="vertical-align: top;">Di Lokasi TPB dupasang tanda nama perusahaan dan jenis TPB pada tempat yang dapat dilihat jelas oleh umum</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist3" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist3" value="N">
 										<span class="checkmark"></span>
@@ -219,13 +219,13 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">4</td>
 								<td style="vertical-align: top;">Tersedia ruang hanggar yang layak dab representatif untuk melakukan tugas beserta sarna penunjangnya</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist4" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist4" value="N">
 										<span class="checkmark"></span>
@@ -268,13 +268,13 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">5</td>
 								<td style="vertical-align: top;">Lokasi TPB dapat diakses langsung dari jalan umum dan dapat dilalui oleh saran pengankut peti kemas (khusus darat) atau srana pengangkut lain</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist5" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist5" value="N">
 										<span class="checkmark"></span>
@@ -296,13 +296,13 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">6</td>
 								<td style="vertical-align: top;">Lokasi TPB mempunyai batas-batas yang jelas dengan tempat, bangunan, atau TPB lain</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td  class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist6" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist6" value="N">
 										<span class="checkmark"></span>
@@ -324,13 +324,13 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">7</td>
 								<td style="vertical-align: top;">Lokasi TPB tidak berhubungan dengan bangunan lain (kecuali masjid, asrama karyawan, klinik, koperasi, kantin dan bangunan lain untuk mendukung kepentingan karyawan TPB</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist7" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist7" value="N">
 										<span class="checkmark"></span>
@@ -352,13 +352,13 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">8</td>
 								<td style="vertical-align: top;">Kesesuaian data pemasukan dan pengeluaran barang ke dan dari TPB antara <i>IT Inventory</i> dengan Pemberitahuan Pabean dalam SKP</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist8" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist8" value="N">
 										<span class="checkmark"></span>
@@ -401,13 +401,13 @@
 									</div>
 									<i>Sebagai atensi perlu diperhatikan adalah untuk pencatatan pada IT Inventory harus menggunakan <b>nomor pendaftaran dan bukan nomor pengajuan</b></i>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist9" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist9" value="N">
 										<span class="checkmark"></span>
@@ -431,13 +431,13 @@
 								<td style="vertical-align: top;">
 									Perubahan data hanya bisa dilakukan oleh user yang mempunya otoritas tertentu
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist10" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist10" value="N">
 										<span class="checkmark"></span>
@@ -461,13 +461,13 @@
 								<td style="vertical-align: top;">
 									TPB masih aktif melakukan kegiatan fasilitas
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist11" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist11" value="N">
 										<span class="checkmark"></span>
@@ -499,13 +499,13 @@
 								<td style="vertical-align: top;">
 									Dalam hal izin TPB dibekukan, TPB tidak memasukkan barang dengan mendapatkan fasilitas
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
-										<input type="radio" name="checklist12" value="Y" checked="checked">
+										<input type="radio" name="checklist12" value="Y">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist12" value="N">
 										<span class="checkmark"></span>
@@ -536,13 +536,13 @@
 								<td style="vertical-align: top;">
 									Kondisi bangunan TPB dalam keadaan layak untuk mendapatkan fasilitas dari pemerintah dan memenuhi standar keamanan untuk dilakukan penimbunan dan/atau pengolahan barang yang masih terutang pungutan negara
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist13" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist13" value="N">
 										<span class="checkmark"></span>
@@ -577,13 +577,13 @@
 									Terdapat <i>authorized user log in</i> untuk petugas Bea dan Cukai.
 									<br> <br> Maksud <i>authorized user logi in</i> adalah kode akses berupa username dan password untuk masuk ke dalam sistem
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist14" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist14" value="N">
 										<span class="checkmark"></span>
@@ -615,13 +615,13 @@
 								<td style="vertical-align: top;">
 									Laporan <i>IT Inventory</i> dapat diakses secara <i>online</i> oleh DJBC
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist15" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist15" value="N">
 										<span class="checkmark"></span>
@@ -645,13 +645,13 @@
 								<td style="vertical-align: top;">
 									Jumlah dan penempatan CCTV yang dipasang memungkinkan petugas untuk melakukan pengawasan atas pemasukan, pembongkaran, dan pengeluaran barang
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist16" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist16" value="N">
 										<span class="checkmark"></span>
@@ -686,13 +686,13 @@
 								<td style="vertical-align: top;">
 									CCTV dapat diakses secara <i>realtime</i> dan <i>online</i> dari ruang hanggar
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist17" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist17" value="N">
 										<span class="checkmark"></span>
@@ -719,13 +719,13 @@
 								<td style="vertical-align: top;">
 									Hasil pemantauan CCTV dapat direkam dan hasil rekaman CCTV dapat disimpan sekurang-kurangnya 7 (tujuh) hari.
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist18" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist18" value="N">
 										<span class="checkmark"></span>
@@ -749,13 +749,13 @@
 								<td style="vertical-align: top;">
 									Gambar CCTV berwarna dan dapat dilihat secara jelas dan dapat digunakan untuk membantu pengawasan
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist19" value="Y" checked="checked">
 										<span class="checkmark"></span>
 									</label>
 								</td>
-								<td style="text-align: center; vertical-align: top;">
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist19" value="N">
 										<span class="checkmark"></span>
