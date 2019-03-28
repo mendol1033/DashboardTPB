@@ -117,7 +117,6 @@
 			errorClass: "text-danger",
 			rules:{
 				idPerusahaan: "required",
-				alamat: "required",
 				tanggal: "required",
 				checklist1: "required",
 				checklist2: "required",
@@ -262,10 +261,7 @@ function edit(id){
 		})
 }
 
-function save(){
-	var txtSimpan = $("#txtSimpan");
-	$("#segar").removeClass("sr-only");
-	$("#simpan").addClass('disabled');
+function simpan(){
 	var url;
 	var data;
 	var form = $("#formMonevUmum")[0];
@@ -282,6 +278,9 @@ function save(){
 	}
 
 	if ($("#formMonevUmum").valid()) {
+		var txtSimpan = $("#txtSimpan");
+		$("#segar").removeClass("sr-only");
+		$("#simpan").addClass('disabled');
 		$.ajax({
 			url: url,
 			type: "POST",
@@ -335,17 +334,17 @@ function closeModalView(){
 }
 
 function validasi(id, type){
-if (confirm("Laporan Monev Akan divalidasi?")) {}
-	$.ajax({
-		url: "<?php echo base_url() ?>hanggar/monevumum/validate",
-		type: "GET",
-		dataType: "JSON",
-		data: {id: id, tipe: type},
-		success: function(data){
-			alert(data);
-			ajax_reload();
-		}
-	})
+	if (confirm("Laporan Monev Akan divalidasi?")) {}
+		$.ajax({
+			url: "<?php echo base_url() ?>hanggar/monevumum/validate",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id, tipe: type},
+			success: function(data){
+				alert(data);
+				ajax_reload();
+			}
+		})
 }
 
 function hapus(id){

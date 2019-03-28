@@ -786,7 +786,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="batal" class="btn btn-default" onclick="closeModal()">Batal</button>
-				<button type="button" id="simpan" class="btn btn-primary" onclick="save()"><span id="txtSimpan" style="padding: 0px; margin-bottom: 0px;"><i class="fa fa-spin fa-refresh sr-only" id="segar"></i>Simpan</span></button>
+				<button type="button" id="simpan" class="btn btn-primary" onclick="simpan()"><span id="txtSimpan" style="padding: 0px; margin-bottom: 0px;"><i class="fa fa-spin fa-refresh sr-only" id="segar"></i>Simpan</span></button>
 			</div>
 		</div>
 	</div>

@@ -1,4 +1,4 @@
--- --------------------------------------------------------
+﻿-- --------------------------------------------------------
 -- Host:                         127.0.0.1
 -- Versi server:                 5.6.25 - MySQL Community Server (GPL)
 -- OS Server:                    Win32
@@ -11,8 +11,8 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
 -- Membuang struktur basisdata untuk sikabayan_app
+DROP DATABASE IF EXISTS `sikabayan_app` ;
 CREATE DATABASE IF NOT EXISTS `sikabayan_app` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `sikabayan_app`;
 
