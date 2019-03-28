@@ -1,3 +1,4 @@
+<script src="<?php echo base_url() ?>assets/bower_components/jquery.fileDownload/src/Scripts/jquery.fileDownload.js"></script>
 <script type="text/javascript">
 	var save_method;
 	var idEdit;
@@ -181,6 +182,33 @@
 			}
 		});
 	});
+
+// initialize dataTable
+tableLampiran = $('#dataTableLampiran').DataTable({
+	initComplete : function(){
+		var api = this.api();
+		$("#dataTable_filter input")
+		.off('.DT')
+		.on('keyup.DT', function(e){
+			if(e.keyCode == 13){
+				api.search(this.value).draw();
+			}
+		});
+	},
+	"processing" : true,
+	"serverSide" : true,
+	"responsive" : true,
+	"autoWidth"	 : false,
+	"bFilter" 	 : true,
+	"order" : [],
+	"ajax" : {
+		"url" : "<?php echo base_url() . 'hanggar/monevumum/ajax_listLampiran' ?>",
+		"type" : "POST",
+		"data" : {
+			"type" : type
+		}
+	},
+});
 
 function hidden (a){
 	if (a == "hanggar") {
@@ -370,7 +398,60 @@ function hapus(id){
 	})
 }
 
+function lampiran(id){
+	$("#modalLampiran").modal("show");
+	$('#titleLampiran').text('Daftar Lampiran');
+	ajax_load_lampiran(id);
+}
+
+function ajax_load_lampiran(id){
+	tableLampiran.ajax.url("<?php echo base_url(); ?>hanggar/monevumum/ajax_listLampiran/"+id).load();
+}
+
 function ajax_reload(){
 	table.ajax.reload(null, false);
+}
+
+function lihat(id){
+	$.ajax({
+		url: "<?php echo base_url() ?>hanggar/monevumum/getFileById",
+		type: "GET",
+		dataType: "JSON",
+		data: {id: id},
+		success: function(data){
+			$("#iframeFile").removeAttr('src');
+			$("#iframeFile").attr('src', "<?php echo base_url() ?>"+data.lokasi);
+			$('#titleFile').text(data.namaFile);
+			$("#modalFile").modal("show");
+		}
+	})
+
+}
+
+function downloadFile(id){
+	$.ajax({
+		url: "<?php echo base_url() ?>hanggar/monevumum/getFileById",
+		type: "GET",
+		dataType: "JSON",
+		data: {id: id},
+		success: function(data){
+			$.fileDownload(data.lokasi).done(function(){console.log("success")})
+		}
+	})
+}
+
+function hapusLampiran(id){
+	if (confirm("File Lampiran Akan Dihapus?")) {
+		$.ajax({
+			url: "<?php echo base_url() ?>hanggar/monevumum/hapusFile",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id},
+			success: function(data){
+				alert(data);
+				tableLampiran.ajax.reload(null,false);
+			}
+		})
+	}
 }
 </script>

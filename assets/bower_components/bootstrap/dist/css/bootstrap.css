@@ -5970,7 +5970,7 @@ button.close {
 }
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 80%;
+    width: 50%;
     margin: 30px auto;
   }
   .modal-content {
@@ -5978,7 +5978,7 @@ button.close {
             box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
   }
   .modal-sm {
-    width: 300px;
+    width: 30%;
   }
 }
 @media (min-width: 992px) {

@@ -12,10 +12,10 @@ class Monev_model extends CI_Model {
 		$this->Hanggar = $this->session->userdata('IdHanggar');
 	}
 
-	var $table = 'monev_hanggar_detail';
-	var $column_order = array(null, 'idPerusahaan', 'nama_perusahaan', 'tanggal');
-	var $column_search = array('idPerusahaan', 'nama_perusahaan', 'tanggal');
-	var $order = array('id' => 'asc');
+	public $table;
+	public $column_order;
+	public $column_search;
+	public $order = array('id' => 'asc');
 
 	private function GetListData() {
 		$this->monev->from($this->table);
@@ -53,14 +53,42 @@ class Monev_model extends CI_Model {
 
 	}
 
-	public function GetDataTable() {
+	public function GetDataTable($ajax, $tabel, $urutan_kolom, $cari_kolom, $id = NULL) {
+		$this->table = $tabel;
+		$this->column_order = $urutan_kolom;
+		$this->column_search = $cari_kolom;
+
 		$this->GetListData();
 		if ($_POST['length'] != -1) {
 			$this->monev->limit($_POST['length'], $_POST['start']);
 		}
+		if ($ajax == "laporan") {
+			if (!empty($this->session->userdata('idSeksiPKC'))) {
+				$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+			}
 
-		if ($this->Hanggar !== 0) {
-			$this->monev->where('IdHanggar', $this->Hanggar);
+			if (isset($_POST['type'])) {
+				switch ($_POST['type']) {
+				case "hanggar":
+					$this->monev->where('flag', 0);
+					break;
+				case "seksi":
+					$this->monev->where('flag', 1);
+					break;
+				case "arsip":
+					$this->monev->where('flag', 1);
+					break;
+				default:
+					$this->monev->where('flag !=', 99);
+					$this->monev->where('flag !=', 1);
+					$this->monev->where('flag !=', 2);
+					break;
+				}
+			}
+
+			if ($this->Hanggar !== 0) {
+				$this->monev->where('IdHanggar', $this->Hanggar);
+			}
 		}
 
 		if (!empty($_GET['id'])) {
@@ -72,57 +100,88 @@ class Monev_model extends CI_Model {
 			$this->monev->where('Tanggal <=', $_GET['tglAkhir']);
 		}
 
-		if (!empty($this->session->userdata('idSeksiPKC'))) {
-			$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
-		}
-
-		switch ($_POST['type']) {
-		case "hanggar":
-			$this->monev->where('flag', 0);
-			break;
-		case "seksi":
-			$this->monev->where('flag', 1);
-			break;
-		case "arsip":
-			$this->monev->where('flag', 1);
-			break;
-		default:
-			$this->monev->where('flag !=', 99);
-			$this->monev->where('flag !=', 1);
-			$this->monev->where('flag !=', 2);
-			break;
+		if ($id != NULL) {
+			$this->monev->where('idLaporan', $id);
 		}
 
 		$query = $this->monev->get();
 		return $query->result();
 	}
 
-	public function count_filtered() {
+	public function count_filtered($ajax, $id = NULL) {
 		$this->GetListData();
-		if ($this->Hanggar !== 0) {
-			$this->monev->where('IdHanggar', $this->Hanggar);
+		if ($ajax == "laporan") {
+			if ($this->Hanggar !== 0) {
+				$this->monev->where('IdHanggar', $this->Hanggar);
+			}
+
+			if (!empty($this->session->userdata('idSeksiPKC'))) {
+				$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+			}
+
+			if (isset($_POST['type'])) {
+				switch ($_POST['type']) {
+				case "hanggar":
+					$this->monev->where('flag', 0);
+					break;
+				case "seksi":
+					$this->monev->where('flag', 1);
+					break;
+				case "arsip":
+					$this->monev->where('flag', 1);
+					break;
+				default:
+					$this->monev->where('flag !=', 99);
+					$this->monev->where('flag !=', 1);
+					$this->monev->where('flag !=', 2);
+					break;
+				}
+			}
 		}
 
-		if (!empty($this->session->userdata('idSeksiPKC'))) {
-			$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+		if ($id != NULL) {
+			$this->monev->where('idLaporan', $id);
 		}
 
-		$this->monev->where('flag', 0);
 		$query = $this->monev->get();
 		return $query->num_rows();
 	}
 
-	public function count_all() {
+	public function count_all($ajax, $id = NULL) {
 		$this->monev->from($this->table);
-		if ($this->Hanggar !== 0) {
-			$this->monev->where('IdHanggar', $this->Hanggar);
+		if ($ajax == "laporan") {
+			if ($this->Hanggar !== 0) {
+				$this->monev->where('IdHanggar', $this->Hanggar);
+			}
+
+			if (!empty($this->session->userdata('idSeksiPKC'))) {
+				$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+			}
+
+			if (isset($_POST['type'])) {
+				switch ($_POST['type']) {
+				case "hanggar":
+					$this->monev->where('flag', 0);
+					break;
+				case "seksi":
+					$this->monev->where('flag', 1);
+					break;
+				case "arsip":
+					$this->monev->where('flag', 1);
+					break;
+				default:
+					$this->monev->where('flag !=', 99);
+					$this->monev->where('flag !=', 1);
+					$this->monev->where('flag !=', 2);
+					break;
+				}
+			}
 		}
 
-		if (!empty($this->session->userdata('idSeksiPKC'))) {
-			$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+		if ($id != NULL) {
+			$this->monev->where('idLaporan', $id);
 		}
 
-		$this->monev->where('flag', 0);
 		return $this->monev->count_all_results();
 	}
 
@@ -198,6 +257,15 @@ class Monev_model extends CI_Model {
 							$dir = "xls";
 							break;
 						case 'image/jpeg':
+							$dir = "img";
+							break;
+						case 'image/jpg':
+							$dir = "img";
+							break;
+						case 'image/png':
+							$dir = "img";
+							break;
+						case 'image/bmp':
 							$dir = "img";
 							break;
 						default:
@@ -297,6 +365,15 @@ class Monev_model extends CI_Model {
 						case 'image/jpeg':
 							$dir = "img";
 							break;
+						case 'image/jpg':
+							$dir = "img";
+							break;
+						case 'image/png':
+							$dir = "img";
+							break;
+						case 'image/bmp':
+							$dir = "img";
+							break;
 						default:
 							$dir = "other";
 							break;
@@ -365,6 +442,45 @@ class Monev_model extends CI_Model {
 		$isiLaporan = $this->monev->get()->result_array();
 
 		return array($laporan[0], $isiLaporan);
+	}
+
+	public function getFileById() {
+		$this->monev->from('monev_hanggar_file');
+		$this->monev->where('id', $_GET['id']);
+
+		$query = $this->monev->get();
+
+		if ($query->num_rows() === 1) {
+			$data = $query->result_array();
+		}
+
+		return $data[0];
+	}
+
+	public function hapusFile() {
+		$this->monev->from('monev_hanggar_file');
+		$this->monev->where('id', $_GET['id']);
+
+		$query = $this->monev->get();
+
+		if ($query->num_rows() === 1) {
+			$data = $query->result_array();
+			if (file_exists($data[0]['lokasi'])) {
+				if (!unlink($data[0]['lokasi'])) {
+					$pesan = "gagal hapus file";
+				} else {
+					$pesan = "file telah dihapus";
+					$this->monev->where('id', $_GET['id']);
+					$this->monev->delete('monev_hanggar_file');
+				}
+			} else {
+				$pesan = "file tidak ditemukan";
+			}
+		} else {
+			$pesan = "data file tidak ditemukan";
+		}
+
+		return $pesan;
 	}
 
 }
