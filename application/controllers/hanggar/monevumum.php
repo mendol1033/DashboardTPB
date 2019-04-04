@@ -272,7 +272,12 @@ class Monevumum extends MY_Controller {
 			if ($status === TRUE) {
 				$pesan = "Data laporan berhasil disimpan";
 			} else {
-				$pesan = "Data laporan gagal disimpan";
+				if ($status === FALSE) {
+					$pesan = "Data laporan gagal disimpan";
+				} else {
+					$pesan = $status;
+				}
+				
 			}
 		} else {
 			$pesan = "Tidak ada data yang di simpan";
@@ -404,11 +409,7 @@ class Monevumum extends MY_Controller {
 			if ($status === TRUE) {
 				$pesan = "Laporan Monev telah dihapus";
 			} else {
-				if ($status !=== FALSE) {
-					$pesan = $status;
-				} else {
-					$pesan = "Laporan Monev gagal dihapus";
-				}
+				$pesan = "Laporan Monev gagal dihapus";
 			}
 		}
 
