@@ -75,6 +75,7 @@ class Monevumum extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Edit Lampiran</a></li>
+				<li><a href="javascript:void({})" onclick="deleteLaporan(' . $ListData->id . ')">Hapus Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
 				break;
@@ -416,10 +417,19 @@ class Monevumum extends MY_Controller {
 		echo json_encode($pesan);
 	}
 
-	public function test() {
-		$data = $this->session->userdata();
+	public function deleteDraft() {
+		$data = $this->monev->deleteDraft();
 
-		print_r($data);
+		if ($data === TRUE) {
+			$pesan = "Laporan Berhasil dihapus";
+		} else {
+			if ($data === FALSE) {
+				$pesan = "Laporan Gagal dihapus";
+			} else {
+				$pesan = $data;
+			}
+		}
+		echo json_encode($pesan);
 	}
 
 	public function getFileById() {

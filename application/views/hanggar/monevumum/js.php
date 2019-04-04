@@ -454,4 +454,21 @@ function hapusLampiran(id){
 		})
 	}
 }
+
+function deleteLaporan(id){
+	if (confirm("Draft Laporan akan dihapus")) {
+		$.ajax({
+			url: "<?php echo base_url();?>hanggar/monevumum/deleteDraft",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id},
+			success: function(data){
+				alert(data);
+			}
+		})
+		.done(function() {
+			ajax_reload();
+		})		
+	}
+}
 </script>
