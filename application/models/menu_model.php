@@ -203,10 +203,10 @@ class Menu_model extends CI_Model {
 					'url' => 'pengawasan/monevmoncer',
 					'menu' => 'Monev Umum',
 				),
-				// 'random_check' => array(
-				// 	'url' => 'pengawasan/random_check',
-				// 	'menu' => 'Random Check CCTV dan IT',
-				// ),
+				'random_check' => array(
+					'url' => 'pengawasan/random_check',
+					'menu' => 'Random Check CCTV dan IT',
+				),
 
 			),
 		);
