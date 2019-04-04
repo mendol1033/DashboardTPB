@@ -347,7 +347,7 @@ class Monevumum extends MY_Controller {
 
 			$templateProcessor->saveAs($report);
 
-			system('cmd /c D:\xampp\htdocs\DashboardTPB\assets\convert.bat D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_pdf D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\' . $fileName . ".docx", $value);
+			system('cmd /c C:\xampp\htdocs\DashboardTPB\assets\convert.bat C:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_pdf C:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\' . $fileName . ".docx", $value);
 
 			$pdfFile = $dirPdf . $fileName . ".pdf";
 
