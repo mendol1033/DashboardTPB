@@ -199,12 +199,12 @@ class Monev_model extends CI_Model {
 	}
 
 	public function post() {
-		$bulan = date('m', strtotime($_GET['tanggal']));
-		$tahun = date('Y', strtotime($_GET['tanggal']));
+		$bulan = date('m', strtotime($_POST['tanggal']));
+		$tahun = date('Y', strtotime($_POST['tanggal']));
 		$this->monev->from('monev_hanggar');
-		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", $bulan);
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", (int)$bulan);
 		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int)$tahun);
-		$this->monev->where('idPerusahaan',$_GET['idPerusahaan']);
+		$this->monev->where('idPerusahaan',$_POST['idPerusahaan']);
 
 		$cekLaporan = $this->monev->get();
 		if ($cekLaporan->num_rows() === 0 ) {
@@ -510,6 +510,47 @@ class Monev_model extends CI_Model {
 		// return $tahun;
 	}
 
+	public function deleteDraft() {
+		$this->monev->from('monev_hanggar');
+		$this->monev->where('id',$_GET['id']);
+
+		$laporan = $this->monev->get();
+
+		if ($laporan->num_rows() === 1) {
+			$this->monev->trans_begin();
+
+			$this->monev->where('id', $_GET['id']);
+			$this->monev->delete('monev_hanggar');
+
+			$this->monev->where('idLaporan', $_GET['id']);
+			$this->monev->delete('monev_hanggar_isi');
+
+			$this->monev->from('monev_hanggar_file');
+			$this->monev->where('idLaporan', $_GET['id']);
+
+			$lampiran = $this->monev->get();
+
+			if ($lampiran->num_rows() > 0) {
+				$data = $lampiran->result_array();
+
+				foreach ($data as $key => $value) {
+					unlink($value['lokasi']);
+					$this->monev->where('id', $value['id']);
+					$this->monev->delete('monev_hanggar_file');
+				}
+			}
+
+			if ($this->monev->trans_status() === FALSE) {
+				$this->monev->trans_rollback();
+				return FALSE;
+			} else {
+				$this->monev->trans_commit();
+				return TRUE;
+			}
+		} else {
+			return "Laporan Tidak Ditemukan";
+		}
+	}
 }
 
 /* End of file monev_model.php */
