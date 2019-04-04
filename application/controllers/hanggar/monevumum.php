@@ -64,7 +64,7 @@ class Monevumum extends MY_Controller {
 		foreach ($list as $ListData) {
 
 			switch ($_POST['type']) {
-			case "hanggar":
+				case "hanggar":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -78,7 +78,7 @@ class Monevumum extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
 				break;
-			case "seksi":
+				case "seksi":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,7 +91,7 @@ class Monevumum extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'seksi'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
 				break;
-			case "arsip":
+				case "arsip":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -103,7 +103,7 @@ class Monevumum extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Lihat Lampiran</a></li>
 				</ul></div>';
 				break;
-			default:
+				default:
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -156,49 +156,49 @@ class Monevumum extends MY_Controller {
 		foreach ($list as $ListData) {
 
 			switch ($ListData->typeFile) {
-			case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+				case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
 				$jenisFile = "ppt";
 				break;
-			case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+				case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
 				$jenisFile = "doc";
 				break;
-			case 'application/pdf':
+				case 'application/pdf':
 				$jenisFile = "pdf";
 				break;
-			case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+				case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
 				$jenisFile = "xls";
 				break;
-			case 'image/jpeg':
+				case 'image/jpeg':
 				$jenisFile = "img";
 				break;
-			case 'image/jpg':
+				case 'image/jpg':
 				$jenisFile = "img";
 				break;
-			case 'image/png':
+				case 'image/png':
 				$jenisFile = "img";
 				break;
-			case 'image/bmp':
+				case 'image/bmp':
 				$jenisFile = "img";
 				break;
-			default:
+				default:
 				$jenisFile = "other";
 				break;
 			}
 
 			switch ($jenisFile) {
-			case "pdf":
+				case "pdf":
 				$menu = '<li><a href="javascript:void({})" onclick="lihat(' . $ListData->id . ')">Lihat Lampiran</a></li>';
 				break;
-			case "img":
+				case "img":
 				$menu = '<li><a href="javascript:void({})" onclick="lihat(' . $ListData->id . ')">Lihat Lampiran</a></li>';
 				break;
-			default:
+				default:
 				$menu = '<li><a href="javascript:void({})" onclick="downloadFile(' . $ListData->id . ')">Download Lampiran</a></li>';
 				break;
 			}
 
 			switch ($_POST['type']) {
-			case "hanggar":
+				case "hanggar":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -210,9 +210,9 @@ class Monevumum extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="hapusLampiran(' . $ListData->id . ')">Hapus Lampiran</a></li>
 				</ul></div>';
 				break;
-			case "seksi":
+				case "seksi":
 				$action =
-					'<div class="btn-group">
+				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				ACTION
 				<span class="caret"></span>
@@ -221,9 +221,9 @@ class Monevumum extends MY_Controller {
 				' . $menu . '
 				</ul></div>';
 				break;
-			case "arsip":
+				case "arsip":
 				$action =
-					'<div class="btn-group">
+				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				ACTION
 				<span class="caret"></span>
@@ -232,7 +232,7 @@ class Monevumum extends MY_Controller {
 				' . $menu . '
 				</ul></div>';
 				break;
-			default:
+				default:
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -308,51 +308,62 @@ class Monevumum extends MY_Controller {
 		$dirDocx = 'assets/upload/monev/report_docx/';
 		$dirPdf = 'assets/upload/monev/report_pdf/';
 		$thick = mb_convert_encoding('&#x2714;', 'UTF-8', 'HTML-ENTITIES');
-		$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template);
 		$fileDir = 'D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\';
 
 		$headerLaporan = $data[0];
 		$isiLaporan = $data[1];
 
-		$templateProcessor->setValue('nama_perusahaan', $headerLaporan['nama_perusahaan']);
-		$templateProcessor->setValue('alamat', $headerLaporan['alamat']);
-		$templateProcessor->setValue('tanggal', date('d-m-Y', strtotime($headerLaporan['tanggalLaporan'])));
-		$templateProcessor->setValue('kesimpulan', $headerLaporan['keterangan']);
-		$templateProcessor->setValue('nama', $headerLaporan['NamaPegawai']);
+		try {
+			\PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+			$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template);
+			$templateProcessor->setValue('nama_perusahaan', $headerLaporan['nama_perusahaan']);
+			$templateProcessor->setValue('alamat', $headerLaporan['alamat']);
+			$templateProcessor->setValue('tanggal', date('d-m-Y', strtotime($headerLaporan['tanggalLaporan'])));
+			$templateProcessor->setValue('kesimpulan', $headerLaporan['keterangan']);
+			$templateProcessor->setValue('nama', $headerLaporan['NamaPegawai']);
 
-		for ($i = 0; $i < count($isiLaporan); $i++) {
-			switch ($isiLaporan[$i]['kondisi']) {
-			case "Y":
-				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], $thick);
-				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], "");
-				break;
-			case "N":
-				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], "");
-				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], $thick);
-				break;
-			default:
-				$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], "");
-				$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], "");
-				break;
+			for ($i = 0; $i < count($isiLaporan); $i++) {
+				switch ($isiLaporan[$i]['kondisi']) {
+					case "Y":
+					$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], $thick);
+					$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], "");
+					break;
+					case "N":
+					$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], "");
+					$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], $thick);
+					break;
+					default:
+					$templateProcessor->setValue('y' . $isiLaporan[$i]['item'], "");
+					$templateProcessor->setValue('n' . $isiLaporan[$i]['item'], "");
+					break;
+				}
+
+				$templateProcessor->setValue('ket' . $isiLaporan[$i]['item'], $isiLaporan[$i]['keterangan']);
 			}
 
-			$templateProcessor->setValue('ket' . $isiLaporan[$i]['item'], $isiLaporan[$i]['keterangan']);
-		}
+			$fileName = 'Laporan_' . $headerLaporan['idPerusahaan'] . "_" . date('d-m-Y', strtotime($headerLaporan['tanggalLaporan']));
 
-		$fileName = 'Laporan_' . $headerLaporan['idPerusahaan'] . "_" . date('d-m-Y', strtotime($headerLaporan['tanggalLaporan']));
+			$report = $dirDocx . $fileName . ".docx";
 
-		$report = $dirDocx . $fileName . ".docx";
+			$templateProcessor->saveAs($report);
 
-		$templateProcessor->saveAs($report);
+			system('cmd /c D:\xampp\htdocs\DashboardTPB\assets\convert.bat D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_pdf D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\' . $fileName . ".docx", $value);
 
-		system('cmd /c D:\xampp\htdocs\DashboardTPB\assets\convert.bat D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_pdf D:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\' . $fileName . ".docx", $value);
+			$pdfFile = $dirPdf . $fileName . ".pdf";
 
-		$pdfFile = $dirPdf . $fileName . ".pdf";
-
-		unlink($dirDocx . $fileName . ".docx");
-
-		echo json_encode(array($pdfFile, $fileName));
+			unlink($dirDocx . $fileName . ".docx");
+		} catch (\BadMethodCallException $e) {
+			$error = $e->getMessage();
+		} finally {
+			if (isset($error)) {
+				echo json_encode(array($pdfFile, $fileName, $error));
+			} else {
+				echo json_encode(array($pdfFile, $fileName));
+			}
+			
 		// echo json_encode("sudah");
+		}
+		
 	}
 
 	public function delete_pdf() {
@@ -393,7 +404,11 @@ class Monevumum extends MY_Controller {
 			if ($status === TRUE) {
 				$pesan = "Laporan Monev telah dihapus";
 			} else {
-				$pesan = "Laporan Monev gagal dihapus";
+				if ($status !=== FALSE) {
+					$pesan = $status;
+				} else {
+					$pesan = "Laporan Monev gagal dihapus";
+				}
 			}
 		}
 
@@ -413,6 +428,12 @@ class Monevumum extends MY_Controller {
 
 	public function hapusFile() {
 		$data = $this->monev->hapusFile();
+
+		echo json_encode($data);
+	}
+
+	public function testt () {
+		$data = $this->monev->test();
 
 		echo json_encode($data);
 	}

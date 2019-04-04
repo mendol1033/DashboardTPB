@@ -69,16 +69,16 @@ class Monev_model extends CI_Model {
 
 			if (isset($_POST['type'])) {
 				switch ($_POST['type']) {
-				case "hanggar":
+					case "hanggar":
 					$this->monev->where('flag', 0);
 					break;
-				case "seksi":
+					case "seksi":
 					$this->monev->where('flag', 1);
 					break;
-				case "arsip":
+					case "arsip":
 					$this->monev->where('flag', 1);
 					break;
-				default:
+					default:
 					$this->monev->where('flag !=', 99);
 					$this->monev->where('flag !=', 1);
 					$this->monev->where('flag !=', 2);
@@ -121,16 +121,16 @@ class Monev_model extends CI_Model {
 
 			if (isset($_POST['type'])) {
 				switch ($_POST['type']) {
-				case "hanggar":
+					case "hanggar":
 					$this->monev->where('flag', 0);
 					break;
-				case "seksi":
+					case "seksi":
 					$this->monev->where('flag', 1);
 					break;
-				case "arsip":
+					case "arsip":
 					$this->monev->where('flag', 1);
 					break;
-				default:
+					default:
 					$this->monev->where('flag !=', 99);
 					$this->monev->where('flag !=', 1);
 					$this->monev->where('flag !=', 2);
@@ -160,16 +160,16 @@ class Monev_model extends CI_Model {
 
 			if (isset($_POST['type'])) {
 				switch ($_POST['type']) {
-				case "hanggar":
+					case "hanggar":
 					$this->monev->where('flag', 0);
 					break;
-				case "seksi":
+					case "seksi":
 					$this->monev->where('flag', 1);
 					break;
-				case "arsip":
+					case "arsip":
 					$this->monev->where('flag', 1);
 					break;
-				default:
+					default:
 					$this->monev->where('flag !=', 99);
 					$this->monev->where('flag !=', 1);
 					$this->monev->where('flag !=', 2);
@@ -199,107 +199,120 @@ class Monev_model extends CI_Model {
 	}
 
 	public function post() {
-		$this->monev->trans_begin();
-		$idPerusahaan = $_POST['idPerusahaan'];
-		$tanggal = $_POST['tanggal'];
-		$keterangan = $_POST['keteranganLain'];
+		$bulan = date('m', strtotime($_GET['tanggal']));
+		$tahun = date('Y', strtotime($_GET['tanggal']));
+		$this->monev->from('monev_hanggar');
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", $bulan);
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int)$tahun);
+		$this->monev->where('idPerusahaan',$_GET['idPerusahaan']);
 
-		$laporan = array(
-			'idHanggar' => $this->session->userdata('IdHanggar'),
-			'idPerusahaan' => $idPerusahaan,
-			'tanggalLaporan' => $tanggal,
-			'keterangan' => $keterangan,
-			'NipPegawai' => $this->session->userdata('NipUser'),
-		);
+		$cekLaporan = $this->monev->get();
+		if ($cekLaporan->num_rows() === 0 ) {
+			$this->monev->trans_begin();
+			$idPerusahaan = $_POST['idPerusahaan'];
+			$tanggal = $_POST['tanggal'];
+			$keterangan = $_POST['keteranganLain'];
 
-		$status1 = $this->monev->insert('monev_hanggar', $laporan);
+			$laporan = array(
+				'idHanggar' => $this->session->userdata('IdHanggar'),
+				'idPerusahaan' => $idPerusahaan,
+				'tanggalLaporan' => $tanggal,
+				'keterangan' => $keterangan,
+				'NipPegawai' => $this->session->userdata('NipUser'),
+			);
 
-		$isi = $_POST;
-		unset($isi['idPerusahaan']);
-		unset($isi['alamat']);
-		unset($isi['tanggal']);
-		unset($isi['keteranganLain']);
-		$idLaporan = $this->monev->insert_id();
+			$status1 = $this->monev->insert('monev_hanggar', $laporan);
 
-		$isiLaporan = array();
-		for ($i = 1; $i < 20; $i++) {
-			if (isset($isi['checklist' . $i]) === FALSE) {
-				$isi['checklist' . $i] = NULL;
+			$isi = $_POST;
+			unset($isi['idPerusahaan']);
+			unset($isi['alamat']);
+			unset($isi['tanggal']);
+			unset($isi['keteranganLain']);
+			$idLaporan = $this->monev->insert_id();
+
+			$isiLaporan = array();
+			for ($i = 1; $i < 20; $i++) {
+				if (isset($isi['checklist' . $i]) === FALSE) {
+					$isi['checklist' . $i] = NULL;
+				}
+
+				$isiLaporan[] = array(
+					'idLaporan' => $idLaporan,
+					'item' => $i,
+					'kondisi' => $isi['checklist' . $i],
+					'keterangan' => $isi['keterangan' . $i],
+				);
 			}
 
-			$isiLaporan[] = array(
-				'idLaporan' => $idLaporan,
-				'item' => $i,
-				'kondisi' => $isi['checklist' . $i],
-				'keterangan' => $isi['keterangan' . $i],
-			);
-		}
+			$status2 = $this->monev->insert_batch('monev_hanggar_isi', $isiLaporan);
 
-		$status2 = $this->monev->insert_batch('monev_hanggar_isi', $isiLaporan);
-
-		$fileLaporan = array();
-		for ($i = 1; $i < 20; $i++) {
-			for ($a = 0; $a < count($_FILES['file' . $i]['name']); $a++) {
-				if (!empty($_FILES['file' . $i]['name'][$a])) {
-					$tmpFilePath = $_FILES['file' . $i]['tmp_name'][$a];
-					if ($tmpFilePath != "") {
-						switch ($_FILES['file' . $i]['type'][$a]) {
-						case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-							$dir = "ppt";
-							break;
-						case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-							$dir = "doc";
-							break;
-						case 'application/pdf':
-							$dir = "pdf";
-							break;
-						case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-							$dir = "xls";
-							break;
-						case 'image/jpeg':
-							$dir = "img";
-							break;
-						case 'image/jpg':
-							$dir = "img";
-							break;
-						case 'image/png':
-							$dir = "img";
-							break;
-						case 'image/bmp':
-							$dir = "img";
-							break;
-						default:
-							$dir = "other";
-							break;
-						}
-						$newFilePath = "assets/upload/monev/" . $dir . "/" . $_FILES['file' . $i]['name'][$a];
-						if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-							$fileLaporan[] = array(
-								'idLaporan' => $idLaporan,
-								'item' => $i,
-								'namaFile' => $_FILES['file' . $i]['name'][$a],
-								'typeFile' => $_FILES['file' . $i]['type'][$a],
-								'lokasi' => $newFilePath,
-							);
+			$fileLaporan = array();
+			for ($i = 1; $i < 20; $i++) {
+				for ($a = 0; $a < count($_FILES['file' . $i]['name']); $a++) {
+					if (!empty($_FILES['file' . $i]['name'][$a])) {
+						$tmpFilePath = $_FILES['file' . $i]['tmp_name'][$a];
+						if ($tmpFilePath != "") {
+							switch ($_FILES['file' . $i]['type'][$a]) {
+								case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+								$dir = "ppt";
+								break;
+								case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+								$dir = "doc";
+								break;
+								case 'application/pdf':
+								$dir = "pdf";
+								break;
+								case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+								$dir = "xls";
+								break;
+								case 'image/jpeg':
+								$dir = "img";
+								break;
+								case 'image/jpg':
+								$dir = "img";
+								break;
+								case 'image/png':
+								$dir = "img";
+								break;
+								case 'image/bmp':
+								$dir = "img";
+								break;
+								default:
+								$dir = "other";
+								break;
+							}
+							$newFilePath = "assets/upload/monev/" . $dir . "/" . $_FILES['file' . $i]['name'][$a];
+							if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+								$fileLaporan[] = array(
+									'idLaporan' => $idLaporan,
+									'item' => $i,
+									'namaFile' => $_FILES['file' . $i]['name'][$a],
+									'typeFile' => $_FILES['file' . $i]['type'][$a],
+									'lokasi' => $newFilePath,
+								);
+							}
 						}
 					}
 				}
 			}
-		}
 
-		if (count($fileLaporan) > 0) {
-			$status3 = $this->monev->insert_batch('monev_hanggar_file', $fileLaporan);
-		} else {
-			$status3 = 0;
-		}
+			if (count($fileLaporan) > 0) {
+				$status3 = $this->monev->insert_batch('monev_hanggar_file', $fileLaporan);
+			} else {
+				$status3 = 0;
+			}
 
-		if ($this->monev->trans_status() === FALSE) {
-			$this->monev->trans_rollback();
-			return FALSE;
+			if ($this->monev->trans_status() === FALSE) {
+				$this->monev->trans_rollback();
+				return FALSE;
+			} else {
+				$this->monev->trans_commit();
+				return TRUE;
+			}
 		} else {
-			$this->monev->trans_commit();
-			return TRUE;
-		}
+			return "Laporan Sudah Pernah Dibuat";
+		} 
+		
 
 	}
 
@@ -350,31 +363,31 @@ class Monev_model extends CI_Model {
 					$tmpFilePath = $_FILES['file' . $i]['tmp_name'][$a];
 					if ($tmpFilePath != "") {
 						switch ($_FILES['file' . $i]['type'][$a]) {
-						case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+							case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
 							$dir = "ppt";
 							break;
-						case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+							case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
 							$dir = "doc";
 							break;
-						case 'application/pdf':
+							case 'application/pdf':
 							$dir = "pdf";
 							break;
-						case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+							case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
 							$dir = "xls";
 							break;
-						case 'image/jpeg':
+							case 'image/jpeg':
 							$dir = "img";
 							break;
-						case 'image/jpg':
+							case 'image/jpg':
 							$dir = "img";
 							break;
-						case 'image/png':
+							case 'image/png':
 							$dir = "img";
 							break;
-						case 'image/bmp':
+							case 'image/bmp':
 							$dir = "img";
 							break;
-						default:
+							default:
 							$dir = "other";
 							break;
 						}
@@ -481,6 +494,20 @@ class Monev_model extends CI_Model {
 		}
 
 		return $pesan;
+	}
+
+	public function test(){
+		$bulan = date('m', strtotime($_GET['tanggal']));
+		$tahun = date('Y', strtotime($_GET['tanggal']));
+		$this->monev->from('monev_hanggar');
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", $bulan);
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int)$tahun);
+		$this->monev->where('idPerusahaan',$_GET['idPerusahaan']);
+
+		$data = $this->monev->get();
+
+		return $data->num_rows();
+		// return $tahun;
 	}
 
 }
