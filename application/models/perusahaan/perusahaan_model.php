@@ -159,9 +159,12 @@ class Perusahaan_model extends CI_Model {
 	}
 
 	public function getJumlahTPB() {
-		$this->sikabayan_db->from('tb_perusahaan');
+		$this->sikabayan_db->from('tpbdetail');
 		$this->sikabayan_db->select(array('id_tpb as jenis', 'COUNT(*) as JumlahTPB'));
 		$this->sikabayan_db->where('status', "Y");
+		if ($this->session->userdata('IdHanggar') !== 0) {
+			$this->sikabayan_db->where('IdHanggar', $this->session->userdata('IdHanggar'));
+		}
 		$this->sikabayan_db->group_by('id_tpb');
 
 		$query = $this->sikabayan_db->get();
@@ -202,10 +205,13 @@ class Perusahaan_model extends CI_Model {
 	}
 
 	public function countAllPerusahaan() {
-		$this->sikabayan_db->from('tb_perusahaan');
+		$this->sikabayan_db->from('tpbdetail');
 		$this->sikabayan_db->select('COUNT(*) AS JumlahTPB');
 		if ($this->session->userdata('GrupMenu') != 1) {
 			$this->sikabayan_db->where('status', "Y");
+		}
+		if ($this->session->userdata('IdHanggar') !== 0) {
+			$this->sikabayan_db->where('IdHanggar', $this->session->userdata('IdHanggar'));
 		}
 
 		$query = $this->sikabayan_db->get();

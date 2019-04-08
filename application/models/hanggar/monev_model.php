@@ -91,17 +91,13 @@ class Monev_model extends CI_Model {
 			}
 		}
 
-		if (!empty($_GET['id'])) {
-			$this->monev->where('IdPerusahaan', $_GET['id']);
-		}
-
-		if (!empty($_GET['tglAwal']) && !empty($_GET['tglAkhir'])) {
-			$this->monev->where('Tanggal >=', $_GET['tglAwal']);
-			$this->monev->where('Tanggal <=', $_GET['tglAkhir']);
-		}
-
 		if ($id != NULL) {
 			$this->monev->where('idLaporan', $id);
+		}
+
+		if (!empty($_POST['bulan'])) {
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$_POST['bulan']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$_POST['tahun']);
 		}
 
 		$query = $this->monev->get();
@@ -500,14 +496,25 @@ class Monev_model extends CI_Model {
 		$bulan = date('m', strtotime($_GET['tanggal']));
 		$tahun = date('Y', strtotime($_GET['tanggal']));
 		$this->monev->from('monev_hanggar');
-		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", $bulan);
-		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int)$tahun);
-		$this->monev->where('idPerusahaan',$_GET['idPerusahaan']);
+		$this->monev->select('idPerusahaan');
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$bulan);
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$tahun);
+		$this->monev->distinct();
+		$x = $this->monev->get();
 
-		$data = $this->monev->get();
+		$y = $x->result_array();
 
-		return $data->num_rows();
-		// return $tahun;
+		foreach ($y as $key => $value) {
+			$z[] = $value['idPerusahaan'];
+		}
+
+		$this->sikabayan->from('tpbdetail');
+		$this->sikabayan->where('status',"Y");
+		$this->sikabayan->where_not_in('id_perusahaan',$z);
+
+		$data = $this->sikabayan->get();
+
+		return $data->result_array();
 	}
 
 	public function deleteDraft() {

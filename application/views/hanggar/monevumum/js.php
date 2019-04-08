@@ -7,6 +7,14 @@
 	var type = "<?php echo $type ?>";
 
 	$(document).ready(function() {
+		var date = new Date();
+		bulan = date.getMonth();
+		tahun = date.getFullYear();
+		$('[name="bulan"]').val(bulan);
+		$('[name="tahun"]').val(tahun);
+		$('[name="bulan"]').trigger('change');
+		$('[name="tahun"]').trigger('change');
+
 		// initialize class select2
 		$(".select2").select2({
 			width : '100%'
@@ -108,8 +116,10 @@
 			"ajax" : {
 				"url" : "<?php echo base_url() . 'hanggar/monevumum/ajax_list' ?>",
 				"type" : "POST",
-				"data" : {
-					"type" : type
+				"data" : function (a){
+					a.bulan = $('[name="bulan"]').val();
+					a.tahun = $('[name="tahun"]').val();
+					a.type = type;
 				}
 			},
 		});
@@ -227,7 +237,7 @@ $("#idPerusahaan").on("select2:selecting", function(e) {
 		dataType: "JSON",
 		data: {id: id},
 		success: function(data){
-			$("[name='alamat']").val(data.AlamatPabrik);
+			$("[name='alamat']").val(data.alamat);
 		}
 	})
 });
