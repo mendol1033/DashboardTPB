@@ -5,10 +5,21 @@
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-6">
 					<div class="form-group">
-						<label class="col-lg-4 col-md-4 col-sm-4 control-label">Nama Perusahaan</label>
+						<label class="col-lg-4 col-md-4 col-sm-4 control-label">Bulan</label>
 						<div class="col-lg-8 col-md-8 col-sm-8">
-							<select class="form-control select2" name="filterPerusahaan" id="filterPerusahaan">
-
+							<select class="form-control select2" name="bulan">
+								<option value=1>Januari</option>
+								<option value=2>Februari</option>
+								<option value=3>Maret</option>
+								<option value=4>April</option>
+								<option value=5>Mei</option>
+								<option value=6>Juni</option>
+								<option value=7>Juli</option>
+								<option value=8>Agustus</option>
+								<option value=9>September</option>
+								<option value=10>Oktober</option>
+								<option value=11>November</option>
+								<option value=12>Desember</option>
 							</select>
 						</div>
 					</div>
@@ -17,19 +28,18 @@
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-6">
 					<div class="form-group">
-						<label class="col-lg-4 col-md-4 col-sm-4 control-label">Tanggal</label>
+						<label class="col-lg-4 col-md-4 col-sm-4 control-label">Bulan</label>
 						<div class="col-lg-8 col-md-8 col-sm-8">
-							<div class="row">
-								<div class="col-lg-5 col-md-5 col-sm-5">
-									<input class="form-control" type="text" name="tglAwal" id="tglAwal">
-								</div>
-								<div class="col-lg-2 col-md-2 col-sm-2 ">
-									<p style="height: 100%; text-align: center; vertical-align: middle;"><b>s/d</b></p>
-								</div>
-								<div class="col-lg-5 col-md-5 col-sm-5">
-									<input class="form-control" type="text" name="tglAkhir" id="tglAkhir">
-								</div>
-							</div>
+							<select class="form-control select2" name="tahun">
+								<?php 
+									$awal = 2019;
+									$akhir = (int)date("Y");
+
+									for ($i=$awal; $i <= $akhir; $i++) { 
+										echo '<option value='.$i.'>'.$i.'</option>';
+									}
+								?>
+							</select>
 						</div>
 					</div>
 				</div>

@@ -36,6 +36,13 @@ class Monevumum extends MY_Controller {
 		$this->load->view('hanggar/monevumum/main_content', $this->data);
 	}
 
+	public function monitoring() {
+		$this->data['modal'] = "hanggar/monevumum/monitoring/modal";
+		$this->data['js'] = "hanggar/monevumum/monitoring/js";
+		$this->data['type'] = "admin";
+		$this->load->view('hanggar/monevumum/monitoring/main_content', $this->data);
+	}
+
 	public function page_info() {
 		$data['breadcrumb_item'] = array("Hanggar", "Monitoring dan Evaluasi Umum");
 
@@ -443,7 +450,7 @@ class Monevumum extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	public function testt () {
+	public function test () {
 		$data = $this->monev->test();
 
 		echo json_encode($data);

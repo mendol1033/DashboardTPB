@@ -157,6 +157,10 @@ class Menu_model extends CI_Model {
 				'url' => 'hanggar/monevumum/admin',
 				'menu' => 'Admin Monev Umum',
 			);
+			$hanggar['subMenu'][] = array(
+				'url' => 'hanggar/monevumum/monitoring',
+				'menu' => 'Monitoring Monev Umum',
+			);
 			break;
 		case 6:
 			$hanggar['subMenu'][] = array(
