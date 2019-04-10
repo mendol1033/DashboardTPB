@@ -190,7 +190,7 @@
 							<!-- END POIN 3 -->
 							<!-- START POIN 4 -->
 							<tr>
-								<td style="text-align: center; vertical-align: top;">3</td>
+								<td style="text-align: center; vertical-align: top;">4</td>
 								<td style="vertical-align: top;"><b>Monitoring Umum melalui pemanfaatan data e-seal</b> <br> Monitoring ini dilakukan kepada TPB yang dipersyaratkan menggunakan e-seal.</td>
 								<td style="text-align: left; vertical-align: top;">
 									Langkah-langkah yang dapat dilaksanakan adalah sebagai berikut: <br>
