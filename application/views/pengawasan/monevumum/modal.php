@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg" role="dokumen">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" onclick="closeModal()">
+				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 class="modal-title">Disini Modal Title</h4>
@@ -273,7 +273,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" id="batal" class="btn btn-default" onclick="closeModal()">Batal</button>
+				<button type="button" id="batal" class="btn btn-default" data-dismiss="modal">Batal</button>
 				<button type="button" id="simpan" class="btn btn-primary" onclick="save()">Simpan</button>
 			</div>
 		</div>
@@ -284,7 +284,7 @@
 	<div class="modal-dialog modal-lg" role="dokumen">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button id="btn_close" type="button" class="close" onclick="closeModalView()">
+				<button id="btn_close" type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 class="modal-title">Disini Modal Title</h4>
