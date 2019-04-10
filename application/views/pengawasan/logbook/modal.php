@@ -75,26 +75,26 @@
 				<div class="col-md-12 col-lg-12">
 					<form id="form" class="form-horizontal" method="post" enctype="multipart/form-data">
 						<div class="form-group">
-							<label class="col-sm-4 col-md-4 control-label">Jenis Logbook</label>
-							<div class="col-sm-8 col-md-8">
+							<label class="col-sm-2 col-md-2 control-label">Jenis Logbook</label>
+							<div class="col-sm-10 col-md-10">
 								<input type="text" name="viewLogbook" disabled="disabled" class="form-control" value="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 col-md-4 control-label">Nama Perusahaan</label>
-							<div class="col-sm-8 col-md-8">
+							<label class="col-sm-2 col-md-2 control-label">Nama Perusahaan</label>
+							<div class="col-sm-10 col-md-10">
 								<input type="text" name="viewPerusahaan" disabled="disabled" class="form-control" value="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 col-md-4 control-label">Tanggal Laporan</label>
-							<div class="col-sm-8 col-md-8">
+							<label class="col-sm-2 col-md-2 control-label">Tanggal Laporan</label>
+							<div class="col-sm-10 col-md-10">
 								<input type="text" name="viewTglLaporan" disabled="" class="form-control" value="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 col-md-4 control-label">Isi Laporan</label>
-							<div class="col-sm-8 col-md-8">
+							<label class="col-sm-2 col-md-2 control-label">Isi Laporan</label>
+							<div class="col-sm-10 col-md-10">
 								<textarea class="form-control" name="viewIsiLaporan" id="viewIsiLaporan" rows="7" disabled="disabled"></textarea>
 							</div>
 						</div>
