@@ -95,7 +95,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 col-md-2 control-label">Isi Laporan</label>
 							<div class="col-sm-10 col-md-10">
-								<textarea class="form-control" name="viewIsiLaporan" id="viewIsiLaporan" rows="7" disabled="disabled"></textarea>
+								<textarea class="form-control" name="viewIsiLaporan" id="viewIsiLaporan" rows="15" disabled="disabled"></textarea>
 							</div>
 						</div>
 					</form>
