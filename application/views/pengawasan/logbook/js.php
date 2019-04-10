@@ -197,6 +197,8 @@
 			dataType: "JSON",
 			data: {id: id},
 			success: function(d){
+				save_method = "update";
+				idEdit = id;
 				$("#Logbook").val(d[0].type);
 				$("#Logbook").trigger('change');
 				selectedValue(d[0].idPerusahaan,d[0].nama_perusahaan);

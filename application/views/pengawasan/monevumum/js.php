@@ -42,10 +42,10 @@
 				processResults: function(data){
 					var results = [];
 
-					$.each(data, function(index, item){
+					$.each(data, function(index, laporan){
 						results.push({
-							id : item.id_perusahaan,
-							text : item.nama_perusahaan + " | " + item.nama_tpb + " | " + item.ijin_kelola_tpb
+							id : laporan.id_perusahaan,
+							text : laporan.nama_perusahaan + " | " + laporan.nama_tpb + " | " + laporan.ijin_kelola_tpb
 						})
 					});
 					return{
@@ -73,10 +73,10 @@
 				processResults: function(data){
 					var results = [];
 
-					$.each(data, function(index, item){
+					$.each(data, function(index, laporan){
 						results.push({
-							id : item.id_perusahaan,
-							text : item.nama_perusahaan + " | " + item.nama_tpb + " | " + item.ijin_kelola_tpb
+							id : laporan.id_perusahaan,
+							text : laporan.nama_perusahaan + " | " + laporan.nama_tpb + " | " + laporan.ijin_kelola_tpb
 						})
 					});
 					return{
@@ -114,25 +114,27 @@
 			},
 		});
 
-		$("#formMonevUmum").validate({
+		$("#formMonev").validate({
 			errorClass: "text-danger",
 			rules:{
 				idPerusahaan: "required",
-				alamat: "required",
-				tanggal: "required",
-				checklist1: "required",
-				checklist2: "required",
-				checklist3: "required",
-				checklist4: "required",
-				checklist5: "required",
+				laporan1: "required",
+				laporan2: "required",
+				laporan3: "required",
+				laporan4: "required",
+				laporan5: "required",
+				laporan6: "required",
+				kesimpulan: "required"
 			},
 			messages: {
 				idPerusahaan: "Pilih Perusahaan yang akan di Monitoring",
-				checklist1: "Pilih kondisi terkini",
-				checklist2: "Pilih kondisi terkini",
-				checklist3: "Pilih kondisi terkini",
-				checklist4: "Pilih kondisi terkini",
-				checklist5: "Pilih kondisi terkini",
+				laporan1: "Isi hasil Laporan Monitoring",
+				laporan2: "Isi hasil Laporan Monitoring",
+				laporan3: "Isi hasil Laporan Monitoring",
+				laporan4: "Isi hasil Laporan Monitoring",
+				laporan5: "Isi hasil Laporan Monitoring",
+				laporan6: "Isi hasil Laporan Monitoring",
+				kesimpulan: "Isi Kesimpulan Laporan Monev Umum Monitoring Room"
 			},
 			errorElement: "td",
 			errorPlacement:function(error,element){
@@ -143,7 +145,7 @@
 			},
 			highlight: function(element,errorClass, validClass){
 				$(element).parents('tr').next().addClass("has-error").removeClass("hidden");
-
+				console.log(element);
 			},
 			unhighlight: function(element, errorClass, validClass){
 				$(element).parents('tr').next().removeClass("has-error").addClass("hidden");
@@ -156,42 +158,148 @@
 		});
 	});
 
-function hidden (a){
-	if (a == "pelaksana") {
-		$("#tambah").removeClass('sr-only');
-	} else {
-		$("#tambah").addClass('sr-only');
-	}
-}
+	function hidden (a){
+		if (a == "pelaksana") {
+			$("#tambah").removeClass('sr-only');
+		} else {
+			if (a != "admin") {
+				$("#tambah").addClass('sr-only');
+			} else {
+				$("#tambah").removeClass('sr-only');
+			}
 
-$("#idPerusahaan").on("select2:selecting", function(e) {
-	id = e.params.args.data.id
-
-	$.ajax({
-		url: "<?php echo base_url(); ?>pengawasan/tpb/getById",
-		type: "GET",
-		dataType: "JSON",
-		data: {id: id},
-		success: function(data){
-			$("[name='alamat']").val(data.AlamatPabrik);
 		}
-	})
-});
+	}
 
-$("#tambah").on('click', function(event) {
-	event.preventDefault();
-	/* Act on the event */
-	save_method = "add";
-	var curdate = "<?php echo date("Y-m-d"); ?>";
-	$("#form")[0].reset();
-	$("#idPerusahaan").children().remove();
-	$(".modal-title").text('Form Laporan Monitoring Umum Pada Ruang Kendali (MONITORING ROOM)');
-	$("#modalForm").modal("show");
-	$("#tanggal").val(curdate);
-});
+	$("#idPerusahaan").on("select2:selecting", function(e) {
+		id = e.params.args.data.id
 
-function closeModal(){
-	$("input[type='hidden']").remove();
-	$("#modalForm").modal('hide');
-}
+		$.ajax({
+			url: "<?php echo base_url(); ?>perusahaan/tpb/getById",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id},
+			success: function(data){
+				$("[name='alamat']").val(data.alamat);
+			}
+		})
+	});
+
+	$("#tambah").on('click', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		save_method = "add";
+		var curdate = "<?php echo date("Y-m-d"); ?>";
+		$("#formMonev")[0].reset();
+		$("#idPerusahaan").children().remove();
+		$(".modal-title").text('Form Laporan Monitoring Umum Pada Ruang Kendali (MONITORING ROOM)');
+		$("#modalForm").modal("show");
+		$("#tanggal").val(curdate);
+	});
+
+	$("#modalForm").on('hidden.bs.modal',function(event) {
+		$("input[type='hidden']").remove();
+		$("#formMonev")[0].reset();
+		$('.select2').val(null).trigger('change');
+	});
+
+	function selectedValue(a,b){
+		var data = [{id:a,text:b}];
+		var selectedVal = $("#idPerusahaan");
+		var option = new Option(b,a,true,true);
+		selectedVal.append(option).trigger('change');
+
+		selectedVal.trigger({
+			type: "select2:select",
+			params: {
+				data: data
+			}
+		})
+	}
+
+	function edit(id){
+		save_method = "update";
+		$.ajax({
+			url: "<?php echo base_url(); ?>pengawasan/monevmoncer/ajax_edit",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id},
+			success: function(d){
+				idEdit = id;
+				selectedValue(d.laporan.id_perusahaan, d.laporan.nama_perusahaan);
+				$('[name="alamat"]').val(d.laporan.alamat);
+				$('[name="tanggal"]').val(d.laporan.tanggalLaporan);
+				$("#modalForm").modal("show");
+				$('[name="kesimpulan"]').val(d.laporan.kesimpulan);
+
+				var isi = d.isi;
+				for (var i = 0; i < isi.length; i++) {
+					$('[name="laporan'+isi[i].item+'"]').val(isi[i].keterangan);
+				}
+
+				console.log(d);
+			}
+		})		
+	}
+
+	function save() {
+		var url;
+		var data;
+		var form = $("#formMonev")[0];
+		data = new FormData(form);
+
+		if (save_method == "add") {
+			url = "<?php echo base_url(); ?>pengawasan/monevmoncer/ajax_add";
+		}else{
+			url = "<?php echo base_url() ?>pengawasan/monevmoncer/ajax_update";
+			data.append('id',idEdit);
+		}
+
+		if ($("#formMonev").valid()) {
+			$.ajax({
+				url: url,
+				type: 'POST',
+				dataType: 'JSON',
+				data: data,
+				contentType : false,
+				cache : false,
+				processData : false,
+				success: function(d){
+					alert(d);
+					$("#modalForm").modal('hide');
+					table.ajax.reload(null, false);
+				}
+			})
+		}
+	}
+
+	function cetak(id){
+		$.ajax({
+			url: "<?php echo base_url() ?>pengawasan/monevmoncer/cetak",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id},
+			success:function(data){
+				$("#iframeDoc").removeAttr('src');
+				$("#iframeDoc").attr('src', "<?php echo base_url() ?>"+data[0]);
+				$('.modal-title').text(data[1]);
+				$("#btn_close").attr('value', data[1]);
+				$("#modalDoc").modal("show");
+			}
+		})
+	}
+
+	function closeModalView(){
+		var file = $("#btn_close").attr("value");
+		$.ajax({
+			url: "<?php echo base_url() ?>pengawasan/monevmoncer/delete_pdf",
+			type: "GET",
+			dataType: "JSON",
+			data: {name: file},
+			success: function(data){
+				$("#modalDoc").modal("hide");
+			}
+		})
+	}
+
 </script>
