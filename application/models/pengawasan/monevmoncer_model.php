@@ -69,16 +69,16 @@ class Monevmoncer_model extends CI_Model {
 		}
 
 		switch ($_POST['type']) {
-		case "pelaksana":
+			case "pelaksana":
 			$this->monev->where('status', 0);
 			break;
-		case "seksi":
+			case "seksi":
 			$this->monev->where('status', 1);
 			break;
-		case "browse":
+			case "browse":
 			$this->monev->where('status', 1);
 			break;
-		default:
+			default:
 
 			break;
 		}
@@ -91,16 +91,16 @@ class Monevmoncer_model extends CI_Model {
 		$this->GetListData();
 
 		switch ($_POST['type']) {
-		case "pelaksana":
+			case "pelaksana":
 			$this->monev->where('status', 0);
 			break;
-		case "seksi":
+			case "seksi":
 			$this->monev->where('status', 1);
 			break;
-		case "browse":
+			case "browse":
 			$this->monev->where('status', 1);
 			break;
-		default:
+			default:
 
 			break;
 		}
@@ -112,20 +112,160 @@ class Monevmoncer_model extends CI_Model {
 		$this->monev->from($this->table);
 
 		switch ($_POST['type']) {
-		case "pelaksana":
+			case "pelaksana":
 			$this->monev->where('status', 0);
 			break;
-		case "seksi":
+			case "seksi":
 			$this->monev->where('status', 1);
 			break;
-		case "browse":
+			case "browse":
 			$this->monev->where('status !=', 0);
 			break;
-		default:
+			default:
 
 			break;
 		}
 		return $this->monev->count_all_results();
+	}
+
+	private function addHistory($action,$detail) {
+		$this->monev->trans_begin();
+		switch ($action) {
+			case 'add':
+			$data = array(
+				'IdUser' => $this->session->userdata('NipUser'),
+				'KdHistory' => 1,
+				'DetailHistory' => $detail
+			);
+			break;
+			case 'update':
+			$data = array(
+				'IdUser' => $this->session->userdata('NipUser'),
+				'KdHistory' => 2,
+				'DetailHistory' => $detail
+			);
+			break;
+			case 'delete':
+			$data = array(
+				'IdUser' => $this->session->userdata('NipUser'),
+				'KdHistory' => 3,
+				'DetailHistory' => $detail
+			);
+			break;
+			
+			default:
+			$data = array(
+				'IdUser' => $this->session->userdata('NipUser'),
+				'KdHistory' => 99,
+				'DetailHistory' => $detail
+			);
+			break;
+		}
+		$this->monev->insert('monev_history',$data);
+		if ($this->monev->trans_status() === FALSE) {
+			$this->monev->trans_rollback();
+			return FALSE;
+		} else {
+			$this->peloro->trans_commit();
+			return TRUE;
+		}
+	}
+
+	public function getById(){
+		$data1 = $this->monev->from('monev_moncer_detail')->where('id',$_GET['id'])->get()->row_array();
+		$data2 = $this->monev->from('monev_moncer_isi')->where('idLaporan',$_GET['id'])->get()->result_array();
+
+		$data = array(
+			"laporan" => $data1,
+			"isi" => $data2
+		);
+
+		return $data;
+	}
+
+	public function add(){
+		$this->monev->trans_begin();
+		$data = array(
+			"idPerusahaan" => $_POST['idPerusahaan'],
+			"tanggalLaporan" => $_POST['tanggal'],
+			"kesimpulan" => $_POST['kesimpulan'],
+			"NipRekam" => $this->session->userdata('NipUser')
+		);
+
+		$this->monev->insert('monev_moncer', $data);
+		$insert_id = $this->monev->insert_id();
+
+		$isi = $_POST;
+		unset($isi['idPerusahaan']);
+		unset($isi['alamat']);
+		unset($isi['tanggal']);
+		unset($isi['kesimpulan']);
+
+		$isiLaporan = array();
+		for ($i=1; $i < (count($isi)+1); $i++) { 
+			$isiLaporan[] = array(
+				'idLaporan' => $insert_id,
+				'item' => $i,
+				'keterangan' => $isi['laporan'.$i]
+			);
+		}
+
+		$this->monev->insert_batch("monev_moncer_isi", $isiLaporan);
+
+		if ($this->monev->trans_status() === FALSE) {
+			$this->monev->trans_rollback();
+			return FALSE;
+		} else {
+			$this->monev->trans_commit();
+			if ($this->addHistory('add',"Menambahkan data laporan Monev Monitoring Room") === TRUE){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		}
+	}
+
+	public function update(){
+		$this->monev->trans_begin();
+		$data = array(
+			"idPerusahaan" => $_POST['idPerusahaan'],
+			"tanggalLaporan" => $_POST['tanggal'],
+			"kesimpulan" => $_POST['kesimpulan'],
+			"NipUpdate" => $this->session->userdata('NipUser')
+		);
+
+		$this->monev->where('id',$_POST['id']);
+		$this->monev->update('monev_moncer', $data);
+
+		$isi = $_POST;
+		unset($isi['id']);
+		unset($isi['idPerusahaan']);
+		unset($isi['alamat']);
+		unset($isi['tanggal']);
+		unset($isi['kesimpulan']);
+		$dataIsi = $this->monev->where('idLaporan', $_POST['id'])->get('monev_moncer_isi')->result_array();
+
+		for ($i=0; $i < count($isi); $i++) { 
+			$isiLaporan = array(
+				'idLaporan' => $_POST['id'],
+				'item' => $i+1,
+				'keterangan' => $isi['laporan'. ($i+1)]
+			);
+			$this->monev->where('id', $dataIsi[$i]['id']);
+			$this->monev->update('monev_moncer_isi', $isiLaporan);
+		}
+
+		if ($this->monev->trans_status() === FALSE) {
+			$this->monev->trans_rollback();
+			return FALSE;
+		} else {
+			$this->monev->trans_commit();
+			if ($this->addHistory('update',"Merubah data laporan Monev Monitoring Room") === TRUE){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		}
 	}
 
 }

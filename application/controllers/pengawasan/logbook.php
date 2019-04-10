@@ -89,6 +89,18 @@ class Logbook extends MY_Controller {
 		echo json_encode($pesan);
 	}
 
+	public function ajax_update(){
+		$status = $this->logbook->update();
+
+		if ($status = TRUE) {
+			$pesan = "Data Logbook Berhasil Diubah";
+		} else {
+			$pesan = "Data Logbook Gagal Diubah";
+		}
+
+		echo json_encode($pesan);
+	}
+
 	public function getById(){
 		$data = $this->logbook->getById();
 

@@ -239,10 +239,10 @@ class Menu_model extends CI_Model {
 		// 	),
 		// );
 
-		$admin = array(
+		$adminP2 = array(
 			'url' => '#',
 			'icon' => 'fa fa-user-secret',
-			'menu' => 'Administrator',
+			'menu' => 'Admin Peindakan',
 			'subMenu' => array(
 				'Upload Data' => array(
 					'url' => 'admin/uploaddata',
@@ -265,7 +265,7 @@ class Menu_model extends CI_Model {
 		case 5:
 			$data = array(
 				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan, $pengawasan),
-				'adminMenu' => array($admin),
+				'adminMenu' => array($adminP2),
 			);
 			break;
 
@@ -290,7 +290,7 @@ class Menu_model extends CI_Model {
 		default:
 			$data = array(
 				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan, $hanggar, $pengawasan),
-				'adminMenu' => array($admin),
+				'adminMenu' => array($adminP2),
 			);
 			break;
 		}

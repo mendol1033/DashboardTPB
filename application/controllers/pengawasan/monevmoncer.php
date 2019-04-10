@@ -17,13 +17,13 @@ class Monevmoncer extends MY_Controller {
 				$this->data['akses'] = "admin";
 			} else {
 				switch ($this->session->userdata('Eselon')) {
-				case 7:
+					case 7:
 					$this->data['akses'] = "pelaksana";
 					break;
-				case 4:
+					case 4:
 					$this->data['akses'] = "seksi";
 					break;
-				default:
+					default:
 					$this->data['akses'] = "browse";
 					break;
 				}
@@ -52,7 +52,7 @@ class Monevmoncer extends MY_Controller {
 		foreach ($list as $ListData) {
 
 			switch ($_POST['type']) {
-			case "pelaksana":
+				case "pelaksana":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -65,7 +65,7 @@ class Monevmoncer extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
 				break;
-			case "seksi":
+				case "seksi":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -77,7 +77,7 @@ class Monevmoncer extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'seksi'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
 				break;
-			case "browse":
+				case "browse":
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -88,7 +88,7 @@ class Monevmoncer extends MY_Controller {
 				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
 				</ul></div>';
 				break;
-			default:
+				default:
 				$action =
 				'<div class="btn-group">
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -109,8 +109,8 @@ class Monevmoncer extends MY_Controller {
 			$row[] = $ListData->NPWP;
 			$row[] = strtoupper($ListData->nama_perusahaan);
 			$row[] = $ListData->alamat;
-			$row[] = date("F", strtotime($ListData->tglLaporan)) . " - " . date("Y", strtotime($ListData->tglLaporan));
-			$row[] = $ListData->tglLaporan;
+			$row[] = date("F", strtotime($ListData->tanggalLaporan)) . " - " . date("Y", strtotime($ListData->tanggalLaporan));
+			$row[] = $ListData->tanggalLaporan;
 			$row[] = $action;
 
 			$data[] = $row;
@@ -124,6 +124,97 @@ class Monevmoncer extends MY_Controller {
 		);
 
 		echo json_encode($output);
+	}
+
+	public function ajax_edit(){
+		if (!empty($_GET)) {
+			$data = $this->monev->getById();
+		}
+
+		echo json_encode($data);
+	}
+
+	public function ajax_add(){
+		if(!empty($_POST)){
+			$status = $this->monev->add();
+			if ($status === TRUE) {
+				$pesan = "Data Laporan Monev Umum Monitoring Room Berhasil Direkam";
+			} else {
+				$pesan = "Data Laporan Monev Umum Monitoring Room Gagal Direkam";
+			}
+		}
+
+		echo json_encode($pesan);
+	}
+
+	public function ajax_update(){
+		if(!empty($_POST)){
+			$status = $this->monev->update();
+			if ($status === TRUE) {
+				$pesan = "Data Laporan Monev Umum Monitoring Room Berhasil Direkam";
+			} else {
+				$pesan = "Data Laporan Monev Umum Monitoring Room Gagal Direkam";
+			}
+		}
+
+		echo json_encode($pesan);
+	}
+
+	public function cetak() {
+		$data = $this->monev->getById();
+		$template = "assets/upload/monev/template/template_monev_umum_moncer.docx";
+		$dirDocx = 'assets/upload/monev/report_docx/';
+		$dirPdf = 'assets/upload/monev/report_pdf/';
+		$thick = mb_convert_encoding('&#x2714;', 'UTF-8', 'HTML-ENTITIES');
+		// $fileDir = 'C:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\';
+
+		$headerLaporan = $data['laporan'];
+		$isiLaporan = $data['isi'];
+
+		try {
+			\PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+			$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template);
+			$templateProcessor->setValue('nama_perusahaan', $headerLaporan['nama_perusahaan']);
+			$templateProcessor->setValue('alamat', $headerLaporan['alamat']);
+			$templateProcessor->setValue('tanggal', date('d-m-Y', strtotime($headerLaporan['tanggalLaporan'])));
+			$templateProcessor->setValue('kesimpulan', $headerLaporan['kesimpulan']);
+			$templateProcessor->setValue('nama', $headerLaporan['NamaPegawai']);
+
+			for ($i = 0; $i < count($isiLaporan); $i++) {
+				$templateProcessor->setValue('ket' . $isiLaporan[$i]['item'], $isiLaporan[$i]['keterangan']);
+			}
+
+			$fileName = 'Laporan_Moncer_' . $headerLaporan['idPerusahaan'] . "_" . date('d-m-Y', strtotime($headerLaporan['tanggalLaporan']));
+
+			$report = $dirDocx . $fileName . ".docx";
+
+			$templateProcessor->saveAs($report);
+
+			system('cmd /c C:\xampp\htdocs\DashboardTPB\assets\convert.bat C:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_pdf C:\xampp\htdocs\DashboardTPB\assets\upload\monev\report_docx\\' . $fileName . ".docx", $value);
+
+			$pdfFile = $dirPdf . $fileName . ".pdf";
+
+			unlink($dirDocx . $fileName . ".docx");
+		} catch (\BadMethodCallException $e) {
+			$error = $e->getMessage();
+		} finally {
+			if (isset($error)) {
+				echo json_encode(array($pdfFile, $fileName, $error));
+			} else {
+				echo json_encode(array($pdfFile, $fileName));
+			}
+		}
+		
+	}
+
+	public function delete_pdf() {
+		$name = $_GET['name'];
+
+		if (is_dir('assets/upload/monev/report_pdf/' . $name . ".pdf")) {
+			unlink('assets/upload/monev/report_pdf/' . $name . ".pdf");
+		}
+
+		echo json_encode("selesai");
 	}
 
 }

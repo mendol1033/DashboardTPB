@@ -212,6 +212,72 @@ class Logbook_model extends CI_Model {
 		}
 	}
 
+	public function update(){
+		$this->peloro->trans_begin();
+
+		$data = array(
+			'type' => $_POST['Logbook'],
+			'idPerusahaan' => $_POST['idPerusahaan'],
+			'tglLaporan' => $_POST['tglLaporan'],
+			'isiLaporan' => $_POST['isiLaporan'],
+			'ptgsRekam' => $this->session->userdata('NipUser')
+		);
+		$this->peloro->where('id',$_POST['id']);
+		$this->peloro->update('logbook',$data);
+		$idLogbook = $_POST['id'];
+
+		$fileLaporan = array();
+		for ($a = 0; $a < count($_FILES['upload']['name']); $a++) {
+			if (!empty($_FILES['upload']['name'][$a])) {
+				$tmpFilePath = $_FILES['upload']['tmp_name'][$a];
+				if ($tmpFilePath != "") {
+					if (is_dir("assets/upload/logbook") === FALSE) {
+						mkdir("assets/upload/logbook",0777);
+					}
+					$newFilePath = "assets/upload/logbook/" . $_FILES['upload']['name'][$a];
+					if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+						$fileLaporan[] = array(
+							'idLogbook' => $idLogbook,
+							'namaFile' => $_FILES['upload']['name'][$a],
+							'typeFile' => $_FILES['upload']['type'][$a],
+							'lokasiFile' => $newFilePath,
+						);
+					}
+				}
+			}
+		}
+
+		$this->peloro->insert_batch('logbook_pic',$fileLaporan);
+
+		if ($this->peloro->trans_status() === FALSE) {
+			$this->peloro->trans_rollback();
+			return FALSE;
+		} else {
+			$this->peloro->trans_commit();
+			switch ($_POST['Logbook']) {
+				case '1':
+				$detail = "Ubah data logbook CCTV";
+				break;
+				case '2':
+				$detail = "Ubah data logbook IT INVENTORY";
+				break;
+				case '3':
+				$detail = "Ubah data logbook E-SEAL";
+				break;
+				
+				default:
+				$detail = "Gagal Ubah data logbook";
+				break;
+			}
+			if ($this->addHistory('update',$detail) === TRUE){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+			
+		}
+	}
+
 	public function deletepic(){
 		$this->peloro->from('logbook_pic');
 		$this->peloro->where('id', $_GET['id']);
