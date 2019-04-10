@@ -72,10 +72,7 @@
 				<h4 class="modal-title">Disini Modal Title</h4>
 			</div>
 			<div class="modal-body">
-				<div class="col-md-1 col-lg-1">
-					
-				</div>
-				<div class="col-md-8 col-lg-8">
+				<div class="col-md-12 col-lg-12">
 					<form id="form" class="form-horizontal" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label class="col-sm-4 col-md-4 control-label">Jenis Logbook</label>
@@ -102,9 +99,6 @@
 							</div>
 						</div>
 					</form>
-				</div>
-				<div class="col-md-3 col-lg-3">
-					
 				</div>
 				<!-- Indicators -->
 				<div class="carousel slide" id="MyCarousel">
