@@ -265,6 +265,7 @@ class Menu_model extends CI_Model {
 		case 5:
 			$data = array(
 				'mainMenu' => array($Dashboard, $Dokumen, $perusahaan, $pengawasan),
+				'adminMenu' => array($admin),
 			);
 			break;
 
