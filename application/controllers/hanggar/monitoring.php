@@ -7,6 +7,7 @@ class Monitoring extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->model('hanggar/monitoring_model','monitoring',true);
+		$this->load->model('hanggar/hanggar_model','hanggar',true);
 	}
 
 	public function ajax_list() {
@@ -18,41 +19,41 @@ class Monitoring extends MY_Controller {
 
 		switch ($_POST['bulan']) {
 			case '1':
-				$bulan = "Januari";
-				break;
+			$bulan = "Januari";
+			break;
 			case '2':
-				$bulan = "Februari";
-				break;
+			$bulan = "Februari";
+			break;
 			case '3':
-				$bulan = "Maret";
-				break;
+			$bulan = "Maret";
+			break;
 			case '4':
-				$bulan = "April";
-				break;
+			$bulan = "April";
+			break;
 			case '5':
-				$bulan = "Mei";
-				break;
+			$bulan = "Mei";
+			break;
 			case '6':
-				$bulan = "Juni";
-				break;
+			$bulan = "Juni";
+			break;
 			case '7':
-				$bulan = "Juli";
-				break;
+			$bulan = "Juli";
+			break;
 			case '8':
-				$bulan = "Agustus";
-				break;
+			$bulan = "Agustus";
+			break;
 			case '9':
-				$bulan = "September";
-				break;
+			$bulan = "September";
+			break;
 			case '10':
-				$bulan = "Oktober";
-				break;
+			$bulan = "Oktober";
+			break;
 			case '11':
-				$bulan = "November";
-				break;
+			$bulan = "November";
+			break;
 			default:
-				$bulan = "Desember";
-				break;
+			$bulan = "Desember";
+			break;
 		}
 
 		
@@ -66,7 +67,7 @@ class Monitoring extends MY_Controller {
 			<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu">
-			<li><a href="javascript:void({})" onclick="hapusLampiran(' . $ListData->IdHanggar . ')">Hapus Lampiran</a></li>
+			<li><a href="javascript:void({})" onclick="petugas(' . $ListData->IdHanggar . ')">Cek Petugas Hanggar</a></li>
 			</ul></div>';
 			
 			$no++;
@@ -85,6 +86,49 @@ class Monitoring extends MY_Controller {
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $this->monitoring->count_all(),
 			"recordsFiltered" => $this->monitoring->count_filtered(),
+			"data" => $data,
+		);
+
+		echo json_encode($output);
+	}
+
+	public function ajax_listHanggar() {
+		//start datatable
+		$table = 'tb_petugas_hanggar_detail';
+		$column_order = array(null, 'Id', 'NamaPegawai', 'Pangkat', 'NamaJabatan');
+		$column_search = array('NamaPegawai');
+
+		$list = $this->hanggar->GetDataTable();
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($list as $ListData) {
+
+			$action =
+			'<div class="btn-group">
+			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			ACTION
+			<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+			<li><a href="javascript:void({})" onclick="cabut(' . $ListData->Id . ",'hanggar'" . ')">Cabut</a></li>
+			</ul></div>';
+
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $ListData->NamaPegawai;
+			$row[] = $ListData->Pangkat;
+			$row[] = $ListData->NamaJabatan;
+			$row[] = $action;
+
+			$data[] = $row;
+		}
+
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->hanggar->count_all(),
+			"recordsFiltered" => $this->hanggar->count_filtered(),
 			"data" => $data,
 		);
 
