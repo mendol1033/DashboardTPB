@@ -211,9 +211,33 @@ class Menu_model extends CI_Model {
 					'url' => 'pengawasan/random_check',
 					'menu' => 'Random Check CCTV dan IT',
 				),
+				'log' => array(
+					'url' => 'pengawasan/logbook',
+					'menu' => 'Logbook Monitoring TPB',
+				),
 
 			),
 		);
+
+		// $logbook = array(
+		// 	'url' => '#',
+		// 	'icon' => 'fa fa-history',
+		// 	'menu' => 'LOG BOOK',
+		// 	'subMenu' => array(
+		// 		'logCCTV' => array(
+		// 			'url' => 'pengawasan/logbook',
+		// 			'menu' => 'Log Book CCTV',
+		// 		),
+		// 		'logIT' => array(
+		// 			'url' => 'logbook',
+		// 			'menu' => 'Log Book IT Inventory',
+		// 		),
+		// 		'logEseal' => array(
+		// 			'url' => 'logbook',
+		// 			'menu' => 'Log Book E-Seal',
+		// 		),
+		// 	),
+		// );
 
 		$admin = array(
 			'url' => '#',

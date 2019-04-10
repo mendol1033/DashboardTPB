@@ -87,52 +87,89 @@
 	});
 
 
-$("#idPerusahaan").on("select2:selecting", function(e) {
-	id = e.params.args.data.id
+	$("#idPerusahaan").on("select2:selecting", function(e) {
+		id = e.params.args.data.id
 
-	$.ajax({
-		url: "<?php echo base_url(); ?>perusahaan/tpb/getById",
-		type: "GET",
-		dataType: "JSON",
-		data: {id: id},
-		success: function(data){
-			$("[name='alamat']").val(data.alamat);
-		}
-	})
-});
+		$.ajax({
+			url: "<?php echo base_url(); ?>perusahaan/tpb/getById",
+			type: "GET",
+			dataType: "JSON",
+			data: {id: id},
+			success: function(data){
+				$("[name='alamat']").val(data.alamat);
+			}
+		})
+	});
 
-$("#filter").on('click', function(event) {
-	event.preventDefault();
-	ajax_reload();
-});
+	$("#filter").on('click', function(event) {
+		event.preventDefault();
+		ajax_reload();
+	});
 
-$("#tambah").on('click', function(event) {
-	event.preventDefault();
-	/* Act on the event */
-	save_method = "add";
-	var curdate = "<?php echo date("Y-m-d"); ?>";
-	$("#formMonevUmum")[0].reset();
-	$("#idPerusahaan").children().remove();
-	$(".modal-title").text('Form Laporan Monitoring Umum');
-	$("#modalForm").modal("show");
-	$("#tanggal").val(curdate);
-});
+	$("#tambah").on('click', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		save_method = "add";
+		var curdate = "<?php echo date("Y-m-d"); ?>";
+		$("#formMonevUmum")[0].reset();
+		$("#idPerusahaan").children().remove();
+		$(".modal-title").text('Form Laporan Monitoring Umum');
+		$("#modalForm").modal("show");
+		$("#tanggal").val(curdate);
+	});
 
-function selectedValue(a,b){
-	var data = [{id:a,text:b}];
-	var selectedVal = $("#idPerusahaan");
-	var option = new Option(b,a,true,true);
-	selectedVal.append(option).trigger('change');
+	function selectedValue(a,b){
+		var data = [{id:a,text:b}];
+		var selectedVal = $("#idPerusahaan");
+		var option = new Option(b,a,true,true);
+		selectedVal.append(option).trigger('change');
 
-	selectedVal.trigger({
-		type: "select2:select",
-		params: {
-			data: data
-		}
-	})
-}
+		selectedVal.trigger({
+			type: "select2:select",
+			params: {
+				data: data
+			}
+		})
+	}
 
-function ajax_reload(){
-	table.ajax.reload(null, true);
-}
+	function ajax_reload(){
+		table.ajax.reload(null, true);
+	}
+
+	var tableHanggar;
+
+	function petugas(id) {
+		tableHanggar = $('#tableHanggar').DataTable({
+			initComplete : function(){
+				var api = this.api();
+				$("#dataTable_filter input")
+				.off('.DT')
+				.on('keyup.DT', function(e){
+					if(e.keyCode == 13){
+						api.search(this.value).draw();
+					}
+				});
+			},
+			"processing" : true,
+			"serverSide" : true,
+			"responsive" : true,
+			"autoWidth"	 : false,
+			"bFilter" 	 : false,
+			"order" : [],
+			"ajax" : {
+				"url" : "<?php echo base_url() . 'hanggar/monitoring/ajax_listHanggar'; ?>",
+				"type" : "POST",
+				"data" : function(a) {
+					a.id = id
+				}
+			},
+		});
+
+		$("#modalPetugas").modal('show');
+	}
+
+	function closeModal(){
+		tableHanggar.destroy();
+		$("#modalPetugas").modal('hide');
+	}
 </script>
