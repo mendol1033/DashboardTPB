@@ -161,7 +161,10 @@ class Logbook_model extends CI_Model {
 		$this->peloro->insert('logbook',$data);
 		$idLogbook = $this->peloro->insert_id();
 
-		if ($_FILES['upload']['error'] == 0) {
+		foreach ($_FILES['upload']['error'] as $key => $value) {
+			$error = 0 + $value;
+		}
+		if ($error == 0) {
 			$fileLaporan = array();
 			for ($a = 0; $a < count($_FILES['upload']['name']); $a++) {
 				if (!empty($_FILES['upload']['name'][$a])) {
@@ -182,9 +185,10 @@ class Logbook_model extends CI_Model {
 					}
 				}
 			}
-
+			
 			$this->peloro->insert_batch('logbook_pic',$fileLaporan);
 		}
+		
 
 		if ($this->peloro->trans_status() === FALSE) {
 			$this->peloro->trans_rollback();
@@ -231,7 +235,10 @@ class Logbook_model extends CI_Model {
 		$this->peloro->update('logbook',$data);
 		$idLogbook = $_POST['id'];
 
-		if ($_FILES['upload']['error'] == 0) {
+		foreach ($_FILES['upload']['error'] as $key => $value) {
+			$error = 0 + $value;
+		}
+		if ($error == 0) {
 			$fileLaporan = array();
 			for ($a = 0; $a < count($_FILES['upload']['name']); $a++) {
 				if (!empty($_FILES['upload']['name'][$a])) {
@@ -252,7 +259,7 @@ class Logbook_model extends CI_Model {
 					}
 				}
 			}
-
+			
 			$this->peloro->insert_batch('logbook_pic',$fileLaporan);
 		}
 
