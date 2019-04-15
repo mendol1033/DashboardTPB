@@ -161,28 +161,30 @@ class Logbook_model extends CI_Model {
 		$this->peloro->insert('logbook',$data);
 		$idLogbook = $this->peloro->insert_id();
 
-		$fileLaporan = array();
-		for ($a = 0; $a < count($_FILES['upload']['name']); $a++) {
-			if (!empty($_FILES['upload']['name'][$a])) {
-				$tmpFilePath = $_FILES['upload']['tmp_name'][$a];
-				if ($tmpFilePath != "") {
-					if (is_dir("assets/upload/logbook") === FALSE) {
-						mkdir("assets/upload/logbook",0777);
-					}
-					$newFilePath = "assets/upload/logbook/" . $_FILES['upload']['name'][$a];
-					if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-						$fileLaporan[] = array(
-							'idLogbook' => $idLogbook,
-							'namaFile' => $_FILES['upload']['name'][$a],
-							'typeFile' => $_FILES['upload']['type'][$a],
-							'lokasiFile' => $newFilePath,
-						);
+		if ($_FILES['upload']['error'] == 0) {
+			$fileLaporan = array();
+			for ($a = 0; $a < count($_FILES['upload']['name']); $a++) {
+				if (!empty($_FILES['upload']['name'][$a])) {
+					$tmpFilePath = $_FILES['upload']['tmp_name'][$a];
+					if ($tmpFilePath != "") {
+						if (is_dir("assets/upload/logbook") === FALSE) {
+							mkdir("assets/upload/logbook",0777);
+						}
+						$newFilePath = "assets/upload/logbook/" . $_FILES['upload']['name'][$a];
+						if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+							$fileLaporan[] = array(
+								'idLogbook' => $idLogbook,
+								'namaFile' => $_FILES['upload']['name'][$a],
+								'typeFile' => $_FILES['upload']['type'][$a],
+								'lokasiFile' => $newFilePath,
+							);
+						}
 					}
 				}
 			}
-		}
 
-		$this->peloro->insert_batch('logbook_pic',$fileLaporan);
+			$this->peloro->insert_batch('logbook_pic',$fileLaporan);
+		}
 
 		if ($this->peloro->trans_status() === FALSE) {
 			$this->peloro->trans_rollback();
@@ -224,33 +226,35 @@ class Logbook_model extends CI_Model {
 			'isiLaporan' => $_POST['isiLaporan'],
 			'ptgsRekam' => $this->session->userdata('NipUser')
 		);
-		
+
 		$this->peloro->where('id',$_POST['id']);
 		$this->peloro->update('logbook',$data);
 		$idLogbook = $_POST['id'];
 
-		$fileLaporan = array();
-		for ($a = 0; $a < count($_FILES['upload']['name']); $a++) {
-			if (!empty($_FILES['upload']['name'][$a])) {
-				$tmpFilePath = $_FILES['upload']['tmp_name'][$a];
-				if ($tmpFilePath != "") {
-					if (is_dir("assets/upload/logbook") === FALSE) {
-						mkdir("assets/upload/logbook",0777);
-					}
-					$newFilePath = "assets/upload/logbook/" . $_FILES['upload']['name'][$a];
-					if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-						$fileLaporan[] = array(
-							'idLogbook' => $idLogbook,
-							'namaFile' => $_FILES['upload']['name'][$a],
-							'typeFile' => $_FILES['upload']['type'][$a],
-							'lokasiFile' => $newFilePath,
-						);
+		if ($_FILES['upload']['error'] == 0) {
+			$fileLaporan = array();
+			for ($a = 0; $a < count($_FILES['upload']['name']); $a++) {
+				if (!empty($_FILES['upload']['name'][$a])) {
+					$tmpFilePath = $_FILES['upload']['tmp_name'][$a];
+					if ($tmpFilePath != "") {
+						if (is_dir("assets/upload/logbook") === FALSE) {
+							mkdir("assets/upload/logbook",0777);
+						}
+						$newFilePath = "assets/upload/logbook/" . $_FILES['upload']['name'][$a];
+						if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+							$fileLaporan[] = array(
+								'idLogbook' => $idLogbook,
+								'namaFile' => $_FILES['upload']['name'][$a],
+								'typeFile' => $_FILES['upload']['type'][$a],
+								'lokasiFile' => $newFilePath,
+							);
+						}
 					}
 				}
 			}
-		}
 
-		$this->peloro->insert_batch('logbook_pic',$fileLaporan);
+			$this->peloro->insert_batch('logbook_pic',$fileLaporan);
+		}
 
 		if ($this->peloro->trans_status() === FALSE) {
 			$this->peloro->trans_rollback();

@@ -34,15 +34,15 @@ class Logbook extends MY_Controller {
 
 			switch ($ListData->type) {
 				case '1':
-					$type = "CCTV";
-					break;
+				$type = "CCTV";
+				break;
 				case '2':
-					$type = "IT INVENTORY";
-					break;
+				$type = "IT INVENTORY";
+				break;
 				
 				default:
-					$type = "E-SEAL";
-					break;
+				$type = "E-SEAL";
+				break;
 			}
 
 			$action = '<div class="btn-group">
@@ -78,14 +78,16 @@ class Logbook extends MY_Controller {
 	}
 
 	public function ajax_add(){
-		$status = $this->logbook->add();
+		if (!empty($_POST)) {
+			$status = $this->logbook->add();
 
-		if ($status = TRUE) {
-			$pesan = "Data Logbook Berhasil Direkam";
-		} else {
-			$pesan = "Data Logbook Gagal Direkam";
+			if ($status = TRUE) {
+				$pesan = "Data Logbook Berhasil Direkam";
+			} else {
+				$pesan = "Data Logbook Gagal Direkam";
+			}
 		}
-
+		
 		echo json_encode($pesan);
 	}
 
