@@ -106,14 +106,14 @@
 								<label class="checkcontainer">
 									<input type="radio" name="kondisi" value="Y">
 									<span class="checkmark"></span>
-									AKTIF
+									Dapat Diakses
 								</label>
 							</div>
 							<div class="col-sm-4 col-md-4">
 								<label class="checkcontainer">
 									<input type="radio" name="kondisi" value="N">
 									<span class="checkmark"></span>
-									TIDAK AKTIF
+									Tidak Dapat Diakses
 								</label>
 							</div>
 						</div>
@@ -185,14 +185,14 @@
 									<label class="checkcontainer">
 										<input type="radio" name="viewKondisi" value="Y">
 										<span class="checkmark"></span>
-										AKTIF
+										Dapat Diakses
 									</label>
 								</div>
 								<div class="col-sm-5 col-md-5">
 									<label class="checkcontainer">
 										<input type="radio" name="viewKondisi" value="N">
 										<span class="checkmark"></span>
-										TIDAK AKTIF
+										Tidak Dapat Diakses
 									</label>
 								</div>
 							</div>
