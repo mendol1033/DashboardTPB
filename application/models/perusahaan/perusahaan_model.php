@@ -238,6 +238,14 @@ class Perusahaan_model extends CI_Model {
 		return $hanggar;
 	}
 
+	public function getHanggar() {
+		$this->db->from('tbhanggar_detail');
+		$this->db->select(array('id','grupHanggar'));
+		$data = $this->db->get();
+
+		return $data->result_array();
+	}
+
 	public function add() {
 		$this->sikabayan_db->trans_begin();
 		$datatpb = array(
@@ -308,6 +316,11 @@ class Perusahaan_model extends CI_Model {
 		if ($this->session->userdata('IdHanggar') != 0) {
 			$this->sikabayan_db->where('IdHanggar', $this->session->userdata('IdHanggar'));
 		}
+
+		if ($_POST['hanggar'] != 0) {
+			$this->sikabayan_db->where('IdHanggar', $_POST['hanggar']);
+		}
+
 		$query = $this->sikabayan_db->get();
 
 		return $query->result_array();

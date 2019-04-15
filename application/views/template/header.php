@@ -55,6 +55,7 @@
   <script src="<?php echo base_url() . 'assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'; ?>"></script>
   <!-- Slimscroll -->
   <script src="<?php echo base_url() . 'assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'; ?>"></script>
+  <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
   <!-- DataTables -->
   <script src="<?php echo base_url() ?>assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="<?php echo base_url() ?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
