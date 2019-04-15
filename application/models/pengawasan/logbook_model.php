@@ -79,6 +79,19 @@ class Logbook_model extends CI_Model {
 	public function count_filtered() {
 		$this->GetListData();
 
+		if ($_POST['perusahaan'] != NULL) {
+			$this->peloro->where('idPerusahaan', $_POST['perusahaan']);
+		}
+
+		if ($_POST['tglAwal'] != NULL && $_POST['tglAkhir'] != NULL) {
+			$this->peloro->where('tglLaporan >=', $_POST['tglAwal']);
+			$this->peloro->where('tglLaporan <=', $_POST['tglAkhir']);
+		}
+
+		if ($_POST['jnsLogbook'] != NULL) {
+			$this->peloro->where('type',$_POST['jnsLogbook']);
+		}
+
 		$query = $this->peloro->get();
 		return $query->num_rows();
 	}
@@ -185,7 +198,7 @@ class Logbook_model extends CI_Model {
 					}
 				}
 			}
-			
+
 			$this->peloro->insert_batch('logbook_pic',$fileLaporan);
 		}
 		

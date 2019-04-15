@@ -142,7 +142,7 @@ class Perusahaan_model extends CI_Model {
 		$this->sikabayan_db->from($this->table);
 		$this->sikabayan_db->select($column);
 		if ($this->Hanggar !== 0) {
-			$this->sikabayan_db->where('id_hanggar', $this->Hanggar);
+			$this->sikabayan_db->where('IdHanggar', $this->Hanggar);
 		}
 		$this->sikabayan_db->like('nama_perusahaan', $search);
 		return $this->sikabayan_db->get()->result_array();
@@ -303,8 +303,11 @@ class Perusahaan_model extends CI_Model {
 	}
 
 	public function getLocationTPB() {
-		$this->sikabayan_db->from('tb_perusahaan');
+		$this->sikabayan_db->from('tpbdetail');
 		$this->sikabayan_db->select('nama_perusahaan AS nama, latitude AS lat, longitude AS lng, id_perusahaan AS id, id_tpb AS jenis, profil_resiko AS profil');
+		if ($this->session->userdata('IdHanggar') != 0) {
+			$this->sikabayan_db->where('IdHanggar', $this->session->userdata('IdHanggar'));
+		}
 		$query = $this->sikabayan_db->get();
 
 		return $query->result_array();
