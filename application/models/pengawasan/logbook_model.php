@@ -153,6 +153,7 @@ class Logbook_model extends CI_Model {
 			'type' => $_POST['Logbook'],
 			'idPerusahaan' => $_POST['idPerusahaan'],
 			'tglLaporan' => $_POST['tglLaporan'],
+			'kondisi' => $_POST['kondisi'],
 			'isiLaporan' => $_POST['isiLaporan'],
 			'ptgsRekam' => $this->session->userdata('NipUser')
 		);
@@ -219,9 +220,11 @@ class Logbook_model extends CI_Model {
 			'type' => $_POST['Logbook'],
 			'idPerusahaan' => $_POST['idPerusahaan'],
 			'tglLaporan' => $_POST['tglLaporan'],
+			'kondisi' => $_POST['kondisi'],
 			'isiLaporan' => $_POST['isiLaporan'],
 			'ptgsRekam' => $this->session->userdata('NipUser')
 		);
+		
 		$this->peloro->where('id',$_POST['id']);
 		$this->peloro->update('logbook',$data);
 		$idLogbook = $_POST['id'];

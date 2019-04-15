@@ -283,7 +283,7 @@
 				$("#iframeDoc").removeAttr('src');
 				$("#iframeDoc").attr('src', "<?php echo base_url() ?>"+data[0]);
 				$('.modal-title').text(data[1]);
-				$("#btn_close").attr('value', data[1]);
+				$("#btn_close").attr('value',data[1]);
 				$("#modalDoc").modal("show");
 			}
 		})
@@ -300,6 +300,21 @@
 				$("#modalDoc").modal("hide");
 			}
 		})
+	}
+
+	function hapus(id){
+		if (confirm("data monev akan dihapus?")) {
+			$.ajax({
+				url: "<?php echo base_url()?>pengawasan/monevmoncer/hapus",
+				type: "GET",
+				dataType: "JSON",
+				data: {id: id},
+				success: function(d){
+					alert(d);
+					table.ajax.reload(null, false);
+				}
+			})
+		}
 	}
 
 </script>

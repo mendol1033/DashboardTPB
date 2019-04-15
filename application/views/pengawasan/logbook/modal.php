@@ -1,3 +1,70 @@
+<style type="text/css">
+	/* Customize the label (the container) */
+	.checkcontainer {
+		display: block;
+		position: relative;
+		padding-left: 35px;
+		margin-bottom: 12px;
+		cursor: pointer;
+		font-size: 22px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	/* Hide the browser's default radio button */
+	.checkcontainer input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
+
+	/* Create a custom radio button */
+	.checkmark {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 25px;
+		width: 25px;
+		background-color: #eee;
+		border-radius: 50%;
+	}
+
+	/* On mouse-over, add a grey background color */
+	.checkcontainer:hover input ~ .checkmark {
+		background-color: #ccc;
+	}
+
+	/* When the radio button is checked, add a blue background */
+	.checkcontainer input:checked ~ .checkmark {
+		background-color: #2196F3;
+	}
+
+	/* Create the indicator (the dot/circle - hidden when not checked) */
+	.checkmark:after {
+		content: "";
+		position: absolute;
+		display: none;
+	}
+
+	/* Show the indicator (dot/circle) when checked */
+	.checkcontainer input:checked ~ .checkmark:after {
+		display: block;
+	}
+
+	/* Style the indicator (dot/circle) */
+	.checkcontainer .checkmark:after {
+		top: 9px;
+		left: 9px;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: white;
+	}
+</style>
 <div class="modal fade" id="modalForm" role="dialog" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog" role="dokumen">
 		<div class="modal-content">
@@ -33,6 +100,25 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-sm-4 col-md-4 control-label">Kondisi</label>
+						<div class="col-sm-8 col-md-8">
+							<div class="col-sm-4 col-md-4">
+								<label class="checkcontainer">
+									<input type="radio" name="kondisi" value="Y">
+									<span class="checkmark"></span>
+									AKTIF
+								</label>
+							</div>
+							<div class="col-sm-4 col-md-4">
+								<label class="checkcontainer">
+									<input type="radio" name="kondisi" value="N">
+									<span class="checkmark"></span>
+									TIDAK AKTIF
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-sm-4 col-md-4 control-label">Isi Laporan</label>
 						<div class="col-sm-8 col-md-8">
 							<textarea class="form-control" name="isiLaporan" id="isiLaporan" rows="7"></textarea>
@@ -64,7 +150,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="modalViewLabel" aria-hidden="true">
+<div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="modalViewLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -90,6 +176,25 @@
 							<label class="col-sm-2 col-md-2 control-label">Tanggal Laporan</label>
 							<div class="col-sm-10 col-md-10">
 								<input type="text" name="viewTglLaporan" disabled="" class="form-control" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 col-md-2 control-label">Kondisi</label>
+							<div class="col-sm-10 col-md-10">
+								<div class="col-sm-5 col-md-5">
+									<label class="checkcontainer">
+										<input type="radio" name="viewKondisi" value="Y">
+										<span class="checkmark"></span>
+										AKTIF
+									</label>
+								</div>
+								<div class="col-sm-5 col-md-5">
+									<label class="checkcontainer">
+										<input type="radio" name="viewKondisi" value="N">
+										<span class="checkmark"></span>
+										TIDAK AKTIF
+									</label>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">

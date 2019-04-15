@@ -268,6 +268,23 @@ class Monevmoncer_model extends CI_Model {
 		}
 	}
 
+	public function hapus(){
+		$this->monev->trans_begin();
+		$this->monev->where('id', $_GET['id']);
+		$this->monev->delete('monev_moncer');
+
+		$this->monev->where('idLaporan', $_GET['id']);
+		$this->monev->delete('monev_moncer_isi');
+
+		if ($this->monev->trans_status() === FALSE) {
+			$this->monev->trans_rollback();
+			return FALSE;
+		} else{
+			$this->monev->trans_commit();
+			return TRUE;
+		}
+	}
+
 }
 
 /* End of file monevmoncer_model.php */

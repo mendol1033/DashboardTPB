@@ -291,7 +291,7 @@ function edit(id){
 			for (var i = 0; i < isiLaporan.length; i++) {
 					// $("#formMonevUmum").append("<input type='hidden' name='idIsi"+isiLaporan[i].item+"' value='"+isiLaporan[i].id+"'>");
 					if (isiLaporan[i].kondisi != null) {
-						$("input[name='checklist"+isiLaporan[i].item+"'][value='"+isiLaporan[i].kondisi+"'").prop('checked', true);
+						$("input[name='checklist"+isiLaporan[i].item+"'][value='"+isiLaporan[i].kondisi+"']").prop('checked', true);
 						$("[name='keterangan"+isiLaporan[i].item+"']").val(isiLaporan[i].keterangan);
 					}
 				};

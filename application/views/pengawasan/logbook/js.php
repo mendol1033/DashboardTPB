@@ -117,6 +117,7 @@
 				Logbook: "required",
 				idPerusahaan: "required",
 				tglLaporan: "required",
+				kondisi:"required",
 				isiLaporan: "required",
 				upload: "required"
 			},
@@ -124,13 +125,15 @@
 				Logbook: "Pilih Jenis Logbook",
 				idPerusahaan: "Pilih Perusahaan yang akan di Monitoring",
 				tglLaporan: "Isi Tanggal Laporan",
+				kondisi:"Pilih Kondisi",
 				isiLaporan: "Isi Laporan Wajib Di isi",
 				upload: "Cantumkan Foto atau Screenshot hasil monitoring"
 			},
-			errorElement: "span",
+			errorElement: "label",
 			errorPlacement:function(error,element){
 				offset = element.offset();
-				error.insertBefore(element);
+				that = element.closest('.col-md-8');
+				error.insertBefore(that);
 			},
 			highlight: function(element,errorClass, validClass){
 				$(element).parents('.form-group').addClass("has-error").removeClass("has-success");
@@ -176,6 +179,11 @@
 		// $('span.select2-selection__clear').trigger('click');
 	});
 
+	$("#modalView").on('hidden.bs.modal', function(event) {
+		$(".carousel-indicators").empty();
+		$(".carousel-inner").empty();
+	});
+
 	function selectedValue(a,b){
 		var data = [{id:a,text:b}];
 		var selectedVal = $("#idPerusahaan");
@@ -203,6 +211,7 @@
 				$("#Logbook").trigger('change');
 				selectedValue(d[0].idPerusahaan,d[0].nama_perusahaan);
 				$('[name="tglLaporan"]').val(d[0].tglLaporan);
+				$('input[name="kondisi"][value="'+d[0].kondisi+'"]').prop('checked', true);
 				$('[name="isiLaporan"]').val(d[0].isiLaporan);
 
 				image = d[1];
@@ -276,6 +285,7 @@
 				}
 				$('[name="viewLogbook"]').val(kode);
 				$('[name="viewPerusahaan"]').val(d[0].nama_perusahaan +" | "+ d[0].nama_tpb +" | "+ d[0].ijin_kelola_tpb);
+				$('input[name="viewKondisi"][value="'+d[0].kondisi+'"]').prop('checked', true);
 				$('[name="viewTglLaporan"]').val(d[0].tglLaporan);
 				$('[name="viewIsiLaporan"]').val(d[0].isiLaporan);
 
