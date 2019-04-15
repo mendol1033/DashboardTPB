@@ -284,7 +284,7 @@
 	<div class="modal-dialog modal-lg" role="dokumen">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button id="btn_close" type="button" class="close" data-dismiss="modal">
+				<button id="btn_close" type="button" class="close" onclick="closeModalView()">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 class="modal-title">Disini Modal Title</h4>

@@ -201,7 +201,7 @@ class Monevmoncer extends MY_Controller {
 			if (isset($error)) {
 				echo json_encode(array($pdfFile, $fileName, $error));
 			} else {
-				echo json_encode(array($pdfFile, $fileName));
+				echo json_encode(array($pdfFile, $fileName, $value));
 			}
 		}
 		
@@ -210,11 +210,28 @@ class Monevmoncer extends MY_Controller {
 	public function delete_pdf() {
 		$name = $_GET['name'];
 
-		if (is_dir('assets/upload/monev/report_pdf/' . $name . ".pdf")) {
-			unlink('assets/upload/monev/report_pdf/' . $name . ".pdf");
+		if (file_exists('assets/upload/monev/report_pdf/' . $name . ".pdf")) {
+			if (unlink('assets/upload/monev/report_pdf/' . $name . ".pdf")) {
+				echo json_encode("file berhasil dihapus");
+			} else{
+				echo json_encode("file gagal dihapus");
+			}
+		} else {
+			echo json_encode("file tidak ada");
 		}
+	}
 
-		echo json_encode("selesai");
+	public function hapus(){
+		if (!empty($_GET)) {
+			$status = $this->monev->hapus();
+			if ($status === TRUE) {
+				$pesan = "Data berhasil dihapus";
+			} else {
+				$pesan = "Data gagal dihapus";
+			}
+
+			echo json_encode($pesan);
+		}
 	}
 
 }
