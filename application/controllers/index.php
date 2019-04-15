@@ -15,6 +15,8 @@ class Index extends MY_Controller {
 		$this->data['breadcrumb'] = "menu";
 		$this->data['title'] = "DASHBOARD TPB";
 		$this->data['main_content'] = null;
+		$this->data['hanggar'] = $this->perusahaan->getHanggar();
+
 		$this->load->view('template/template',$this->data);
 	}
 

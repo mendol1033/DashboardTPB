@@ -6,21 +6,25 @@
 
   }
 
-  function initMap(){
+  function initMap(hanggar = null){
     // Map Options
     var options = {
       zoom:14,
       center:{lat:-6.287869,lng:107.150520},
-      gestureHandling: 'cooperative'
+      gestureHandling: 'cooperative',
+      mapTypeId:'satellite'
     }
 
     // New Map
     var map = new google.maps.Map(document.getElementById('mapGoogle'), options);
 
+    var hanggar = $('[name="hanggar"]').val();
+
     $.ajax({
       url: base_url + "index/getLocation",
-      type: "GET",
+      type: "POST",
       dataType: "JSON",
+      data: {hanggar: hanggar},
       success : function(data){
         var latitude;
         var longitude;
@@ -81,6 +85,8 @@
             id: val.id,
             animation: google.maps.Animation.DROP
           });
+
+          
 
           // Marker On Click
           marker.addListener('click',function(event){
