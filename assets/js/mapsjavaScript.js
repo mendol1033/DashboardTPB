@@ -6,7 +6,7 @@
 
   }
 
-  function initMap(hanggar = null){
+  function initMap(){
     // Map Options
     var options = {
       zoom:14,
