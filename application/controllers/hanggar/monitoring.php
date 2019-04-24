@@ -74,7 +74,7 @@ class Monitoring extends MY_Controller {
 			$row = array();
 			$row[] = $no;
 			$row[] = $ListData->NPWP;
-			$row[] = strtoupper($ListData->nama_perusahaan);
+			$row[] = strtoupper($ListData->nama_perusahaan) ." | ". $ListData->nama_tpb ." | ". $ListData->ijin_kelola_tpb;
 			$row[] = $ListData->alamat;
 			$row[] = $bulan . " - " . $_POST['tahun'];
 			$row[] = $action;
@@ -105,14 +105,12 @@ class Monitoring extends MY_Controller {
 		foreach ($list as $ListData) {
 
 			$action =
-			'<div class="btn-group">
-			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			ACTION
+			'
+			<button type="button" class="btn btn-success" aria-expanded="false" onclick="cabut(' . $ListData->Id . ",'hanggar'" . ')">
+			DETAIL
 			<span class="caret"></span>
 			</button>
-			<ul class="dropdown-menu">
-			<li><a href="javascript:void({})" onclick="cabut(' . $ListData->Id . ",'hanggar'" . ')">Cabut</a></li>
-			</ul></div>';
+			';
 
 			$no++;
 			$row = array();

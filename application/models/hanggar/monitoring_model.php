@@ -15,7 +15,7 @@ class Monitoring_model extends CI_Model {
 	var $table = 'tpbdetail';
 	var $column_order = array(null,'NPWP','nama_perusahaan','alamat');
 	var $column_search = array('NPWP','nama_perusahaan','alamat');
-	var $order = array('id_perusahaan'=>'asc');
+	var $order = array('nama_perusahaan'=>'asc');
 
 	private function GetListData(){
 		$this->sikabayan->from($this->table);
