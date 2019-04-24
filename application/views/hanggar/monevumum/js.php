@@ -8,7 +8,7 @@
 
 	$(document).ready(function() {
 		var date = new Date();
-		bulan = date.getMonth();
+		bulan = date.getMonth() + 1;
 		tahun = date.getFullYear();
 		$('[name="bulan"]').val(bulan);
 		$('[name="tahun"]').val(tahun);
@@ -258,6 +258,11 @@ function closeModal(){
 	$("input[type='hidden']").remove();
 	$("#modalForm").modal('hide');
 }
+
+$("#filter").on('click', function(event) {
+		event.preventDefault();
+		ajax_reload();
+	});
 
 function selectedValue(a,b){
 	var data = [{id:a,text:b}];

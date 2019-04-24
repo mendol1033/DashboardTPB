@@ -234,6 +234,10 @@ class Monevmoncer extends MY_Controller {
 		}
 	}
 
+	public function getAkses(){
+		echo json_encode("succes");
+	}
+
 }
 
 /* End of file monevumum.php */
