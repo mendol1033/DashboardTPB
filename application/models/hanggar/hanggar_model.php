@@ -84,7 +84,25 @@ class Hanggar_model extends CI_Model {
 
 		return $this->db->count_all_results();
 	}
+
+	public function getHanggarById(){
+		$this->db->from('tbhanggar');
+		$this->db->where('id',$_GET['id']);
+
+		$data = $this->db->get()->row_array();
+
+		return $data;
+	}
 	
+
+	public function getPegawaiById(){
+		$this->db->from('tbpegawai_detail');
+		$this->db->where('IdPegawai',$_GET['id']);
+
+		$data = $this->db->get()->row_array();
+
+		return $data;
+	}
 }
 
 /* End of file hanggar_model.php */

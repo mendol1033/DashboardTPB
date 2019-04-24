@@ -105,12 +105,7 @@ class Monitoring extends MY_Controller {
 		foreach ($list as $ListData) {
 
 			$action =
-			'
-			<button type="button" class="btn btn-success" aria-expanded="false" onclick="cabut(' . $ListData->Id . ",'hanggar'" . ')">
-			DETAIL
-			<span class="caret"></span>
-			</button>
-			';
+			'<button type="button" class="btn btn-success" aria-expanded="false" onclick="detail(' . $ListData->IdPegawai	 . ')">DETAIL</button>';
 
 			$no++;
 			$row = array();
@@ -131,6 +126,22 @@ class Monitoring extends MY_Controller {
 		);
 
 		echo json_encode($output);
+	}
+
+	public function getHanggar(){
+		if (!empty($_GET)) {
+			$data = $this->hanggar->getHanggarById();
+
+			echo json_encode($data);
+		}
+	}
+
+	public function getPetugas(){
+		if (!empty($_GET)) {
+			$data = $this->hanggar->getPegawaiById();
+
+			echo json_encode($data);
+		}
 	}
 
 	public function test(){

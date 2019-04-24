@@ -183,6 +183,19 @@
 				$("[name='alamat']").val(data.alamat);
 			}
 		})
+
+		$.ajax({
+			url: '<?php echo base_url()?>pengawasan/monevmoncer/getAkses',
+			type: 'GET',
+			dataType: 'JSON)',
+			data: {id: id},
+			success: function(d){
+				$("#linkCCTV").removeClass('sr-only');
+				$("#linkIT").removeClass('sr-only');
+				$("#linkESEAL").removeClass('sr-only');
+			}
+		})
+		
 	});
 
 	$("#tambah").on('click', function(event) {

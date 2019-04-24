@@ -165,7 +165,39 @@
 			},
 		});
 
+		$.ajax({
+			url: '<?php echo base_url()?>hanggar/monitoring/getHanggar',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {id: id},
+			success: function(d){
+				$(".modal-title").text(d.grupHanggar);
+			}
+		})		
+
 		$("#modalPetugas").modal('show');
+	}
+
+	$("#modalPetugas").on('hidden.bs.modal', function(event) {
+		$("#detailPegawai").addClass('sr-only');
+	});
+
+	function detail(id){
+		$.ajax({
+			url: '<?php echo base_url()?>hanggar/monitoring/getPetugas',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {id: id},
+			success: function(d){
+				console.log(d);
+				$('[name="NIP"]').val(d.NIPPegawai);
+				$('[name="nama"]').val(d.NamaPegawai);
+				$('[name="pangkat"]').val(d.Pangkat);
+				$('[name="unit"]').val(d.NmUnit);
+				$('[name="jabatan"]').val(d.NamaJabatan);
+				$("#detailPegawai").removeClass('sr-only');
+			}
+		})		
 	}
 
 	function closeModal(){

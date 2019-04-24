@@ -11,14 +11,15 @@
 				<form id="formMonev" class="form-horizontal" method="post" enctype="multipart/form-data" novalidate="novalidate">
 					<table class="table table-responsive">
 						<tr>
-							<td class="col-md-3">
+							<td style="width: 20%;">
 								<label class="control-label">Nama Perusahaan</label>
 							</td>
-							<td class="col-md-9">
+							<td>
 								<select class="form-control  select2" name="idPerusahaan" id="idPerusahaan">
 
 								</select>
 							</td>
+							<td class="sr-only" id="linkCCTV" style="width: 10%;"><button class="btn btn-success" style="width: 100%;">CCTV</button></td>
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
@@ -26,12 +27,13 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="col-md-3">
+							<td>
 								<label class="control-label">Alamat</label>
 							</td>
-							<td class="col-md-9">
+							<td>
 								<input class="form-control" type="text" name="alamat" id="alamat">
 							</td>
+							<td class="sr-only" id="linkIT" style="width: 10%;"><button class="btn btn-info" style="width: 100%;">IT INVENTORY</button></td>
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
@@ -39,12 +41,13 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="col-md-3">
+							<td>
 								<label class="control-label">Tanggal Pelaksanaan</label>
 							</td>
-							<td class="col-md-9">
+							<td>
 								<input class="form-control" type="text" name="tanggal" id="tanggal">
 							</td>
+							<td class="sr-only" id="linkESEAL" style="width: 10%;"><button class="btn btn-danger" style="width: 100%;">E-SEAL</button></td>
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
