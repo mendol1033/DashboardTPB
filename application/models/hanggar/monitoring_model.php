@@ -64,6 +64,7 @@ class Monitoring_model extends CI_Model {
 		}
 
 		$this->sikabayan->where('status',"Y");
+		$this->sikabayan->where('id_tpb !=',4);
 
 		$z = $this->sudahLaporan();
 		if (count($z) > 0) {
@@ -82,6 +83,7 @@ class Monitoring_model extends CI_Model {
 
 		$z = $this->sudahLaporan();
 		$this->sikabayan->where('status',"Y");
+		$this->sikabayan->where('id_tpb !=',4);
 		if (count($z) > 0) {
 			$this->sikabayan->where_not_in('id_perusahaan',$z);
 		}
@@ -98,6 +100,7 @@ class Monitoring_model extends CI_Model {
 
 		$z = $this->sudahLaporan();
 		$this->sikabayan->where('status',"Y");
+		$this->sikabayan->where('id_tpb !=',4);
 		if (count($z) > 0) {
 			$this->sikabayan->where_not_in('id_perusahaan',$z);
 		}
