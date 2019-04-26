@@ -110,8 +110,8 @@ class Monitoring_model extends CI_Model {
 		$tahun = (int)$_POST['tahun'];
 		$this->monev->from('monev_hanggar');
 		$this->monev->select('idPerusahaan');
-		$this->monev->where('flag !=',0);
-		$this->monev->where('flag !=',99);
+		$this->monev->where('flag >',0);
+		$this->monev->where('flag <',99);
 		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$bulan);
 		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$tahun);
 		$this->monev->distinct();
