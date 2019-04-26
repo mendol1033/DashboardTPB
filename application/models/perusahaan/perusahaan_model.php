@@ -321,6 +321,8 @@ class Perusahaan_model extends CI_Model {
 			$this->sikabayan_db->where('IdHanggar', $_POST['hanggar']);
 		}
 
+		$this->sikabayan_db->where('status',"Y");
+
 		$query = $this->sikabayan_db->get();
 
 		return $query->result_array();
