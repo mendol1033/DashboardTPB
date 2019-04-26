@@ -139,6 +139,11 @@ class Monev_model extends CI_Model {
 			$this->monev->where('idLaporan', $id);
 		}
 
+		if (!empty($_POST['bulan'])) {
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$_POST['bulan']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$_POST['tahun']);
+		}
+
 		$query = $this->monev->get();
 		return $query->num_rows();
 	}
@@ -176,6 +181,11 @@ class Monev_model extends CI_Model {
 
 		if ($id != NULL) {
 			$this->monev->where('idLaporan', $id);
+		}
+
+		if (!empty($_POST['bulan'])) {
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$_POST['bulan']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$_POST['tahun']);
 		}
 
 		return $this->monev->count_all_results();
