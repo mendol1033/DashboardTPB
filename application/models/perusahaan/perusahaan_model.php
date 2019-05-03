@@ -13,8 +13,8 @@ class Perusahaan_model extends CI_Model {
 	}
 
 	var $table = "tpbdetail";
-	var $column_order = array(null, 'id_perusahaan', 'NPWP', 'nama_perusahaan', 'alamat');
-	var $column_search = array('id_perusahaan', 'NPWP', 'nama_perusahaan', 'alamat');
+	var $column_order = array(null, 'NPWP', 'nama_perusahaan', 'alamat', 'status');
+	var $column_search = array('NPWP', 'nama_perusahaan', 'alamat', 'status');
 	var $order = array('nama_perusahaan' => 'asc');
 
 	private function GetListData() {
@@ -385,25 +385,9 @@ class Perusahaan_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function getLokasi($data) {
+	public function getLokasi() {
 		$query = 'SELECT lokasi_nama FROM inf_lokasi WHERE lokasi_kode = ?';
-		$provinsi = $this->sikabayan_db->query($query, $data['provinsi'])->result_array();
-
-		$query = 'SELECT lokasi_nama FROM inf_lokasi WHERE lokasi_kode = ?';
-		$kota = $this->sikabayan_db->query($query, $data['kota'])->result_array();
-
-		$query = 'SELECT lokasi_nama FROM inf_lokasi WHERE lokasi_kode = ?';
-		$kecamatan = $this->sikabayan_db->query($query, $data['kecamatan'])->result_array();
-
-		$query = 'SELECT lokasi_nama FROM inf_lokasi WHERE lokasi_kode = ?';
-		$kelurahan = $this->sikabayan_db->query($query, $data['kelurahan'])->result_array();
-
-		$data = array(
-			'provinsi' => $provinsi[0]['lokasi_nama'],
-			'kota' => $kota[0]['lokasi_nama'],
-			'kecamatan' => $kecamatan[0]['lokasi_nama'],
-			'kelurahan' => $kelurahan[0]['lokasi_nama'],
-		);
+		$data = $this->sikabayan_db->query($query,$_GET['kode'])->row_array();
 		return $data;
 	}
 }

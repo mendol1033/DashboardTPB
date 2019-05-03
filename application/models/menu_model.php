@@ -242,7 +242,7 @@ class Menu_model extends CI_Model {
 		$adminP2 = array(
 			'url' => '#',
 			'icon' => 'fa fa-user-secret',
-			'menu' => 'Admin Peindakan',
+			'menu' => 'Admin Penindakan',
 			'subMenu' => array(
 				'Upload Data' => array(
 					'url' => 'admin/uploaddata',

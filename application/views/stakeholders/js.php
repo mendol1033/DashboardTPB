@@ -386,17 +386,40 @@ function view(id){
 	})
 }
 
-function getLokasi(ref_1, ref_2, ref_3, ref_4){
+// function getLokasi(ref_1, ref_2, ref_3, ref_4){
+// 	$.ajax({
+// 		url: '<?php echo base_url() ?>'+'perusahaan/tpb/getLokasi',
+// 		type: "POST",
+// 		dataType: "JSON",
+// 		data: {provinsi: ref_1, kota: ref_2, kecamatan: ref_3, kelurahan: ref_4},
+// 		success: function(data){
+// 			provinsi = data.provinsi;
+// 			kota = data.kota;
+// 			kecamatan = data.kecamatan;
+// 			kelurahan = data.kelurahan;
+// 		}
+// 	})
+// }
+
+function selectedValue(a, el){
 	$.ajax({
-		url: '<?php echo base_url() ?>'+'perusahaan/tpb/getLokasi',
-		type: "POST",
-		dataType: "JSON",
-		data: {provinsi: ref_1, kota: ref_2, kecamatan: ref_3, kelurahan: ref_4},
-		success: function(data){
-			provinsi = data.provinsi;
-			kota = data.kota;
-			kecamatan = data.kecamatan;
-			kelurahan = data.kelurahan;
+		url: '<?php echo base_url()?>perusahaan/tpb/getLokasi',
+		type: 'GET',
+		dataType: 'JSON',
+		data: {kode: a},
+		success: function(d){
+			console.log(d);
+			var data = [{id:a, text:d.lokasi_nama}];
+			var selectedVal = $(el);
+			var option = new Option(d.lokasi_nama,a,true,true);
+			selectedVal.append(option).trigger('change');
+
+			selectedVal.trigger({
+				type: "select2:select",
+				params: {
+					data: data
+				}
+			})
 		}
 	})
 }
@@ -410,20 +433,16 @@ function edit(id){
 		success:function(data){
 			idEdit = id;
 			save_method = "edit";
-			getLokasi(data.provinsi, data.kota, data.kecamatan, data.kelurahan);
+			// getLokasi(data.provinsi, data.kota, data.kecamatan, data.kelurahan);
 			$("#NPWP").val(data.NPWP);
 			$("#namatpb").val(data.nama_perusahaan);
 			$("#telepon").val(data.telepon);
 			$("#fax").val(data.fax);
 			$("#alamat").val(data.alamat);
-			$("#Provinsi").append('<option value='+data.provinsi+'>'+provinsi+'<option>');
-			$("#Provinsi").trigger('change');
-			$("#Kota").append('<option value='+data.kota+'>'+kota+'<option>');
-			$("#kota").trigger('change');
-			$("#Kecamatan").append('<option value='+data.kecamatan+'>'+kecamatan+'<option>');
-			$("#Kecamatan").trigger('change');
-			$("#Kelurahan").append('<option value='+data.kelurahan+'>'+kelurahan+'<option>');
-			$("#Kelurahan").trigger('change');
+			selectedValue(data.provinsi,"#Provinsi");
+			selectedValue(data.kota,"#Kota");
+			selectedValue(data.kecamatan,"#Kecamatan");
+			selectedValue(data.kelurahan,"#Kelurahan");
 			$("#kodepos").val(data.kode_pos);
 			$("#JenisTPB").val(data.id_tpb);
 			$("#JenisTPB").trigger('change');

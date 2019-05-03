@@ -10,9 +10,9 @@ class Dashboard_model extends CI_Model {
 	}
 
 	public function getOption(){
-		$query = "SELECT DISTINCT YEAR(TANGGAL_DAFTAR) AS TAHUN FROM tpb_header ORDER BY TAHUN DESC";
+		$query = "SELECT DISTINCT YEAR(TANGGAL_DAFTAR) AS TAHUN FROM tpb_header_detail ORDER BY TAHUN DESC";
 		$tahun = $this->dashboard->query($query)->result_array();
-		$year[0] = "TAHUN";
+		$year = array();
 
 		foreach ($tahun as $key => $value) {
 			foreach ($value as $key1 => $value1) {
@@ -20,9 +20,9 @@ class Dashboard_model extends CI_Model {
 			}
 		}
 
-		$query = "SELECT DISTINCT KODE FROM tpb_nopen";
+		$query = "SELECT DISTINCT KODE_DOKUMEN FROM tpb_header_detail ORDER BY KODE_DOKUMEN ASC";
 		$kode_dok = $this->dashboard->query($query)->result_array();
-		$kodeDok[0] = "DOKUMEN";
+		$kodeDok = array();
 
 		foreach ($kode_dok as $key => $value) {
 			foreach ($value as $key1 => $value1) {
@@ -30,9 +30,9 @@ class Dashboard_model extends CI_Model {
 			}
 		}
 
-		$query = "SELECT DISTINCT NAMA_HANGGAR FROM tpb_nopen ORDER BY NAMA_HANGGAR ASC";
+		$query = "SELECT DISTINCT NAMA_HANGGAR FROM tpb_header_detail ORDER BY NAMA_HANGGAR ASC";
 		$tpb = $this->dashboard->query($query)->result_array();
-		$hanggar[0] = "HANGGAR TPB";
+		$hanggar[0] = "PILIH HANGGAR TPB";
 
 		foreach ($tpb as $key => $value) {
 			foreach ($value as $key1 => $value1) {
@@ -51,7 +51,7 @@ class Dashboard_model extends CI_Model {
 	public function getAllDokumen(){
 
 		// Get MonthName
-		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_nopen GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header_detail GROUP BY MONTH(TANGGAL_DAFTAR)';
 		$bulan = $this->dashboard->query($query)->result_array();
 
 		if (count($bulan) > 0) {
@@ -64,69 +64,149 @@ class Dashboard_model extends CI_Model {
 		
 
 		// Get Current Year Data
-		$query1 = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS ? FROM tpb_nopen WHERE YEAR(TANGGAL_DAFTAR) = ? AND STATUS != "PEMBATALAN" GROUP BY MONTH(TANGGAL_DAFTAR)';
-		$year1 = $this->dashboard->query($query1,array(strval(date('Y')),date('Y')))->result_array();
+		$this->dashboard->from('tpb_header_detail');
+		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS "'.$_POST['tahun'].'"');
+		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
+		$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+		if ($_POST['hanggar'] !== "0") {
+			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+		}
+		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+		$year1 = $this->dashboard->get()->result_array();
 
 		if (count($year1) > 0) {
 			foreach ($year1 as $key => $value) {
-				$dataSet3[] = array($value["BULAN"],(int)$value[strval(date('Y'))]);
+				$dataSet3[] = array($value["BULAN"],(int)$value[$_POST['tahun']]);
 			}
 		} else {
 			$dataSet3[] = array();
 		}
-		
 
-		// // Get Last Year Data
-		$year2 = $this->dashboard->query($query1,array(strval(date('Y')-1),date('Y')-1))->result_array();
+		if ($dataSet3[0][0] !== "January") {
+				switch ($dataSet3[0][0]) {
+					case "April":
+					array_unshift($dataSet3, array("January", null));
+					array_unshift($dataSet3, array("February", null));
+					array_unshift($dataSet3, array("March", null));
+					break;
 
-		if (count($year2) > 0) {
-			foreach ($year2 as $key => $value) {
-				$dataSet2[] = array($value["BULAN"],(int)$value[strval(date('Y')-1)]);
+					case "Maret":
+					array_unshift($dataSet3, array("January", null));
+					array_unshift($dataSet3, array("February", null));
+					break;
+					case "February":
+					array_unshift($dataSet3, array("January", null));
+					break;
+
+					default:
+					// code...
+					break;
+				}
 			}
+
+		
+		if ((int)$_POST['tahun'] > 2017) {
+			// // Get Last Year Data
+			$this->dashboard->from('tpb_header_detail');
+			$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS "'. ((int)$_POST['tahun'] - 1) .'"');
+			$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']-1);
+			$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+			$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+			if ($_POST['hanggar'] !== "0") {
+				$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+			}
+			$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+			$year2 = $this->dashboard->get()->result_array();
+
+			if (count($year2) > 0) {
+				foreach ($year2 as $key => $value) {
+					$dataSet2[] = array($value["BULAN"],(int)$value[((int)$_POST['tahun']-1)]);
+				}
+			} else {
+				$dataSet2[] = array();
+			}
+
+			if ($dataSet2[0][0] !== "January") {
+				switch ($dataSet2[0][0]) {
+					case "April":
+					array_unshift($dataSet2, array("January", null));
+					array_unshift($dataSet2, array("February", null));
+					array_unshift($dataSet2, array("March", null));
+					break;
+
+					case "Maret":
+					array_unshift($dataSet2, array("January", null));
+					array_unshift($dataSet2, array("February", null));
+					break;
+					case "February":
+					array_unshift($dataSet2, array("January", null));
+					break;
+
+					default:
+					// code...
+					break;
+				}
+			}
+
 		} else {
 			$dataSet2[] = array();
 		}
 		
+		
+		if ((int)$_POST['tahun'] > 2018) {
+			// // Get Last Two Year Data
+			$this->dashboard->from('tpb_header_detail');
+			$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS "'. ((int)$_POST['tahun'] - 2) .'"');
+			$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']-2);
+			$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+			$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+			if ($_POST['hanggar'] !== "0") {
+				$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+			}
+			$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+			$year3 = $this->dashboard->get()->result_array();
 
-		// // Get Last Two Year Data
-		$year3 = $this->dashboard->query($query1,array(strval(date('Y')-2),date('Y')-2))->result_array();
+			if (count($year3) > 0) {
+				foreach ($year3 as $key => $value) {
+					$dataSet1[] = array($value["BULAN"],(int)$value[((int)$_POST['tahun']-2)]);
+				}	
+			} else {
+				$dataSet1[] = array();
+			}
 
-		if (count($year3) > 0) {
-			foreach ($year3 as $key => $value) {
-				$dataSet1[] = array($value["BULAN"], (int)$value[strval(date('Y')-2)]);
-			}	
+			if ($dataSet1[0][0] !== "January") {
+				switch ($dataSet1[0][0]) {
+					case "April":
+					array_unshift($dataSet1, array("January", null));
+					array_unshift($dataSet1, array("February", null));
+					array_unshift($dataSet1, array("March", null));
+					break;
+
+					case "Maret":
+					array_unshift($dataSet1, array("January", null));
+					array_unshift($dataSet1, array("February", null));
+					break;
+					case "February":
+					array_unshift($dataSet1, array("January", null));
+					break;
+
+					default:
+					// code...
+					break;
+				}
+			}
 		} else {
 			$dataSet1[] = array();
 		}
 		
-		if (count($dataSet1) < 13) {
-			switch (count($dataSet1)) {
-				case 9:
-				array_unshift($dataSet1, array("January", null));
-				array_unshift($dataSet1, array("February", null));
-				array_unshift($dataSet1, array("March", null));
-				break;
-
-				case 10:
-				array_unshift($dataSet1, array("January", null));
-				array_unshift($dataSet1, array("February", null));
-				break;
-				case 11:
-				array_unshift($dataSet1, array("January", null));
-				break;
-
-				default:
-					// code...
-				break;
-			}
-		}
 
 		$data = array(
 			'bulan' => $dataBulan,
 			'data' => array(
-				date("Y")-2 => $dataSet1,
-				date("Y")-1 => $dataSet2,
-				date("Y") => $dataSet3
+				(int)$_POST['tahun']-2 => $dataSet1,
+				(int)$_POST['tahun']-1 => $dataSet2,
+				(int)$_POST['tahun'] => $dataSet3
 			)
 		);
 
@@ -135,7 +215,7 @@ class Dashboard_model extends CI_Model {
 
 	public function getCurrentDokumen(){
 		// GET MONTH NAME
-		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header_detail GROUP BY MONTH(TANGGAL_DAFTAR)';
 		$bulan = $this->dashboard->query($query)->result_array();
 
 		if (count($bulan) > 0) {
@@ -146,11 +226,41 @@ class Dashboard_model extends CI_Model {
 			$dataBulan = array();
 		}	
 
-		$sql = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS ? FROM tpb_header WHERE KODE_KANTOR_BONGKAR = ? AND YEAR(TANGGAL_DAFTAR) = YEAR(CURDATE()) AND STATUS_DOKUMEN != "PEMBATALAN" GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$sql = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS ? FROM tpb_header_detail WHERE KODE_KANTOR_BONGKAR = ? AND YEAR(TANGGAL_DAFTAR) = YEAR(CURDATE()) AND STATUS_DOKUMEN != "PEMBATALAN" GROUP BY MONTH(TANGGAL_DAFTAR)';
 
-		$query1 = $this->dashboard->query($sql,array("CIKARANG","051000"))->result_array();
-		$query2 = $this->dashboard->query($sql,array("PRIOK","040300"))->result_array();
-		$query3 = $this->dashboard->query($sql,array("SOETTA","050100"))->result_array();
+		$this->dashboard->from('tpb_header_detail');
+		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS CIKARANG');
+		$this->dashboard->where("KODE_KANTOR_BONGKAR","051000");
+		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
+		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+		if ($_POST['hanggar'] !== "0") {
+			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+		}
+		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+
+		$query1 = $this->dashboard->get()->result_array();
+
+		$this->dashboard->from('tpb_header_detail');
+		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS PRIOK');
+		$this->dashboard->where("KODE_KANTOR_BONGKAR","040300");
+		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
+		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+		if ($_POST['hanggar'] !== "0") {
+			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+		}
+		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+		$query2 = $this->dashboard->get()->result_array();
+
+		$this->dashboard->from('tpb_header_detail');
+		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS SOETTA');
+		$this->dashboard->where("KODE_KANTOR_BONGKAR","050100");
+		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
+		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+		if ($_POST['hanggar'] !== "0") {
+			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+		}
+		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+		$query3 = $this->dashboard->get()->result_array();
 
 		if (count($query1) > 0) {
 			foreach ($query1 as $key => $value) {
@@ -190,7 +300,7 @@ class Dashboard_model extends CI_Model {
 
 	public function getNetto(){
 		// GET MONTH NAME
-		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header GROUP BY MONTH(TANGGAL_DAFTAR)';
+		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header_detail GROUP BY MONTH(TANGGAL_DAFTAR)';
 		$bulan = $this->dashboard->query($query)->result_array();
 
 		if (count($bulan) > 0) {
@@ -202,8 +312,16 @@ class Dashboard_model extends CI_Model {
 		}
 
 		// Get Current Year Data
-		$query1 = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, SUM(NETTO)/1000 AS ? FROM tpb_header WHERE YEAR(TANGGAL_DAFTAR) = ? AND STATUS_DOKUMEN != "PEMBATALAN" GROUP BY MONTH(TANGGAL_DAFTAR)';
-		$year1 = $this->dashboard->query($query1,array(strval(date('Y')),date('Y')))->result_array();
+		$this->dashboard->from('tpb_header_detail');
+		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, SUM(NETTO)/1000 AS "'. $_POST['tahun'].'"');
+		$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
+		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+		if ($_POST['hanggar'] !== "0") {
+			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+		}
+		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+		$year1 = $this->dashboard->get()->result_array();
 
 		if (count($year1) > 0) {
 			foreach ($year1 as $key => $value) {
@@ -215,7 +333,16 @@ class Dashboard_model extends CI_Model {
 		
 
 		// // Get Last Year Data
-		$year2 = $this->dashboard->query($query1,array(strval(date('Y')-1),date('Y')-1))->result_array();
+		$this->dashboard->from('tpb_header_detail');
+		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, SUM(NETTO)/1000 AS "'. ((int)$_POST['tahun'] -1).'"');
+		$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']-1 );
+		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+		if ($_POST['hanggar'] !== "0") {
+			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+		}
+		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+		$year2 = $this->dashboard->get()->result_array();
 
 		if (count($year2) > 0) {
 			foreach ($year2 as $key => $value) {
@@ -226,7 +353,16 @@ class Dashboard_model extends CI_Model {
 		}
 
 		// // Get Last Two Year Data
-		$year3 = $this->dashboard->query($query1,array(strval(date('Y')-2),date('Y')-2))->result_array();
+		$this->dashboard->from('tpb_header_detail');
+		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, SUM(NETTO)/1000 AS "'. ((int)$_POST['tahun'] -2).'"');
+		$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']-2 );
+		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
+		if ($_POST['hanggar'] !== "0") {
+			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+		}
+		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
+		$year3 = $this->dashboard->get()->result_array();
 
 		if (count($year3) > 0) {
 			foreach ($year3 as $key => $value) {
@@ -268,6 +404,96 @@ class Dashboard_model extends CI_Model {
 		);
 
 		return $data;
+	}
+
+	public function getAllDokStatus(){
+		if (!empty($_POST)) {
+			$sql = 'SELECT DOKUMEN_STATUS AS STATUS FROM tpb_header_detail WHERE KODE_DOKUMEN = ? GROUP BY DOKUMEN_STATUS';
+			$stat = $this->dashboard->query($sql,array($_POST['dok']))->result_array();
+			$status = array();
+			foreach ($stat as $key => $value) {
+				$status[$value['STATUS']] = 0;
+			}
+			$this->dashboard->from('tpb_header_detail');
+			$this->dashboard->select("DOKUMEN_STATUS AS STATUS, COUNT(DOKUMEN_STATUS) AS JUMLAH");
+			$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+			$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
+			if ($_POST['hanggar'] !== "0") {
+				$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+			}
+			$this->dashboard->group_by('DOKUMEN_STATUS');
+			$data = $this->dashboard->get();
+			$x = $data->result_array();
+			$d = array();
+			foreach ($x as $key => $value) {
+				$status[$value['STATUS']] = (int)$value['JUMLAH'];
+			}
+
+			return $status;
+		}
+	}
+
+	public function getDokOutstanding(){
+		if (!empty($_POST)) {
+			$sql = 'SELECT DOKUMEN_STATUS AS STATUS FROM tpb_header_detail WHERE DOKUMEN_STATUS != "PEMBATALAN" AND DOKUMEN_STATUS != "SPPD" AND DOKUMEN_STATUS != "REJECT" GROUP BY DOKUMEN_STATUS';
+			$stat = $this->dashboard->query($sql)->result_array();
+			$status = array();
+			$total = array();
+			foreach ($stat as $key => $value) {
+				$status[$value['STATUS']] = array();
+			}
+
+			$sql = 'SELECT YEAR(TANGGAL_DAFTAR) AS TAHUN FROM tpb_header_detail WHERE KODE_DOKUMEN = ? GROUP BY YEAR(TANGGAL_DAFTAR)';
+			$tahun = $this->dashboard->query($sql, $_POST['dok'])->result_array();
+
+			$data = array();
+			foreach ($tahun as $key => $value) {
+				$total[$value['TAHUN']] = 0;
+				$this->dashboard->from('tpb_header_detail');
+				$this->dashboard->select('DOKUMEN_STATUS AS STATUS, COUNT(DOKUMEN_STATUS) AS "'. $value['TAHUN'].'"');
+				$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+				$this->dashboard->where("DOKUMEN_STATUS != ", "PEMBATALAN");
+				$this->dashboard->where("DOKUMEN_STATUS != ", "SPPD");
+				$this->dashboard->where("DOKUMEN_STATUS != ", "REJECT");
+				$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')", (int)$value['TAHUN']);
+				if ($_POST['hanggar'] !== "0") {
+					$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+				}
+				$this->dashboard->group_by('DOKUMEN_STATUS');
+
+				$q = $this->dashboard->get()->result_array();
+				foreach ($q as $kunci => $nilai) {
+					$status[$nilai['STATUS']][$value['TAHUN']] = $nilai[$value['TAHUN']];
+					$total[$value['TAHUN']] = $total[$value['TAHUN']] + (int)$nilai[$value['TAHUN']];
+				}
+			}
+			$status['TOTAL']	= $total;		
+
+			$return = array('status' => $status, 'tahun' => $tahun);
+
+			return $return;
+		}
+	}
+
+	public function getJumlahStatus(){
+		if (!empty($_POST)) {
+			$this->dashboard->from('tpb_header_detail');
+			$this->dashboard->select('DOKUMEN_STATUS AS STATUS, COUNT(DOKUMEN_STATUS) AS JUMLAH');
+			$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
+			$this->dashboard->where("DOKUMEN_STATUS", "SPPD");
+			if ($_POST['hanggar'] !== "0") {
+				$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+			}
+			$this->dashboard->group_by('DOKUMEN_STATUS');
+
+			$sppd = $this->dashboard->get()->row_array();
+
+			return $sppd;
+		}
+	}
+
+	public function test(){
+
 	}
 
 }
