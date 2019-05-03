@@ -9,24 +9,19 @@
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="form-group">
 							<div class="col-lg-2 col-md-2 col-sm-2">
-								<select id="filterTahun" class="form-control">
+								<select id="filterTahun" name="filterTahun" class="form-control">
 								</select>
 							</div>
 							<div class="col-lg-3 col-md-3 col-sm-3">
-								<select id="filterDokumen" class="form-control">
+								<select id="filterDokumen" name="filterDokumen" class="form-control">
 									
 								</select>
 							</div>
 							<div class="col-lg-3 col-md-3 col-sm-3">
-								<select id="filterHanggar" class="form-control select2">
+								<select id="filterHanggar" name="filterHanggar" class="form-control select2">
 									
 								</select>
 							</div>
-<!-- 							<div class="col-lg-3 col-md-3 col-sm-3">
-								<select id="filterTPB" class="form-control select2">
-									
-								</select>
-							</div> -->
 							<div class="col-lg-1 col-md-1 col-sm-1 pull-right">
 								<button class="btn btn-info" id="cari">Filter</button>
 							</div>
@@ -35,17 +30,18 @@
 				</div>
 			</div>
 		</div>
+		<!-- Statistik Dokumen -->
 		<div class="row">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs pull-right">
 					<li class="active">
-						<a id="tabAllDokumen" href="#allDokumen" data-toggle="tab">All Dokumen</a>
+						<a class="mainGrafik" id="tabAllDokumen" href="#allDokumen" data-toggle="tab">All Dokumen</a>
 					</li>
 					<li>
-						<a id="tabCurrentDokumen" href="#currentDokumen" data-toggle="tab">Dokumen Tahun Berjalan</a>
+						<a class="mainGrafik" id="tabCurrentDokumen" href="#currentDokumen" data-toggle="tab">Dokumen Tahun Berjalan</a>
 					</li>
 					<li>
-						<a id="tabNetto" href="#netto" data-toggle="tab">Netto</a>
+						<a class="mainGrafik" id="tabNetto" href="#netto" data-toggle="tab">Netto</a>
 					</li>
 					<li class="pull-left header">
 						<i class="fa fa-inbox"></i>
@@ -59,7 +55,88 @@
 				</div>
 			</div>
 		</div>
+		<!-- Statistik Dokumen -->
+		<div class="row">
+			<div class="col-md-9 col-lg-9">
+				<div class="row">
+					<div class="col-md-5 col-lg-5 nopadding">
+						<div class="nav-tabs-custom">
+							<ul class="nav nav-tabs pull-right">
+								<li class="active">
+									<a id="tabChartStatus" href="#chartStatus" data-toggle="tab">Grafik</a>
+								</li>
+								<li>
+									<a id="tabDataStatus" href="#dataStatus" data-toggle="tab">Data</a>
+								</li>
+								<li class="pull-left header">
+									<i class="fa fa-inbox"></i>
+									<strong>Status Dokumen</strong>
+								</li>
+							</ul>
+							<div class="tab-content no-padding">
+								<div class="tab-pane active" id="chartStatus" style="height: 400px;"></div>
+								<div class="tab-pane" id="dataStatus">
+									<table class="table table-hover table-responsive table-striped" id="tableDokStat">
+										<thead>
+											<th style="text-align: center; vertical-align: middle;">Status</th>
+											<th style="text-align: center; vertical-align: middle;">Jumlah Dokumen</th>
+										</thead>
+										<tbody>
 
+										</tbody>
+										<tfoot>
+											<th style="text-align: center; vertical-align: middle;">Status</th>
+											<th style="text-align: center; vertical-align: middle;">Jumlah Dokumen</th>
+										</tfoot>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7 col-lg-7">
+						<div class="box box-default">
+							<div class="box-header with-border">
+								<i class="fa fa-inbox"></i><h4 id="boxTitle2" style="width: 50%; display: inline;"><strong>Dokumen Outstanding</strong></h4>
+							</div>
+							<div class="box-body">
+								<table class="table table-hover table-responsive table-striped" id="tableDokOutStand">
+									<thead>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-3">
+				<div class="row">
+					<div class="box box-default">
+						<div class="box-header with-border">
+							<i class="fa fa-inbox"></i><h4 id="boxTitle1" style="width: 50%; display: inline;"><strong>Status Dokumen Tahun Berjalan</strong></h4>
+						</div>
+						<div class="box-body">
+							<table class="table table-hover table-responsive table-striped" id="tableDokStat">
+								<thead>
+									<th style="text-align: center; vertical-align: middle;">Status</th>
+									<th style="text-align: center; vertical-align: middle;">Jumlah Dokumen</th>
+								</thead>
+								<tbody>
+
+								</tbody>
+								<tfoot>
+									<th style="text-align: center; vertical-align: middle;">Status</th>
+									<th style="text-align: center; vertical-align: middle;">Jumlah Dokumen</th>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		
 	</section>
 	<!-- right col -->

@@ -15,7 +15,7 @@
 				</button>
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#profil" data-toggle="tab" aria-expanded="true">Profil Perusahaan</a></li>
-					<li class=""><a href="#timeline" data-toggle="tab" aria-expanded="false">Timeline</a></li>
+					<li class=""><a href="#timeline" data-toggle="tab" aria-expanded="false">Rekap Dokumen</a></li>
 					<li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Settings</a></li>
 				</ul>
 			</div>
@@ -55,7 +55,7 @@
 						</div>
 						<!-- /.tab-pane -->
 
-						<div class="tab-pane" id="settings">
+						<!-- <div class="tab-pane" id="settings">
 							<div class="row">
 								<div class="col-lg-12">
 									<form id="form" class="form-horizontal" novalidate="true">
@@ -68,7 +68,7 @@
 									</form>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<!-- /.tab-pane -->
 					</div>
 					<!-- /.tab-content -->
@@ -77,7 +77,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="tutup" class="btn btn-default" data-dismiss="modal">Tutup</button>
-				<button type="button" id="simpan" class="btn btn-primary" onclick="save()">Simpan</button>
+<!-- 				<button type="button" id="simpan" class="btn btn-primary" onclick="save()">Simpan</button> -->
 			</div>
 		</div>
 	</div>

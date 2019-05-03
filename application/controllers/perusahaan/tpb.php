@@ -168,8 +168,8 @@ class Tpb extends MY_Controller {
 	}
 
 	public function getLokasi() {
-		if (!empty($_POST)) {
-			$data = $this->perusahaan->getLokasi($_POST);
+		if (!empty($_GET)) {
+			$data = $this->perusahaan->getLokasi();
 		} else {
 			$data = "Data Tidak Ditemukan";
 		}

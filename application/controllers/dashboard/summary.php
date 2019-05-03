@@ -44,21 +44,39 @@ class Summary extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	public function test(){
-		switch ($_GET['param']) {
+	public function getDashboard(){
+		switch ($_POST['param']) {
 			case "all":
-			$data = $this->dashboard->getAllDokumen();
+			$graph = $this->dashboard->getAllDokumen();
 			break;
 
 			case "netto":
-			$data = $this->dashboard->getNetto();
+			$graph = $this->dashboard->getNetto();
 			break;
 			
 			default:
-			$data = $this->dashboard->getCurrentDokumen();
+			$graph = $this->dashboard->getCurrentDokumen();
 			break;
 		}
 		
+		$data = array(
+			'graph' => $graph,
+		);
+
+		echo json_encode($data);
+	}
+
+	public function getTabel(){
+		$status = $this->dashboard->getAllDokStatus();
+		$outstanding = $this->dashboard->getDokOutstanding();
+		$persentaseOutstanding = $this->dashboard->getJumlahStatus();
+		
+		$data = array(
+			'status' => $status,
+			'outstanding' => $outstanding,
+			'pie' => $persentaseOutstanding
+
+		);
 
 		echo json_encode($data);
 	}
