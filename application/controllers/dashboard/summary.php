@@ -81,6 +81,17 @@ class Summary extends MY_Controller {
 		echo json_encode($data);
 	}
 
+	public function getDataMonev(){
+		if ($_POST['url'] === "status") {
+			$monev = $this->dashboard->getStatusMonevHanggar();
+		} else {
+			$monev = $this->dashboard->getMonevPerTPB();
+		}
+
+		echo json_encode($monev);
+		
+	}
+
 }
 
 /* End of file dashboard.php */

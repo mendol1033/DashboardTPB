@@ -28,7 +28,7 @@
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-6">
 					<div class="form-group">
-						<label class="col-lg-4 col-md-4 col-sm-4 control-label">Bulan</label>
+						<label class="col-lg-4 col-md-4 col-sm-4 control-label">Tahun</label>
 						<div class="col-lg-8 col-md-8 col-sm-8">
 							<select class="form-control select2" name="tahun">
 								<?php 

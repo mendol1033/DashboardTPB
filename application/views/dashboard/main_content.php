@@ -92,6 +92,54 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12">
+								<div class="box box-default">
+									<div class="box-header with-border">
+										<i class="fa fa-inbox"></i><h4 id="boxTitle1" style="width: 50%; display: inline;"><strong>Status Monitoring Umum Hanggar</strong></h4>
+									</div>
+									<div class="box-body">
+										<form class="form-horizontal">
+											<div class="row">
+												<div class="col-lg-12 col-md-12 col-sm-12">
+													<div class="form-group">
+														<label class="col-lg-3 col-md-3 col-sm-3 control-label">Bulan</label>
+														<div class="col-lg-5 col-md-5 col-sm-5">
+															<select class="form-control select2" name="bulan">
+																<option value=1>Januari</option>
+																<option value=2>Februari</option>
+																<option value=3>Maret</option>
+																<option value=4>April</option>
+																<option value=5>Mei</option>
+																<option value=6>Juni</option>
+																<option value=7>Juli</option>
+																<option value=8>Agustus</option>
+																<option value=9>September</option>
+																<option value=10>Oktober</option>
+																<option value=11>November</option>
+																<option value=12>Desember</option>
+															</select>
+														</div>
+														<div class="col-lg-4 col-md-4 col-sm-4 pull-right">
+															<button class="btn btn-info pull-right" type="button" value="filter" id="filter">FILTER</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+										<div class="row">
+											<div class="col-lg-12 col-md-12 col-sm-12">
+												<table class="table table-hover table-responsive table-striped" id="tableMonevHanggar">
+													<thead></thead>
+													<tbody></tbody>
+													<tfoot></tfoot>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>							
+						</div>
 					</div>
 					<div class="col-md-7 col-lg-7">
 						<div class="box box-default">
@@ -113,28 +161,7 @@
 				</div>
 			</div>
 			<div class="col-md-3 col-lg-3">
-				<div class="row">
-					<div class="box box-default">
-						<div class="box-header with-border">
-							<i class="fa fa-inbox"></i><h4 id="boxTitle1" style="width: 50%; display: inline;"><strong>Status Dokumen Tahun Berjalan</strong></h4>
-						</div>
-						<div class="box-body">
-							<table class="table table-hover table-responsive table-striped" id="tableDokStat">
-								<thead>
-									<th style="text-align: center; vertical-align: middle;">Status</th>
-									<th style="text-align: center; vertical-align: middle;">Jumlah Dokumen</th>
-								</thead>
-								<tbody>
 
-								</tbody>
-								<tfoot>
-									<th style="text-align: center; vertical-align: middle;">Status</th>
-									<th style="text-align: center; vertical-align: middle;">Jumlah Dokumen</th>
-								</tfoot>
-							</table>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 		
