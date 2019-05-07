@@ -32,20 +32,6 @@
 		var bulan = date.getMonth() + 1;	
 		$('[name="bulan"]').val(bulan);
 		$('[name="bulan"]').trigger('change');
-		$.ajax({
-			url: "<?php echo base_url().'dashboard/summary/getData';?>",
-			type: "POST",
-			dataType: "JSON",
-			success: function (data) {
-				$('#BC23').text(data.jumlahDokumen.BC23);
-				$('#BC25').text(data.jumlahDokumen.BC25);
-				$('#BC26').html(data.jumlahDokumen.BC261 + "<br>" + data.jumlahDokumen.BC262);
-				$('#BC27').text(data.jumlahDokumen.BC27);
-				$('#BC30').text(data.BC30);
-				$('#BC4').html(data.jumlahDokumen.BC40 + "<br>" + data.jumlahDokumen.BC41);
-					// console.log(data.dokPerBulan23.length);
-				}
-			})
 
 		$(".select2").select2({
 			width : "100%"
@@ -264,7 +250,6 @@
 					$("#filterDokumen").append('<option value='+index+'>'+val+'</option>');
 					// $("#filterDokumen").children("option").prop('selected', 'selected');
 				});
-
 				$.each(data.tahun, function(index, val) {
 					/* iterate through array or object */
 					$("#filterTahun").append('<option value='+index+'>'+val+'</option>');
@@ -274,13 +259,12 @@
 					/* iterate through array or object */
 					$("#filterHanggar").append('<option value="'+index+'"">'+val+'</option>');
 				});
-				$.each(data.hanggar, function(index, val) {
-					/* iterate through array or object */
-					$("#filterTPB").append('<option value='+index+'>'+val+'</option>');
-				});
 			}
 		})
 		.done(function() {
+			<?php $tpb = str_pad($this->session->userdata("IdHanggar"), 2, '0', STR_PAD_LEFT);?>
+			var tpb = "TPB "+<?php echo $tpb;?>;
+			$("#filterHanggar").val(tpb).trigger('change');
 			grafikDokumen("all");
 			tabelStatus("all");
 			getDataMonev();
