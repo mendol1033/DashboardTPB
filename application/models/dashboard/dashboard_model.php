@@ -7,6 +7,7 @@ class Dashboard_model extends CI_Model {
 	{
 		parent::__construct();
 		$this->dashboard = $this->load->database('tpb',true);
+		$this->monev = $this->load->database('monev',true);
 	}
 
 	public function getOption(){
@@ -84,26 +85,26 @@ class Dashboard_model extends CI_Model {
 		}
 
 		if ($dataSet3[0][0] !== "January") {
-				switch ($dataSet3[0][0]) {
-					case "April":
-					array_unshift($dataSet3, array("January", null));
-					array_unshift($dataSet3, array("February", null));
-					array_unshift($dataSet3, array("March", null));
-					break;
+			switch ($dataSet3[0][0]) {
+				case "April":
+				array_unshift($dataSet3, array("January", null));
+				array_unshift($dataSet3, array("February", null));
+				array_unshift($dataSet3, array("March", null));
+				break;
 
-					case "Maret":
-					array_unshift($dataSet3, array("January", null));
-					array_unshift($dataSet3, array("February", null));
-					break;
-					case "February":
-					array_unshift($dataSet3, array("January", null));
-					break;
+				case "Maret":
+				array_unshift($dataSet3, array("January", null));
+				array_unshift($dataSet3, array("February", null));
+				break;
+				case "February":
+				array_unshift($dataSet3, array("January", null));
+				break;
 
-					default:
+				default:
 					// code...
-					break;
-				}
+				break;
 			}
+		}
 
 		
 		if ((int)$_POST['tahun'] > 2017) {
@@ -489,6 +490,31 @@ class Dashboard_model extends CI_Model {
 			$sppd = $this->dashboard->get()->row_array();
 
 			return $sppd;
+		}
+	}
+
+	public function getStatusMonevHanggar(){
+		if (!empty($_POST)) {
+			$this->monev->from('monev_hanggar_detail');
+			$this->monev->select('status, COUNT(status) AS jumlah');
+			$this->monev->where('flag !=', 99);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int)$_POST['tahun']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", (int)$_POST['bulan']);
+			$this->monev->group_by('status');
+			$query = $this->monev->get();
+
+			return $query->result_array();
+		}
+		
+	}
+
+	public function getMonevPerTPB(){
+		if (!empty($_POST)) {
+			$sql = "SELECT a.id_perusahaan, a.nama_perusahaan, a.alamat, b.id FROM `sikabayan_app`.`tpbdetail` a LEFT JOIN `monevtpb`.`monev_hanggar_detail` b ON a.id_perusahaan = b.idPerusahaan AND MONTH(b.tanggalLaporan) = ? AND YEAR(b.tanggalLaporan) = ? WHERE a.TPB = ?";
+
+			$query = $this->monev->query($sql,array($_POST['bulan'],$_POST['tahun'],$_POST['hanggar']));
+			$data = $query->result_array();
+			return $data;
 		}
 	}
 

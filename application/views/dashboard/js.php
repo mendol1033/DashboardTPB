@@ -26,7 +26,12 @@
 	}
 
 
+
 	$(document).ready(function() {
+		var date = new Date();
+		var bulan = date.getMonth() + 1;	
+		$('[name="bulan"]').val(bulan);
+		$('[name="bulan"]').trigger('change');
 		$.ajax({
 			url: "<?php echo base_url().'dashboard/summary/getData';?>",
 			type: "POST",
@@ -56,7 +61,12 @@
 		$("#tableDokOutStand").children('tbody').empty();
 		$("#tableDokOutStand").children('thead').empty();
 		$("#tableDokOutStand").children('tfoot').empty();
+		$("#tableMonevHanggar").children('tbody').empty();
+		$("#tableMonevHanggar").children('thead').empty();
+		$("#tableMonevHanggar").children('tfoot').empty();
+
 		myChart.destroy();
+		myPie.destroy();
 		var param;
 		var activeTab = $("ul.nav").children('.active').children('a').get(0).id;
 		switch (activeTab) {
@@ -72,6 +82,7 @@
 		}
 		grafikDokumen(param);
 		tabelStatus();
+		getDataMonev();
 		// console.log(activeTab);
 	});
 
@@ -154,10 +165,10 @@
 			var no = -1;
 			$.each(data.status, function(index, val) {
 				no++;
-				 pieOptions.series[0].data[no] = {
-				 	name: index,
-				 	y: val
-				 };
+				pieOptions.series[0].data[no] = {
+					name: index,
+					y: val
+				};
 			});
 			myPie = Highcharts.chart(pieOptions);
 			// console.log(data);
@@ -190,6 +201,57 @@
 		})		
 	}
 
+	function getDataMonev(){
+		var filterTahun = $('#filterTahun').val();
+		var filterHanggar = $("#filterHanggar").val();
+		var filterBulan = $('[name="bulan"]').val();
+		var url;
+		if (filterHanggar == 0) {
+			url = "status";
+		} else {
+			url = "tpb";
+		}
+		$.ajax({
+			url: '<?php echo base_url()?>dashboard/summary/getDataMonev',
+			type: 'POST',
+			dataType: 'JSON',
+			data: {url:url, tahun: filterTahun, hanggar: filterHanggar, bulan: filterBulan},
+			success: function(data){
+				if (filterHanggar == 0) {
+					$("#tableMonevHanggar").children('thead').append('<tr><th>Status</th><th>Jumlah</th></tr>');
+					$("#tableMonevHanggar").children('tfoot').append('<tr><th>Status</th><th>Jumlah</th></tr>');
+					if (data.length !== 0) {
+						$.each(data, function(index, val) {
+							 $("#tableMonevHanggar").children('tbody').append('<tr><td>'+val.status+'</td><td>'+val.jumlah+'</td></tr>');
+						});
+						
+					}
+				} else {
+					var status;
+					$("#tableMonevHanggar").children('thead').append('<tr><th>Perusahaan</th><th>Status</th></tr>');
+					$("#tableMonevHanggar").children('tfoot').append('<tr><th>Perusahaan</th><th>Status</th></tr>');
+					$.each(data, function(index, val) {
+						if (val.id !== null) {
+							status = "&#10004;";
+						} else {
+							status = " ";
+						}
+						$("#tableMonevHanggar").children('tbody').append('<tr><td>'+val.nama_perusahaan+'</td><td>'+status+'</td></tr>');
+					});
+				}
+			}
+		})
+	}
+
+	$("#filter").on('click', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		$("#tableMonevHanggar").children('tbody').empty();
+		$("#tableMonevHanggar").children('thead').empty();
+		$("#tableMonevHanggar").children('tfoot').empty();
+		getDataMonev();
+	});
+
 	function getOption() {
 
 		$.ajax({
@@ -221,6 +283,7 @@
 		.done(function() {
 			grafikDokumen("all");
 			tabelStatus("all");
+			getDataMonev();
 		})		
 	}
 
