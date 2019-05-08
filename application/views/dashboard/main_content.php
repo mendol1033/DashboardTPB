@@ -45,7 +45,7 @@
 					</li>
 					<li class="pull-left header">
 						<i class="fa fa-inbox"></i>
-						<strong id="grafikTitle">Year to Year Jumlah Dokumen BC 2.3</strong>
+						<strong id="grafikTitle"></strong>
 					</li>
 				</ul>
 				<div class="tab-content no-padding">
