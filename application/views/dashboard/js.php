@@ -51,6 +51,9 @@
 		$("#tableMonevHanggar").children('tbody').empty();
 		$("#tableMonevHanggar").children('thead').empty();
 		$("#tableMonevHanggar").children('tfoot').empty();
+		$("#best20").text("20 Besar Terbanyak BC "+dok);
+		$("#boxTitle2").children('strong').text("Dokumen Outstanding BC " + dok);
+		$("#statusDokumen").text("Status Dokumen BC " +dok+ " Tahun Berjalan");
 
 		myChart.destroy();
 		myPie.destroy();
@@ -212,7 +215,7 @@
 					$("#tableMonevHanggar").children('tfoot').append('<tr><th>Status</th><th>Jumlah</th></tr>');
 					if (data.length !== 0) {
 						$.each(data, function(index, val) {
-							 $("#tableMonevHanggar").children('tbody').append('<tr><td>'+val.status+'</td><td>'+val.jumlah+'</td></tr>');
+							$("#tableMonevHanggar").children('tbody').append('<tr><td>'+val.status+'</td><td>'+val.jumlah+'</td></tr>');
 						});
 						
 					}
@@ -277,6 +280,9 @@
 			}
 			$("#filterHanggar").val(tpb).trigger('change');
 			$("#grafikTitle").text("Year to Year Jumlah Dokumen BC "+dok);
+			$("#best20").text("20 Besar Terbanyak BC "+dok);
+			$("#boxTitle2").children('strong').text("Dokumen Outstanding BC " + dok);
+			$("#statusDokumen").text("Status Dokumen BC " +dok+ " Tahun Berjalan");
 			grafikDokumen("all");
 			tabelStatus("all");
 			getDataMonev();
@@ -303,14 +309,14 @@
 			case "currentDokumen":
 			switch (dok) {
 				case "16" || "23":
-					$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" per Kantor Bongkar Tahun Berjalan");
-					break;
+				$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" per Kantor Bongkar Tahun Berjalan");
+				break;
 				case "27":
-					$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" per Kantor Tujuan Tahun Berjalan");
-					break;
+				$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" per Kantor Tujuan Tahun Berjalan");
+				break;
 				default:
-					$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" Tahun Berjalan");
-					break;
+				$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" Tahun Berjalan");
+				break;
 			}
 			
 			chartOptions = {

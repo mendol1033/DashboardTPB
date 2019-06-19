@@ -133,6 +133,10 @@ class Monitoring_model extends CI_Model {
 		return $z;
 	}
 
+	public function getReport(){
+		
+	}
+
 }
 
 /* End of file monitoring_model.php */

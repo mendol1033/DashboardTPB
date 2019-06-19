@@ -237,7 +237,7 @@ class Dashboard_model extends CI_Model {
 
 		$data['kode_kantor'] = $kodeBongkar;
 
-		if ($_POST['hanggar'] == 0) {
+		if ($_POST['hanggar'] == "0") {
 			$sql = 'SELECT a.BLN, a.BULAN, b.JUMLAH FROM 
 			(SELECT MONTH(TANGGAL_DAFTAR) AS BLN, MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header_detail 
 			WHERE KODE_DOKUMEN = ? AND YEAR(TANGGAL_DAFTAR) = ? GROUP BY MONTHNAME(TANGGAL_DAFTAR) ORDER BY BLN ASC) a
@@ -255,8 +255,13 @@ class Dashboard_model extends CI_Model {
 
 		$query = array();
 		
-		for ($i=0; $i < count($kodeBongkar) ; $i++) { 
-			$query[$i] = $this->dashboard->query($sql,array($_POST['dok'],$_POST['tahun'],$_POST['dok'],$_POST['tahun'],$kodeBongkar[$i]["KODE_KANTOR_BONGKAR"]))->result_array();
+		for ($i=0; $i < count($kodeBongkar) ; $i++) {
+			if ($_POST['hanggar'] == "0") {
+				$query[$i] = $this->dashboard->query($sql,array($_POST['dok'],$_POST['tahun'],$_POST['dok'],$_POST['tahun'],$kodeBongkar[$i]["KODE_KANTOR_BONGKAR"]))->result_array();
+			} else {
+				$query[$i] = $this->dashboard->query($sql,array($_POST['dok'],$_POST['tahun'],$_POST['dok'],$_POST['tahun'],$kodeBongkar[$i]["KODE_KANTOR_BONGKAR"],$_POST['hanggar']))->result_array();
+			}
+			
 
 			if (count($query[$i]) > 0) {
 				foreach ($query[$i] as $key => $value) {
@@ -416,7 +421,11 @@ class Dashboard_model extends CI_Model {
 			}
 
 			$sql = 'SELECT YEAR(TANGGAL_DAFTAR) AS TAHUN FROM tpb_header_detail WHERE KODE_DOKUMEN = ? GROUP BY YEAR(TANGGAL_DAFTAR)';
-			$tahun = $this->dashboard->query($sql, $_POST['dok'])->result_array();
+			$query = $this->dashboard->query($sql, $_POST['dok'])->result_array();
+			$tahun = array();
+			foreach ($query as $key => $value) {
+				$tahun[$value['TAHUN']] = array('TAHUN' => $value['TAHUN']);
+			}
 
 			$data = array();
 			foreach ($tahun as $key => $value) {
@@ -439,9 +448,18 @@ class Dashboard_model extends CI_Model {
 					$total[$value['TAHUN']] = $total[$value['TAHUN']] + (int)$nilai[$value['TAHUN']];
 				}
 			}
-			$status['TOTAL']	= $total;		
+			$kunci = array();
+			foreach ($total as $key => $value) {
+				if ((int)$value === 0 ) {
+					unset($total[$key]);
+					unset($tahun[$key]);
+				}
+				$kunci[] = array($key,$value);
+			}
 
-			$return = array('status' => $status, 'tahun' => $tahun);
+			$status['TOTAL']	= $total;
+			
+			$return = array('status' => $status, 'tahun' => $tahun, 'key' => $kunci);
 
 			return $return;
 		}

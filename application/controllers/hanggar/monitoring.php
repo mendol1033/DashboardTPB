@@ -144,6 +144,13 @@ class Monitoring extends MY_Controller {
 		}
 	}
 
+	public function cetakLaporan(){
+		if (!empty($_GET)) {
+			$data = $this->monitoring->getReport();
+			echo json_encode($_GET);
+		}
+	}
+
 	public function test(){
 		$data = $this->monitoring->sudahLaporan();
 
