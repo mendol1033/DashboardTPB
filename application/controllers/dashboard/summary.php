@@ -55,7 +55,19 @@ class Summary extends MY_Controller {
 			break;
 			
 			default:
-			$graph = $this->dashboard->getCurrentDokumen();
+			switch ($_POST['dok']) {
+				case '16' || '23':
+					$graph = $this->dashboard->getCurrentDokumen();
+					break;
+
+				case '27':
+					$graph = $this->dashboard->getCurrentDokumen2();
+					break;
+				
+				default:
+					$graph = $this->dashboard->getCurrentDokumen3();
+					break;
+			}
 			break;
 		}
 		

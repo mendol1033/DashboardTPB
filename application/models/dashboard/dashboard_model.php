@@ -81,31 +81,32 @@ class Dashboard_model extends CI_Model {
 				$dataSet3[] = array($value["BULAN"],(int)$value[$_POST['tahun']]);
 			}
 		} else {
-			$dataSet3[] = array();
+			$dataSet3[] = null;
 		}
 
-		if ($dataSet3[0][0] !== "January") {
-			switch ($dataSet3[0][0]) {
-				case "April":
-				array_unshift($dataSet3, array("January", null));
-				array_unshift($dataSet3, array("February", null));
-				array_unshift($dataSet3, array("March", null));
-				break;
+		if (count($dataSet3) > 0) {
+			if ($dataSet3[0][0] !== "January") {
+				switch ($dataSet3[0][0]) {
+					case "April":
+					array_unshift($dataSet3, array("January", null));
+					array_unshift($dataSet3, array("February", null));
+					array_unshift($dataSet3, array("March", null));
+					break;
 
-				case "Maret":
-				array_unshift($dataSet3, array("January", null));
-				array_unshift($dataSet3, array("February", null));
-				break;
-				case "February":
-				array_unshift($dataSet3, array("January", null));
-				break;
+					case "Maret":
+					array_unshift($dataSet3, array("January", null));
+					array_unshift($dataSet3, array("February", null));
+					break;
+					case "February":
+					array_unshift($dataSet3, array("January", null));
+					break;
 
-				default:
+					default:
 					// code...
-				break;
+					break;
+				}
 			}
 		}
-
 		
 		if ((int)$_POST['tahun'] > 2017) {
 			// // Get Last Year Data
@@ -125,31 +126,31 @@ class Dashboard_model extends CI_Model {
 					$dataSet2[] = array($value["BULAN"],(int)$value[((int)$_POST['tahun']-1)]);
 				}
 			} else {
-				$dataSet2[] = array();
+				$dataSet2[] = null;
 			}
+			if (count($dataSet2) > 0) {
+				if ($dataSet2[0][0] !== "January") {
+					switch ($dataSet2[0][0]) {
+						case "April":
+						array_unshift($dataSet2, array("January", null));
+						array_unshift($dataSet2, array("February", null));
+						array_unshift($dataSet2, array("March", null));
+						break;
 
-			if ($dataSet2[0][0] !== "January") {
-				switch ($dataSet2[0][0]) {
-					case "April":
-					array_unshift($dataSet2, array("January", null));
-					array_unshift($dataSet2, array("February", null));
-					array_unshift($dataSet2, array("March", null));
-					break;
+						case "Maret":
+						array_unshift($dataSet2, array("January", null));
+						array_unshift($dataSet2, array("February", null));
+						break;
+						case "February":
+						array_unshift($dataSet2, array("January", null));
+						break;
 
-					case "Maret":
-					array_unshift($dataSet2, array("January", null));
-					array_unshift($dataSet2, array("February", null));
-					break;
-					case "February":
-					array_unshift($dataSet2, array("January", null));
-					break;
-
-					default:
+						default:
 					// code...
-					break;
+						break;
+					}
 				}
 			}
-
 		} else {
 			$dataSet2[] = array();
 		}
@@ -173,28 +174,29 @@ class Dashboard_model extends CI_Model {
 					$dataSet1[] = array($value["BULAN"],(int)$value[((int)$_POST['tahun']-2)]);
 				}	
 			} else {
-				$dataSet1[] = array();
+				$dataSet1[] = null;
 			}
+			if (count($dataSet1) > 0) {
+				if ($dataSet1[0][0] !== "January") {
+					switch ($dataSet1[0][0]) {
+						case "April":
+						array_unshift($dataSet1, array("January", null));
+						array_unshift($dataSet1, array("February", null));
+						array_unshift($dataSet1, array("March", null));
+						break;
 
-			if ($dataSet1[0][0] !== "January") {
-				switch ($dataSet1[0][0]) {
-					case "April":
-					array_unshift($dataSet1, array("January", null));
-					array_unshift($dataSet1, array("February", null));
-					array_unshift($dataSet1, array("March", null));
-					break;
+						case "Maret":
+						array_unshift($dataSet1, array("January", null));
+						array_unshift($dataSet1, array("February", null));
+						break;
+						case "February":
+						array_unshift($dataSet1, array("January", null));
+						break;
 
-					case "Maret":
-					array_unshift($dataSet1, array("January", null));
-					array_unshift($dataSet1, array("February", null));
-					break;
-					case "February":
-					array_unshift($dataSet1, array("January", null));
-					break;
-
-					default:
+						default:
 					// code...
-					break;
+						break;
+					}
 				}
 			}
 		} else {
@@ -216,6 +218,7 @@ class Dashboard_model extends CI_Model {
 
 	public function getCurrentDokumen(){
 		// GET MONTH NAME
+		$data = array();
 		$query = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header_detail GROUP BY MONTH(TANGGAL_DAFTAR)';
 		$bulan = $this->dashboard->query($query)->result_array();
 
@@ -224,77 +227,50 @@ class Dashboard_model extends CI_Model {
 				$dataBulan[] = $value['BULAN'];
 			}
 		} else {
-			$dataBulan = array();
-		}	
-
-		$sql = 'SELECT MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS ? FROM tpb_header_detail WHERE KODE_KANTOR_BONGKAR = ? AND YEAR(TANGGAL_DAFTAR) = YEAR(CURDATE()) AND STATUS_DOKUMEN != "PEMBATALAN" GROUP BY MONTH(TANGGAL_DAFTAR)';
-
-		$this->dashboard->from('tpb_header_detail');
-		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS CIKARANG');
-		$this->dashboard->where("KODE_KANTOR_BONGKAR","051000");
-		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
-		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
-		if ($_POST['hanggar'] !== "0") {
-			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
+			$dataBulan = null;
 		}
-		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
 
-		$query1 = $this->dashboard->get()->result_array();
+		$data['bulan'] = $dataBulan;
 
-		$this->dashboard->from('tpb_header_detail');
-		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS PRIOK');
-		$this->dashboard->where("KODE_KANTOR_BONGKAR","040300");
-		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
-		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
-		if ($_POST['hanggar'] !== "0") {
-			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
-		}
-		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
-		$query2 = $this->dashboard->get()->result_array();
+		$sqlKode = 'SELECT KODE_KANTOR_BONGKAR, URAIAN_KANTOR_BONGKAR FROM tpb_header_detail WHERE KODE_DOKUMEN = ? AND YEAR(TANGGAL_DAFTAR) = ? GROUP BY KODE_KANTOR_BONGKAR ORDER BY KODE_KANTOR_BONGKAR DESC';
+		$kodeBongkar = $this->dashboard->query($sqlKode, array($_POST['dok'], $_POST['tahun']))->result_array();
 
-		$this->dashboard->from('tpb_header_detail');
-		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(NOMOR_DAFTAR) AS SOETTA');
-		$this->dashboard->where("KODE_KANTOR_BONGKAR","050100");
-		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']);
-		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
-		if ($_POST['hanggar'] !== "0") {
-			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
-		}
-		$this->dashboard->group_by("DATE_FORMAT(TANGGAL_DAFTAR,'%m')");
-		$query3 = $this->dashboard->get()->result_array();
+		$data['kode_kantor'] = $kodeBongkar;
 
-		if (count($query1) > 0) {
-			foreach ($query1 as $key => $value) {
-				$cikarang[] = array($value["BULAN"], (int)$value['CIKARANG']);
-			}	
+		if ($_POST['hanggar'] == "0") {
+			$sql = 'SELECT a.BLN, a.BULAN, b.JUMLAH FROM 
+			(SELECT MONTH(TANGGAL_DAFTAR) AS BLN, MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header_detail 
+			WHERE KODE_DOKUMEN = ? AND YEAR(TANGGAL_DAFTAR) = ? GROUP BY MONTHNAME(TANGGAL_DAFTAR) ORDER BY BLN ASC) a
+			LEFT JOIN (SELECT MONTH(TANGGAL_DAFTAR) AS BLN, MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(STATUS_DOKUMEN) AS JUMLAH FROM tpb_header_detail
+			WHERE KODE_DOKUMEN = ? AND YEAR(TANGGAL_DAFTAR) = ? AND KODE_KANTOR_BONGKAR = ? GROUP BY MONTHNAME(TANGGAL_DAFTAR) ORDER BY BLN ASC) b
+			ON a.BLN = b.BLN';
 		} else {
-			$cikarang[] = array();
+			$sql = 'SELECT a.BLN, a.BULAN, b.JUMLAH FROM 
+			(SELECT MONTH(TANGGAL_DAFTAR) AS BLN, MONTHNAME(TANGGAL_DAFTAR) AS BULAN FROM tpb_header_detail 
+			WHERE KODE_DOKUMEN = ? AND YEAR(TANGGAL_DAFTAR) = ? GROUP BY MONTHNAME(TANGGAL_DAFTAR) ORDER BY BLN ASC) a
+			LEFT JOIN (SELECT MONTH(TANGGAL_DAFTAR) AS BLN, MONTHNAME(TANGGAL_DAFTAR) AS BULAN, COUNT(STATUS_DOKUMEN) AS JUMLAH FROM tpb_header_detail
+			WHERE KODE_DOKUMEN = ? AND YEAR(TANGGAL_DAFTAR) = ? AND KODE_KANTOR_BONGKAR = ? AND NAMA_HANGGAR = ? GROUP BY MONTHNAME(TANGGAL_DAFTAR) ORDER BY BLN ASC) b
+			ON a.BLN = b.BLN';
 		}
 
-		if (count($query2) > 0) {
-			foreach ($query2 as $key => $value) {
-				$priok[] = array($value["BULAN"], (int)$value['PRIOK']);
-			}	
-		} else {
-			$priok[] = array();
-		}
+		$query = array();
+		
+		for ($i=0; $i < count($kodeBongkar) ; $i++) {
+			if ($_POST['hanggar'] == "0") {
+				$query[$i] = $this->dashboard->query($sql,array($_POST['dok'],$_POST['tahun'],$_POST['dok'],$_POST['tahun'],$kodeBongkar[$i]["KODE_KANTOR_BONGKAR"]))->result_array();
+			} else {
+				$query[$i] = $this->dashboard->query($sql,array($_POST['dok'],$_POST['tahun'],$_POST['dok'],$_POST['tahun'],$kodeBongkar[$i]["KODE_KANTOR_BONGKAR"],$_POST['hanggar']))->result_array();
+			}
+			
 
-		if (count($query3) > 0) {
-			foreach ($query3 as $key => $value) {
-				$soetta[] = array($value["BULAN"], (int)$value['SOETTA']);
-			}	
-		} else {
-			$soetta[] = array();
+			if (count($query[$i]) > 0) {
+				foreach ($query[$i] as $key => $value) {
+					$data['data'][$kodeBongkar[$i]["URAIAN_KANTOR_BONGKAR"]][] = array($value["BULAN"], (int)$value['JUMLAH']);
+				}	
+			} else {
+				$cikarang[] = null;
+			}
 		}
-
-		$data = array(
-			'bulan' => $dataBulan,
-			'data' => array(
-				'CIKARANG' => $cikarang,
-				'PRIOK' => $priok,
-				'SOETTA' => $soetta
-			)
-		);
 
 		return $data;
 	}
@@ -326,7 +302,7 @@ class Dashboard_model extends CI_Model {
 
 		if (count($year1) > 0) {
 			foreach ($year1 as $key => $value) {
-				$dataSet3[] = array($value["BULAN"],(int)$value[strval(date('Y'))]);
+				$dataSet3[] = array($value["BULAN"],(int)$_POST['tahun']);
 			}
 		} else {
 			$dataSet3[] = array();
@@ -347,7 +323,7 @@ class Dashboard_model extends CI_Model {
 
 		if (count($year2) > 0) {
 			foreach ($year2 as $key => $value) {
-				$dataSet2[] = array($value["BULAN"],(int)$value[strval(date('Y')-1)]);
+				$dataSet2[] = array($value["BULAN"],(int)$_POST['tahun']-1);
 			}
 		} else {
 			$dataSet2[] = array();
@@ -357,7 +333,7 @@ class Dashboard_model extends CI_Model {
 		$this->dashboard->from('tpb_header_detail');
 		$this->dashboard->select('MONTHNAME(TANGGAL_DAFTAR) AS BULAN, SUM(NETTO)/1000 AS "'. ((int)$_POST['tahun'] -2).'"');
 		$this->dashboard->where("KODE_DOKUMEN", $_POST['dok']);
-		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']-2 );
+		$this->dashboard->where("DATE_FORMAT(TANGGAL_DAFTAR,'%Y')",(int)$_POST['tahun']-2);
 		$this->dashboard->where("STATUS_DOKUMEN !=", "PEMBATALAN");
 		if ($_POST['hanggar'] !== "0") {
 			$this->dashboard->where("NAMA_HANGGAR", $_POST['hanggar']);
@@ -367,7 +343,7 @@ class Dashboard_model extends CI_Model {
 
 		if (count($year3) > 0) {
 			foreach ($year3 as $key => $value) {
-				$dataSet1[] = array($value["BULAN"], (int)$value[strval(date('Y')-2)]);
+				$dataSet1[] = array($value["BULAN"], (int)$_POST['tahun']-2);
 			}	
 		} else {
 			$dataSet1[] = array();
@@ -445,7 +421,11 @@ class Dashboard_model extends CI_Model {
 			}
 
 			$sql = 'SELECT YEAR(TANGGAL_DAFTAR) AS TAHUN FROM tpb_header_detail WHERE KODE_DOKUMEN = ? GROUP BY YEAR(TANGGAL_DAFTAR)';
-			$tahun = $this->dashboard->query($sql, $_POST['dok'])->result_array();
+			$query = $this->dashboard->query($sql, $_POST['dok'])->result_array();
+			$tahun = array();
+			foreach ($query as $key => $value) {
+				$tahun[$value['TAHUN']] = array('TAHUN' => $value['TAHUN']);
+			}
 
 			$data = array();
 			foreach ($tahun as $key => $value) {
@@ -468,9 +448,18 @@ class Dashboard_model extends CI_Model {
 					$total[$value['TAHUN']] = $total[$value['TAHUN']] + (int)$nilai[$value['TAHUN']];
 				}
 			}
-			$status['TOTAL']	= $total;		
+			$kunci = array();
+			foreach ($total as $key => $value) {
+				if ((int)$value === 0 ) {
+					unset($total[$key]);
+					unset($tahun[$key]);
+				}
+				$kunci[] = array($key,$value);
+			}
 
-			$return = array('status' => $status, 'tahun' => $tahun);
+			$status['TOTAL']	= $total;
+			
+			$return = array('status' => $status, 'tahun' => $tahun, 'key' => $kunci);
 
 			return $return;
 		}

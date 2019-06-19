@@ -45,7 +45,7 @@
 					</li>
 					<li class="pull-left header">
 						<i class="fa fa-inbox"></i>
-						<strong id="grafikTitle">Year to Year Jumlah Dokumen BC 2.3</strong>
+						<strong id="grafikTitle"></strong>
 					</li>
 				</ul>
 				<div class="tab-content no-padding">
@@ -57,9 +57,9 @@
 		</div>
 		<!-- Statistik Dokumen -->
 		<div class="row">
-			<div class="col-md-9 col-lg-9">
+			<div class="col-md-8 col-lg-8">
 				<div class="row">
-					<div class="col-md-5 col-lg-5 nopadding">
+					<div class="col-md-6 col-lg-6 nopadding">
 						<div class="nav-tabs-custom">
 							<ul class="nav nav-tabs pull-right">
 								<li class="active">
@@ -70,7 +70,7 @@
 								</li>
 								<li class="pull-left header">
 									<i class="fa fa-inbox"></i>
-									<strong>Status Dokumen</strong>
+									<strong id="statusDokumen">Status Dokumen</strong>
 								</li>
 							</ul>
 							<div class="tab-content no-padding">
@@ -141,7 +141,7 @@
 							</div>							
 						</div>
 					</div>
-					<div class="col-md-7 col-lg-7">
+					<div class="col-md-6 col-lg-6">
 						<div class="box box-default">
 							<div class="box-header with-border">
 								<i class="fa fa-inbox"></i><h4 id="boxTitle2" style="width: 50%; display: inline;"><strong>Dokumen Outstanding</strong></h4>
@@ -160,8 +160,41 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3 col-lg-3">
+			<div class="col-md-4 col-lg-4">
+				<div class="row">
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs pull-right">
+							<li class="active">
+								<a id="tabChartStatus" href="#ID1" data-toggle="tab">Dokumen</a>
+							</li>
+							<li>
+								<a id="tabDataStatus" href="#ID2" data-toggle="tab">Data</a>
+							</li>
+							<li class="pull-left header">
+								<i class="fa fa-inbox"></i>
+								<strong id="best20"></strong>
+							</li>
+						</ul>
+						<div class="tab-content no-padding">
+							<div class="tab-pane active" id="ID1" style="height: 400px;"></div>
+							<div class="tab-pane" id="ID2">
+								<table class="table table-hover table-responsive table-striped" id="tableDokStat">
+									<thead>
+										<th style="text-align: center; vertical-align: middle;">Status</th>
+										<th style="text-align: center; vertical-align: middle;">Jumlah Dokumen</th>
+									</thead>
+									<tbody>
 
+									</tbody>
+									<tfoot>
+										<th style="text-align: center; vertical-align: middle;">Status</th>
+										<th style="text-align: center; vertical-align: middle;">Jumlah Dokumen</th>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		

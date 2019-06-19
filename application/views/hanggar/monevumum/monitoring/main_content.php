@@ -32,12 +32,12 @@
 						<div class="col-lg-8 col-md-8 col-sm-8">
 							<select class="form-control select2" name="tahun">
 								<?php 
-									$awal = 2019;
-									$akhir = (int)date("Y");
+								$awal = 2019;
+								$akhir = (int)date("Y");
 
-									for ($i=$awal; $i <= $akhir; $i++) { 
-										echo '<option value='.$i.'>'.$i.'</option>';
-									}
+								for ($i=$awal; $i <= $akhir; $i++) { 
+									echo '<option value='.$i.'>'.$i.'</option>';
+								}
 								?>
 							</select>
 						</div>
@@ -49,14 +49,16 @@
 			<div class="col-lg-6 col-md-6 col-sm-6">
 				<div class=" form-group">
 					<div class="row">
-						<div class="col-lg-4 col-md-4 col-sm-4 pull-right">
-							<button class="btn btn-info pull-right" type="button" value="filter" id="filter">FILTER</button>
+						<div class="col-lg-8 col-md-8 col-sm-8 pull-right">
+							<button class="btn btn-info pull-right" type="button" value="filter" id="filter" style="margin-left: 15px;">FILTER</button>
+							<button type="button" class="btn btn-info pull-right" onclick="cetakLaporan()">CETAK LAPORAN</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6">
-				<button type="button" class="btn btn-primary pull-right " id="tambah" style="">TAMBAH</button>
+				<button type="button" class="btn btn-primary pull-right" id="tambah">TAMBAH</button>
+
 			</div>
 		</div>
 		<div class="row">

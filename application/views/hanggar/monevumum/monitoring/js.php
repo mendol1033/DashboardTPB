@@ -204,4 +204,18 @@
 		tableHanggar.destroy();
 		$("#modalPetugas").modal('hide');
 	}
+
+	function cetakLaporan(){
+		var b = $('[name="bulan"]').val();
+		var t = $('[name="tahun"]').val();
+		$.ajax({
+			url: '<?php echo base_url()?>hanggar/monitoring/cetakLaporan',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {bulan:b, tahun:t},
+			success: function(d){
+				console.log(d);
+			}
+		})
+	}
 </script>

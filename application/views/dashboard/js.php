@@ -42,6 +42,7 @@
 	});
 
 	$("#cari").on('click', function(event) {
+		var dok = $("#filterDokumen").val();
 		event.preventDefault();
 		$("#tableDokStat").children('tbody').empty();
 		$("#tableDokOutStand").children('tbody').empty();
@@ -50,6 +51,9 @@
 		$("#tableMonevHanggar").children('tbody').empty();
 		$("#tableMonevHanggar").children('thead').empty();
 		$("#tableMonevHanggar").children('tfoot').empty();
+		$("#best20").text("20 Besar Terbanyak BC "+dok);
+		$("#boxTitle2").children('strong').text("Dokumen Outstanding BC " + dok);
+		$("#statusDokumen").text("Status Dokumen BC " +dok+ " Tahun Berjalan");
 
 		myChart.destroy();
 		myPie.destroy();
@@ -58,12 +62,15 @@
 		switch (activeTab) {
 			case "tabNetto":
 			param = "netto";
+			$("#grafikTitle").text("Year to Year Total Netto BC "+dok);
 			break;
 			case "tabCurrentDokumen":
 			param = "currentDokumen";
+			$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" per Kantor Bongkar");
 			break;
 			default:
 			param = "all";
+			$("#grafikTitle").text("Year to Year Jumlah Dokumen BC "+dok);
 			break;
 		}
 		grafikDokumen(param);
@@ -208,7 +215,7 @@
 					$("#tableMonevHanggar").children('tfoot').append('<tr><th>Status</th><th>Jumlah</th></tr>');
 					if (data.length !== 0) {
 						$.each(data, function(index, val) {
-							 $("#tableMonevHanggar").children('tbody').append('<tr><td>'+val.status+'</td><td>'+val.jumlah+'</td></tr>');
+							$("#tableMonevHanggar").children('tbody').append('<tr><td>'+val.status+'</td><td>'+val.jumlah+'</td></tr>');
 						});
 						
 					}
@@ -222,7 +229,7 @@
 						} else {
 							status = " ";
 						}
-						$("#tableMonevHanggar").children('tbody').append('<tr><td>'+val.nama_perusahaan+'</td><td>'+status+'</td></tr>');
+						$("#tableMonevHanggar").children('tbody').append('<tr><td>'+val.nama_perusahaan.toUpperCase()+'</td><td>'+status+'</td></tr>');
 					});
 				}
 			}
@@ -262,9 +269,20 @@
 			}
 		})
 		.done(function() {
+			var dok = $("#filterDokumen").val();
 			<?php $tpb = str_pad($this->session->userdata("IdHanggar"), 2, '0', STR_PAD_LEFT);?>
-			var tpb = "TPB "+<?php echo $tpb;?>;
+			var idHanggar = <?php echo $this->session->userdata("IdHanggar"); ?>;
+			var tpb;
+			if (idHanggar === 0) {
+				tpb = idHanggar;
+			} else {
+				tpb = "TPB "+"<?php echo $tpb;?>";
+			}
 			$("#filterHanggar").val(tpb).trigger('change');
+			$("#grafikTitle").text("Year to Year Jumlah Dokumen BC "+dok);
+			$("#best20").text("20 Besar Terbanyak BC "+dok);
+			$("#boxTitle2").children('strong').text("Dokumen Outstanding BC " + dok);
+			$("#statusDokumen").text("Status Dokumen BC " +dok+ " Tahun Berjalan");
 			grafikDokumen("all");
 			tabelStatus("all");
 			getDataMonev();
@@ -283,12 +301,24 @@
 
 
 	$('a.mainGrafik[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		var dok = $("#filterDokumen").val();
 		/* Act on the event */
 		myChart.destroy();
 		var a = e.target.hash.replace("#","");
 		switch (a) {
 			case "currentDokumen":
-			$("#grafikTitle").text("Jumlah Dokumen BC 2.3 per Kantor Bongkar");
+			switch (dok) {
+				case "16" || "23":
+				$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" per Kantor Bongkar Tahun Berjalan");
+				break;
+				case "27":
+				$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" per Kantor Tujuan Tahun Berjalan");
+				break;
+				default:
+				$("#grafikTitle").text("Jumlah Dokumen BC "+dok+" Tahun Berjalan");
+				break;
+			}
+			
 			chartOptions = {
 				chart: {
 					renderTo: a,
@@ -328,7 +358,7 @@
 			break;
 
 			case "netto":
-			$("#grafikTitle").text("Year to Year Total Netto BC 2.3");
+			$("#grafikTitle").text("Year to Year Total Netto BC "+dok);
 			chartOptions = {
 				chart: {
 					renderTo: a,
@@ -352,7 +382,7 @@
 			break;
 
 			default:
-			$("#grafikTitle").text("Year to Year Jumlah Dokumen BC 2.3");
+			$("#grafikTitle").text("Year to Year Jumlah Dokumen BC "+dok);
 			chartOptions = {
 				chart: {
 					renderTo: 'allDokumen',
