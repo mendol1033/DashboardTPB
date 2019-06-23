@@ -25,7 +25,7 @@ class Menu_model extends CI_Model {
 					'menu' => 'Dashboard V1',
 				),
 				'dashboardV2' => array(
-					'url' => 'dashboard/',
+					'url' => 'dashboard/monev',
 					'menu' => 'Dashboard V2',
 				),
 			),

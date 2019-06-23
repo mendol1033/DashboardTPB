@@ -74,9 +74,6 @@
   <script src="<?php echo base_url() ?>assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
   <!-- jQuery Knob Chart -->
   <script src="<?php echo base_url() ?>assets/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
-  <!-- jvectormap -->
-  <script src="<?php echo base_url() ?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-  <script src="<?php echo base_url() ?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
   <!-- iCheck 1.0.1 -->
   <script src="<?php echo base_url() ?>assets/plugins/iCheck/icheck.min.js"></script>
   <!-- date-range-picker -->
