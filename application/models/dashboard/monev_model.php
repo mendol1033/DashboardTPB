@@ -69,7 +69,7 @@ class Monev_model extends CI_Model {
 	}
 
 	public function getPieChart(){
-		$sql = 'SELECT kode_ref, 
+		$sql = 'SELECT kode_ref, nama_ref,
 		(SELECT COUNT(ITEM_1) FROM monev_hanggar_report b WHERE b.ITEM_1 = a.kode_ref AND YEAR(b.TANGGAL_LAPORAN) = ? AND MONTH(b.TANGGAL_LAPORAN) = ? AND b.flag != 99) AS ITEM_1,
 		(SELECT COUNT(ITEM_2) FROM monev_hanggar_report b WHERE b.ITEM_2 = a.kode_ref AND YEAR(b.TANGGAL_LAPORAN) = ? AND MONTH(b.TANGGAL_LAPORAN) = ? AND b.flag != 99) AS ITEM_2,
 		(SELECT COUNT(ITEM_3) FROM monev_hanggar_report b WHERE b.ITEM_3 = a.kode_ref AND YEAR(b.TANGGAL_LAPORAN) = ? AND MONTH(b.TANGGAL_LAPORAN) = ? AND b.flag != 99) AS ITEM_3,
