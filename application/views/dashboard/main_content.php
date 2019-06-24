@@ -9,11 +9,11 @@
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="form-group">
 							<div class="col-lg-2 col-md-2 col-sm-2">
-								<select id="filterTahun" name="filterTahun" class="form-control">
+								<select id="filterTahun" name="filterTahun" class="form-control select2">
 								</select>
 							</div>
 							<div class="col-lg-3 col-md-3 col-sm-3">
-								<select id="filterDokumen" name="filterDokumen" class="form-control">
+								<select id="filterDokumen" name="filterDokumen" class="form-control select2">
 									
 								</select>
 							</div>

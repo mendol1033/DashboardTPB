@@ -190,7 +190,7 @@
 							</tr>
 							<tr>
 								<td style="text-align: center; vertical-align: top;">3</td>
-								<td style="vertical-align: top;">Di Lokasi TPB dupasang tanda nama perusahaan dan jenis TPB pada tempat yang dapat dilihat jelas oleh umum</td>
+								<td style="vertical-align: top;">Di Lokasi TPB dipasang tanda nama perusahaan dan jenis TPB pada tempat yang dapat dilihat jelas oleh umum</td>
 								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist3" value="Y" checked="checked">
@@ -218,7 +218,7 @@
 							</tr>
 							<tr>
 								<td style="text-align: center; vertical-align: top;">4</td>
-								<td style="vertical-align: top;">Tersedia ruang hanggar yang layak dab representatif untuk melakukan tugas beserta sarna penunjangnya</td>
+								<td style="vertical-align: top;">Tersedia ruang hanggar yang layak dab representatif untuk melakukan tugas beserta sarana penunjangnya</td>
 								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist4" value="Y" checked="checked">
@@ -267,7 +267,7 @@
 							</tr>
 							<tr>
 								<td style="text-align: center; vertical-align: top;">5</td>
-								<td style="vertical-align: top;">Lokasi TPB dapat diakses langsung dari jalan umum dan dapat dilalui oleh saran pengankut peti kemas (khusus darat) atau srana pengangkut lain</td>
+								<td style="vertical-align: top;">Lokasi TPB dapat diakses langsung dari jalan umum dan dapat dilalui oleh sarana pengankut peti kemas (khusus darat) atau sarana pengangkut lain</td>
 								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist5" value="Y" checked="checked">
@@ -323,7 +323,7 @@
 							</tr>
 							<tr>
 								<td style="text-align: center; vertical-align: top;">7</td>
-								<td style="vertical-align: top;">Lokasi TPB tidak berhubungan dengan bangunan lain (kecuali masjid, asrama karyawan, klinik, koperasi, kantin dan bangunan lain untuk mendukung kepentingan karyawan TPB</td>
+								<td style="vertical-align: top;">Lokasi TPB tidak berhubungan dengan bangunan lain (kecuali masjid, asrama karyawan, klinik, koperasi, kantin dan bangunan lain) untuk mendukung kepentingan karyawan TPB</td>
 								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
 										<input type="radio" name="checklist7" value="Y" checked="checked">
@@ -429,7 +429,7 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;"></td>
 								<td style="vertical-align: top;">
-									Perubahan data hanya bisa dilakukan oleh user yang mempunya otoritas tertentu
+									Perubahan data hanya bisa dilakukan oleh user yang mempunyai otoritas tertentu
 								</td>
 								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
@@ -497,7 +497,9 @@
 							<tr>
 								<td style="text-align: center; vertical-align: top;">10</td>
 								<td style="vertical-align: top;">
-									Dalam hal izin TPB dibekukan, TPB tidak memasukkan barang dengan mendapatkan fasilitas
+									<strong style="font-size: 20px;">Dalam hal izin TPB dibekukan</strong>, TPB tidak memasukkan barang dengan mendapatkan fasilitas
+									<br><br>
+									<strong>Poin 10 Diisi hanya jika TPB dalam STATUS PEMBEKUAN IZIN</strong>
 								</td>
 								<td class="bg-success" style="text-align: center; vertical-align: top;">
 									<label class="checkcontainer">
