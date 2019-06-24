@@ -61,7 +61,7 @@ class Monev extends MY_Controller {
 			$chartData['ITEM_'.$i] = array($data[0]['kode_ref']=>(int)$data[0]['ITEM_'.$i], $data[1]['kode_ref']=>(int)$data[1]['ITEM_'.$i], $ind => ((int)$tpb['JUMLAH']-((int)$data[0]['ITEM_'.$i] + (int)$data[1]['ITEM_'.$i])));
 		}
 
-		echo json_encode(array($chartData,$tpb));
+		echo json_encode($chartData);
 	}
 
 }

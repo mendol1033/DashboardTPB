@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-7 col-lg-7">
+	<div class="col-md-9 col-lg-9">
 		<div class="row">
 			<div class="col-md-12 col-lg-12">
 				<div class="box" data-widget="box-widget">
@@ -25,12 +25,12 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-6 col-lg-6">
-								<div id="pieItem12" style="width: 100%; height: 300px;">
+								<div id="pieItem14" style="width: 100%; height: 300px;">
 									
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-6">
-								<div id="pieItem13" style="width: 100%; height: 300px;">
+								<div id="pieItem15" style="width: 100%; height: 300px;">
 									
 								</div>
 							</div>
@@ -58,21 +58,107 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12 col-lg-12">
-				<div class="box"><div class="box-header"><h4><strong>PENDAYAGUNAAN IT CCTV</strong></h4></div></div>
+				<div class="box">
+					<div class="box-header"><h4><strong>PENDAYAGUNAAN CCTV</strong></h4></div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-6 col-lg-6">
+								<div id="pieItem16" style="width: 100%; height: 300px;">
+
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-6">
+								<div id="pieItem17" style="width: 100%; height: 300px;">
+
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-lg-6">
+								<div id="pieItem18" style="width: 100%; height: 300px;">
+
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-6">
+								<div id="pieItem19" style="width: 100%; height: 300px;">
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12 col-lg-12">
-				<div class="box"><div class="box-header"><h4><strong>KETERSEDIAAN RUANG HANGGAR</strong></h4></div></div>
+				<div class="box">
+					<div class="box-header"><h4><strong>KETERSEDIAAN RUANG HANGGAR</strong></h4></div>
+					<div class="box-body">
+						<div class="col-md-12 col-lg-12">
+							<div id="pieItem4" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12 col-lg-12">
-				<div class="box"><div class="box-header"><h4><strong>ENTITY, RESPONSIBILITY, NATURE OF BUSSINESS AND AUDITABLE (ERNA)</strong></h4></div></div>
+				<div class="box">
+					<div class="box-header"><h4><strong>ENTITY, RESPONSIBILITY, NATURE OF BUSSINESS AND AUDITABLE (ERNA)</strong></h4></div>
+					<div class="box-body">
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem1" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem2" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem3" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem5" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem6" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem7" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem11" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem12" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div id="pieItem13" style="width: 100%; height: 300px;">
+
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-5 col-lg-5">
+	<div class="col-md-3 col-lg-3">
 		<div class="box" data-widget="box-widget">
 			<div class="box-header with-border">
 				<h4 class="box-title" id="boxTableTitle"></h4>
