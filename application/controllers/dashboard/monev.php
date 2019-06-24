@@ -52,13 +52,13 @@ class Monev extends MY_Controller {
 		$tpb = $this->monev->getCountAllTPB();
 		$chartData = array();
 
-		for ($i=1; $i < 20 ; $i++) {
-		if ($i === 12) {
-		 	$ind = "TIDAK PEMBEKUAN";
-		 } else {
-		 	$ind = "TIDAK ADA DATA";
-		 }
-			$chartData['ITEM_'.$i] = array($data[0]['kode_ref']=>(int)$data[0]['ITEM_'.$i], $data[1]['kode_ref']=>(int)$data[1]['ITEM_'.$i], $ind => ((int)$tpb['JUMLAH']-((int)$data[0]['ITEM_'.$i] + (int)$data[1]['ITEM_'.$i])));
+		for ($i = 1; $i < 20 ; $i++) {
+			if ($i === 12) {
+				$ind = "TIDAK PEMBEKUAN";
+			} else {
+				$ind = "TIDAK ADA DATA";
+			}
+			$chartData['ITEM_'.$i] = array($data[0]['nama_ref']=>(int)$data[0]['ITEM_'.$i], $data[1]['nama_ref']=>(int)$data[1]['ITEM_'.$i], $ind => ((int)$tpb['JUMLAH']-((int)$data[0]['ITEM_'.$i] + (int)$data[1]['ITEM_'.$i])));
 		}
 
 		echo json_encode($chartData);
