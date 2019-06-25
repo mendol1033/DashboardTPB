@@ -73,7 +73,7 @@
 									<th style="width: 20%;"><p class="text-justify"> Nama Perusahaan | Fasilitas | SKEP </p></th>
 									<th class="text-justify"><p> Alamat </p></th>
 									<th style="width: 10%;"><p class="text-justify"> Periode </p></th>
-									<th style="width: 5%;"><p class="text-justify"> Action </p></th>
+									<th style="width: 5%;"><p class="text-justify"> Petugas </p></th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -84,7 +84,7 @@
 									<th style="width: 20%;"><p class="text-justify"> Nama Perusahaan | Fasilitas | SKEP </p></th>
 									<th class="text-justify"><p> Alamat </p></th>
 									<th style="width: 10%;" class="text-justify"><p> Periode </p></th>
-									<th style="width: 5%;"><p class="text-justify"> Action </p></th>
+									<th style="width: 5%;"><p class="text-justify"> Petugas </p></th>
 								</tr>
 							</tfoot>
 						</table>

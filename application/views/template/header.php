@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="<?php echo base_url() . 'assets/bower_components/bootstrap/dist/css/bootstrap.css'; ?>">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url() . 'assets/bower_components/font-awesome/css/font-awesome.min.css'; ?>">
+  <link rel="stylesheet" href="<?php echo base_url() . 'assets/bower_components/font-awesome/fontawesome-free-5.9.0-web/css/all.css'; ?>">
   <!-- Ionicons -->
   <link href="https://unpkg.com/ionicons@4.4.2/dist/css/ionicons.min.css" rel="stylesheet">
   <!-- bootstrap datepicker -->
@@ -32,6 +33,8 @@
   <link rel="stylesheet" href="<?php echo base_url() . 'assets/dist/css/skins/_all-skins.min.css'; ?>">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+ 
+
   <!-- JS Files -->
   <!-- jQuery 3 -->
   <script src="<?php echo base_url() . 'assets/bower_components/jquery/dist/jquery.min.js'; ?>"></script>

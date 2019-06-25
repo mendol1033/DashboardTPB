@@ -17,7 +17,7 @@ class Menu_model extends CI_Model {
 		$jumlahDokumen = $this->dokumen->getJumlahDokumenTahunBerjalan();
 		$Dashboard = array(
 			'url' => '#',
-			'icon' => 'fa fa-dashboard',
+			'icon' => 'fas fa-tachometer-alt',
 			'menu' => 'Dashboard',
 			'subMenu' => array(
 				'dashboardV1' => array(
@@ -33,7 +33,7 @@ class Menu_model extends CI_Model {
 
 		$Dokumen = array(
 			'url' => '#',
-			'icon' => 'fa fa-file',
+			'icon' => 'far fa-file-alt',
 			'menu' => 'Dokumen',
 			'subMenu' => array(
 				'BC16' => array(
@@ -146,7 +146,7 @@ class Menu_model extends CI_Model {
 
 		$hanggar = array(
 			'url' => '#',
-			'icon' => 'fa fa-indent',
+			'icon' => 'fas fa-user-tie',
 			'menu' => 'Hanggar',
 			'subMenu' => array(),
 		);
@@ -184,7 +184,7 @@ class Menu_model extends CI_Model {
 
 		$pengawasan = array(
 			'url' => '#',
-			'icon' => 'fa fa-user-secret',
+			'icon' => 'fas fa-user-shield',
 			'menu' => 'Pengawasan',
 			'subMenu' => array(
 				'tpb' => array(

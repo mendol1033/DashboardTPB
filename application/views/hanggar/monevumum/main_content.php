@@ -32,12 +32,12 @@
 						<div class="col-lg-8 col-md-8 col-sm-8">
 							<select class="form-control select2" name="tahun">
 								<?php 
-									$awal = 2019;
-									$akhir = (int)date("Y");
+								$awal = 2019;
+								$akhir = (int)date("Y");
 
-									for ($i=$awal; $i <= $akhir; $i++) { 
-										echo '<option value='.$i.'>'.$i.'</option>';
-									}
+								for ($i=$awal; $i <= $akhir; $i++) { 
+									echo '<option value='.$i.'>'.$i.'</option>';
+								}
 								?>
 							</select>
 						</div>
@@ -72,7 +72,28 @@
 									<th class="text-justify"><p> Alamat </p></th>
 									<th style="width: 10%;"><p class="text-justify"> Periode </p></th>
 									<th class="text-justify" style="margin-bottom: 0px"><p>Tanggal Laporan</p></th>
-									<th style="width: 5%;"><p class="text-justify"> Action </p></th>
+									<?php switch ($type) {
+										case 'hanggar': ?>
+										<th style="width: 5%;"><p class="text-justify"> Validasi </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Cetak </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Hapus </p></th>
+										<?php break;
+										case 'seksi':?>
+										<th style="width: 5%;"><p class="text-justify"> Validasi </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Cetak </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Lampiran </p></th>
+										<?php break;
+										case 'arsip':?>
+										<th style="width: 5%;"><p class="text-justify"> Cetak </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Lampiran </p></th>
+										<?php break;
+										default: ?>
+										<th style="width: 5%;"><p class="text-justify"> Cetak </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Hapus </p></th>
+										<?php break;
+									} ?>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -84,7 +105,28 @@
 									<th class="text-justify"><p> Alamat </p></th>
 									<th style="width: 10%;" class="text-justify"><p> Periode </p></th>
 									<th class="text-justify" style="margin-bottom: 0px"><p>Tanggal Laporan</p></th>
-									<th style="width: 5%;"><p class="text-justify"> Action </p></th>
+									<?php switch ($type) {
+										case 'hanggar': ?>
+										<th style="width: 5%;"><p class="text-justify"> Validasi </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Cetak </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Hapus </p></th>
+										<?php break;
+										case 'seksi':?>
+										<th style="width: 5%;"><p class="text-justify"> Validasi </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Cetak </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Lampiran </p></th>
+										<?php break;
+										case 'arsip':?>
+										<th style="width: 5%;"><p class="text-justify"> Cetak </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Lampiran </p></th>
+										<?php break;
+										default: ?>
+										<th style="width: 5%;"><p class="text-justify"> Cetak </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
+										<th style="width: 5%;"><p class="text-justify"> Hapus </p></th>
+										<?php break;
+									} ?>
 								</tr>
 							</tfoot>
 						</table>
