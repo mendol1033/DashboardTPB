@@ -59,16 +59,6 @@ class Monitoring extends MY_Controller {
 		
 
 		foreach ($list as $ListData) {
-
-			$action =
-			'<div class="btn-group">
-			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			ACTION
-			<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-			<li><a href="javascript:void({})" onclick="petugas(' . $ListData->IdHanggar . ')">Cek Petugas Hanggar</a></li>
-			</ul></div>';
 			
 			$no++;
 			$row = array();
@@ -77,7 +67,7 @@ class Monitoring extends MY_Controller {
 			$row[] = strtoupper($ListData->nama_perusahaan) ." | ". $ListData->nama_tpb ." | ". $ListData->ijin_kelola_tpb;
 			$row[] = $ListData->alamat;
 			$row[] = $bulan . " - " . $_POST['tahun'];
-			$row[] = $action;
+			$row[] = '<button class="btn btn-primary" type="button" onclick="petugas(' . $ListData->IdHanggar . ')"><i class="far fa-id-badge"></i></button>';
 
 			$data[] = $row;
 		}

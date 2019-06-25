@@ -7,7 +7,7 @@
           <small class="breadcrumb_item active">Index</small>
         </h1>
         <ol class="breadcrumb">
-          <li id="breadcrumb_home"><a href="#"><i class="fa fa-dashboard"></i>&nbsp;<?php echo $app; ?></a></li>
+          <li id="breadcrumb_home"><a href="#"><i class="fas fa-tachometer-alt"></i>&nbsp;<?php echo $app; ?></a></li>
           <li class="breadcrumb_item active">Index</li>
         </ol>
       </section>

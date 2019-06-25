@@ -72,58 +72,55 @@ class Monevumum extends MY_Controller {
 
 			switch ($_POST['type']) {
 				case "hanggar":
-				$action =
+				$action[0] = '<button class="btn btn-success" type="button" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')"><i class="far fa-paper-plane"></i></button>';
+				$action[1] = '<button class="btn btn-primary" type="button" onclick="cetak(' . $ListData->id . ')"><i class="fas fa-print"></i></button>';
+				$action[2] = 
 				'<div class="btn-group">
-				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				ACTION
+				<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="far fa-edit"></i>
 				<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Edit Lampiran</a></li>
-				<li><a href="javascript:void({})" onclick="deleteLaporan(' . $ListData->id . ')">Hapus Laporan</a></li>
-				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')">Validasi Laporan</a></li>
 				</ul></div>';
+				$action[3] ='<button class="btn btn-danger" type="button" onclick="deleteLaporan(' . $ListData->id . ')"><i class="far fa-trash-alt"></i></button>';
+				// $action =
+				// '<div class="btn-group">
+				// <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				// ACTION
+				// <span class="caret"></span>
+				// </button>
+				// <ul class="dropdown-menu">
+				// <li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
+				// <li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
+				// <li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Edit Lampiran</a></li>
+				// <li><a href="javascript:void({})" onclick="deleteLaporan(' . $ListData->id . ')">Hapus Laporan</a></li>
+				// <li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')">Validasi Laporan</a></li>
+				// </ul></div>';
 				break;
 				case "seksi":
-				$action =
-				'<div class="btn-group">
-				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				ACTION
-				<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
-				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Lihat Lampiran</a></li>
-				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'seksi'" . ')">Validasi Laporan</a></li>
-				</ul></div>';
+				$action[0] = '<button class="btn btn-success" type="button" onclick="validasi(' . $ListData->id . ",'seksi'" . ')"><i class="far fa-paper-plane"></i></button>';
+				$action[1] = '<button class="btn btn-primary" type="button" onclick="cetak(' . $ListData->id . ')"><i class="fas fa-print"></i></button>';
+				$action[2] ='<button class="btn btn-primary" type="button" onclick="lampiran(' . $ListData->id . ')"><i class="far fa-file-alt"></i></button>';
 				break;
 				case "arsip":
-				$action =
-				'<div class="btn-group">
-				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				ACTION
-				<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
-				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Lihat Lampiran</a></li>
-				</ul></div>';
+				$action[0] = '<button class="btn btn-success" type="button" onclick="cetak(' . $ListData->id . ')"><i class="fas fa-print"></i></button>';
+				$action[1] ='<button class="btn btn-primary" type="button" onclick="lampiran(' . $ListData->id . ')"><i class="far fa-file-alt"></i></button>';
 				break;
 				default:
-				$action =
+				$action[0] = '<button class="btn btn-success" type="button" onclick="cetak(' . $ListData->id . ')"><i class="fas fa-print"></i></button>';
+				$action[1] = 
 				'<div class="btn-group">
-				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				ACTION
+				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="far fa-edit"></i>
 				<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-				<li><a href="javascript:void({})" onclick="cetak(' . $ListData->id . ')">Cetak Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Edit Lampiran</a></li>
-				<li><a href="javascript:void({})" onclick="hapus(' . $ListData->id . ')">Hapus Laporan</a></li>
 				</ul></div>';
+				$action[2] ='<button class="btn btn-danger" type="button" onclick="hapus(' . $ListData->id . ')"><i class="far fa-trash-alt"></i></button>';
 				break;
 			}
 
@@ -135,7 +132,9 @@ class Monevumum extends MY_Controller {
 			$row[] = $ListData->alamat;
 			$row[] = date("F", strtotime($ListData->tanggalLaporan)) . " - " . date("Y", strtotime($ListData->tanggalLaporan));
 			$row[] = $ListData->tanggalLaporan;
-			$row[] = $action;
+			foreach ($action as $key => $value) {
+				$row[] = $value;
+			}
 
 			$data[] = $row;
 		}
