@@ -36,6 +36,9 @@
 							<div class="col-lg-1 col-md-1 col-sm-1 pull-right">
 								<button class="btn btn-info" id="cari">Filter</button>
 							</div>
+							<div class="col-lg-3 col-md-3 col-sm-3 pull-right">
+								<button class="btn btn-success pull-right" id="cetak">Cetak Laporan</button>
+							</div>
 						</div>
 					</div>
 				</div>
