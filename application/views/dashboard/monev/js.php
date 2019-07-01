@@ -37,4 +37,20 @@
 	$("#cari").on('click', function(event) {
 		load_report();
 	});
+
+	$("#cetak").on('click', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		var a = $("#filterTahun").val();
+		var b = $("#filterBulan").val();
+		$.ajax({
+			url: '<?php echo base_url()?>dashboard/monev/cetakReport',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {tahun: a, bulan:b},
+			success: function(d){
+				window.open(d);
+			}
+		})		
+	});
 </script>

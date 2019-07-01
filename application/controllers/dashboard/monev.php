@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Monev extends MY_Controller {
 
 	public function __construct()
@@ -62,6 +65,28 @@ class Monev extends MY_Controller {
 		}
 
 		echo json_encode($chartData);
+	}
+
+	public function cetakReport(){
+		if (!empty($_GET)) {
+			$data = $this->monev->getReport();
+			for ($i=0; $i <= sizeof($data); $i++) { 
+				unset($data[$i]['id']);
+				unset($data[$i]['NIP']);
+				unset($data[$i]['NipSeksi']);
+				unset($data[$i]['flag']);
+			}
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('vendor/template/template_monev_hanggar.xlsx');
+			$worksheet = $spreadsheet->getActiveSheet();
+			$worksheet->fromArray($data,NULL,'B2');
+			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet,'Xlsx');
+
+			$filename = 'Laporan_monev_hanggar '.date('M-Y').'.xlsx';
+
+			$writer->save('vendor/laporan_monev_hanggar/'.$filename);
+			// force_download('vendor/laporan_monev_hanggar/'.$filename,NULL);
+			echo json_encode(base_url().'vendor/laporan_monev_hanggar/'.$filename);
+		}
 	}
 
 }
