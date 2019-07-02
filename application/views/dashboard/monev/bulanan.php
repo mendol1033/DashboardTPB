@@ -174,6 +174,7 @@
 						<th class="text-center">JUMLAH TPB</th>
 						<th class="text-center">KONSEP</th>
 						<th class="text-center">VALIDASI HANGGAR</th>
+						<th class="text-center">STATUS</th>
 					</thead>
 					<tbody id="tableBody">
 						
@@ -183,6 +184,7 @@
 						<th class="text-center">JUMLAH TPB</th>
 						<th class="text-center">KONSEP</th>
 						<th class="text-center">VALIDASI HANGGAR</th>
+						<th class="text-center">STATUS</th>
 					</tfoot>
 				</table>
 			</div>
