@@ -105,18 +105,6 @@
 					var dok = [x,y,z];
 					z = val['JUMLAH TPB'] - (x + y);
 
-					switch (dok) {
-						case (dok[0] = parseInt(val['JUMLAH TPB'])) && (dok[1] = 0):
-							status = '<span class="label label-warning">Belum Validasi</span>';
-							break;
-						case (dok[0] = 0) && (dok[1] = parseInt(val['JUMLAH TPB'])):
-							status = '<span class="label label-success">Sudah Validasi</span>';
-							break;
-						default:
-							status = '<span class="label label-danger">Belum Laporan</span>';
-							break;
-					}
-
 					$("#tableBody").append('<tr><td style="vertical-align: middle;">'+val['TPB']+'</td><td class="text-center" style="vertical-align: middle;">'+val['JUMLAH TPB']+'</td><td class="text-center" style="vertical-align: middle;">'+x+'</td><td class="text-center" style="vertical-align: middle;">'+y+'</td><td class="text-center" style="vertical-align: middle;"><span class="label label-danger">'+z+' Belum Laporan</span><br><span class="label label-warning">'+x+' Belum Validas</span><br><span class="label label-success">'+y+' Sudah Validasi</span></td></tr>');
 				});
 

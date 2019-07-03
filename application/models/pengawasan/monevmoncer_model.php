@@ -13,9 +13,9 @@ class Monevmoncer_model extends CI_Model {
 	}
 
 	var $table = 'monev_moncer_detail';
-	var $column_order = array(null, 'idPerusahaan', 'nama_perusahaan', 'tanggal');
-	var $column_search = array('idPerusahaan', 'nama_perusahaan', 'tanggal');
-	var $order = array('id' => 'asc');
+	var $column_order = array(null, 'NPWP', 'nama_perusahaan', null, 'tanggalLaporan', 'tanggalLaporan');
+	var $column_search = array('NPWP', 'nama_perusahaan', 'tanggalLaporan');
+	var $order = array('id' => 'desc');
 
 	private function GetListData() {
 		$this->monev->from($this->table);
