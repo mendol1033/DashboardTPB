@@ -241,6 +241,7 @@ class Perusahaan_model extends CI_Model {
 	public function getHanggar() {
 		$this->db->from('tbhanggar_detail');
 		$this->db->select(array('id','grupHanggar'));
+		$this->db->order_by('grupHanggar');
 		$data = $this->db->get();
 
 		return $data->result_array();
