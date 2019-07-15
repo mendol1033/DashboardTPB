@@ -9,7 +9,15 @@
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal" id="form" novalidate="true">
-					<input type="hidden" name="NipUser" value="<?php echo $this->session->userdata('NipUser');?>">
+					<input type="hidden" name="NipUser" value="<?php echo $this->session->userdata('NipUser'); ?>">
+					<div class="form-group">
+						<label class="col-md-3">Id Sikabayan</label>
+						<div class="col-md-9">
+							<select class="form-control select2" name="idSikabayan" id="idSikabayan">
+
+							</select>
+						</div>
+					</div>
 					<div class="form-group">
 						<div class="col-md-3">
 							<label class="control-label" id="labelNPWP">NPWP</label>
@@ -33,13 +41,13 @@
 							<label class="control-label" id="labelFasilitas">Jenis Fasilitas</label>
 						</div>
 						<div class="col-md-3">
-							<?php echo form_dropdown('Fasilitas', $options['fasTPB'],'', 'class="form-control select2" id="Fasilitas"'); ?>
+							<?php echo form_dropdown('Fasilitas', $options['fasTPB'], '', 'class="form-control select2" id="Fasilitas"'); ?>
 						</div>
 						<div class="col-md-2">
 							<label class="control-label" id="labelJenis">Jenis TPB</label>
 						</div>
 						<div class="col-md-4">
-							<?php echo form_dropdown('Jenis', $options['jenisTPB'],'', 'class="form-control select2" id="Jenis"'); ?>
+							<?php echo form_dropdown('Jenis', $options['jenisTPB'], '', 'class="form-control select2" id="Jenis"'); ?>
 						</div>
 					</div>
 					<div class="form-group">
@@ -63,7 +71,7 @@
 							<label class="control-label" id="labelProfilResiko">Profil Resiko</label>
 						</div>
 						<div class="col-md-9">
-							<?php echo form_dropdown('ProfilResiko', $options['ProfilResiko'],'', 'class="form-control select2" id="ProfilResiko"'); ?>
+							<?php echo form_dropdown('ProfilResiko', $options['ProfilResiko'], '', 'class="form-control select2" id="ProfilResiko"'); ?>
 						</div>
 					</div>
 					<div class="form-group">
@@ -146,7 +154,7 @@
 							<label class="control-label" id="labelLokasi">Lokasi Perusahaan</label>
 						</div>
 						<div class="col-md-9">
-							<?php echo form_dropdown('Lokasi', $options['Lokasi'],'', 'class="form-control select2" id="Lokasi"'); ?>
+							<?php echo form_dropdown('Lokasi', $options['Lokasi'], '', 'class="form-control select2" id="Lokasi"'); ?>
 						</div>
 					</div>
 				</form>

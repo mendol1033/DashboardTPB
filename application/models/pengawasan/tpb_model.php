@@ -1,113 +1,114 @@
 <?php
-if(!defined('BASEPATH'))exit('No direct script access allowed');
+if (!defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 
 class Tpb_model extends CI_Model {
 
 	private $peloro;
 	private $Hanggar;
 
-	public function __construct()
-	{
+	public function __construct() {
 		parent::__construct();
-		$this->peloro = $this->load->database('peloro',true);
+		$this->peloro = $this->load->database('peloro', true);
 		$this->Hanggar = $this->session->userdata('IdHanggar');
 	}
 
 	var $table = "tb_perusahaan";
-	var $column_order = array(null,'IdPerusahaan','NPWP','NmPerusahaan','AlamatPabrik');
-	var $column_search = array('IdPerusahaan','NPWP','NmPerusahaan','AlamatPabrik');
-	var $order = array('NmPerusahaan'=>'asc');
+	var $column_order = array(null, 'IdPerusahaan', 'NPWP', 'NmPerusahaan', 'AlamatPabrik');
+	var $column_search = array('IdPerusahaan', 'NPWP', 'NmPerusahaan', 'AlamatPabrik');
+	var $order = array('NmPerusahaan' => 'asc');
 
-	private function GetListData(){
+	private function GetListData() {
 		$this->peloro->from($this->table);
 
 		$i = 0;
 
-		foreach($this->column_search as $item) //loop column
+		foreach ($this->column_search as $item) //loop column
 		{
-			if($_POST['search']['value']) //if dataTable send POST for search
+			if ($_POST['search']['value']) //if dataTable send POST for search
 			{
 
-				if($i === 0) //first loop
+				if ($i === 0) //first loop
 				{
 					$this->peloro->group_start(); //open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
 					$this->peloro->like($item, $_POST['search']['value']);
-				} 
-				else 
-				{
+				} else {
 					$this->peloro->or_like($item, $_POST['search']['value']);
 				}
-				if(count($this->column_search) -1 == $i) //last loop
-				$this->peloro->group_end(); //close bracket
+				if (count($this->column_search) - 1 == $i) //last loop
+				{
+					$this->peloro->group_end();
+				}
+				//close bracket
 			}
 			$i++;
 		}
 
-		if(isset($_POST['order'])) //ordering
+		if (isset($_POST['order'])) //ordering
 		{
 			$this->peloro->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-		} else if(isset($this->order))
-		{
+		} else if (isset($this->order)) {
 			$order = $this->order;
-			$this->peloro->order_by(key($order),$order[key($order)]);
+			$this->peloro->order_by(key($order), $order[key($order)]);
 		}
 
 	}
 
-	public function GetDataTable(){
+	public function GetDataTable() {
 		$this->GetListData();
-		if($_POST['length'] != -1){
+		if ($_POST['length'] != -1) {
 			$this->peloro->limit($_POST['length'], $_POST['start']);
 		}
 
 		if ($this->Hanggar !== 0) {
-			$this->peloro->where('IdHanggar',$this->Hanggar);
+			$this->peloro->where('IdHanggar', $this->Hanggar);
 		}
 
-		if (!empty($_GET['nama'])){
-			$this->peloro->like('NmPerusahaan',$_GET['nama']);
+		if (!empty($_GET['nama'])) {
+			$this->peloro->like('NmPerusahaan', $_GET['nama']);
 		}
 
 		$query = $this->peloro->get();
 		return $query->result();
 	}
 
-	public function count_filtered(){
+	public function count_filtered() {
 		$this->GetListData();
 		if ($this->Hanggar !== 0) {
-			$this->peloro->where('IdHanggar',$this->Hanggar);
+			$this->peloro->where('IdHanggar', $this->Hanggar);
 		}
-		if (!empty($_GET['nama'])){
-			$this->peloro->like('NmPerusahaan',$_GET['nama']);
+		if (!empty($_GET['nama'])) {
+			$this->peloro->like('NmPerusahaan', $_GET['nama']);
 		}
 		$query = $this->peloro->get();
 		return $query->num_rows();
 	}
 
-	public function count_all(){
+	public function count_all() {
 		$this->peloro->from($this->table);
 		if ($this->Hanggar !== 0) {
-			$this->peloro->where('IdHanggar',$this->Hanggar);
+			$this->peloro->where('IdHanggar', $this->Hanggar);
 		}
 		return $this->peloro->count_all_results();
 	}
 
-	public function getReferensi($kode){
+	public function getReferensi($kode) {
 		$this->peloro->from("tb_referensi");
-		$this->peloro->where("KdReferensi",$kode);
+		$this->peloro->where("KdReferensi", $kode);
 		$query = $this->peloro->get();
 
 		return $query->result_array();
 	}
 
-	public function getById(){
+	public function getById() {
 		$this->peloro->from($this->table);
-		$this->peloro->where('IdPerusahaan',$_GET['id']);
+		$this->peloro->where('IdPerusahaan', $_GET['id']);
 		$query = $this->peloro->get();
 		return $query->row();
 	}
 
-	public function add(){
+	public function add() {
 
 		$this->peloro->trans_begin();
 		$data = array(
@@ -128,11 +129,12 @@ class Tpb_model extends CI_Model {
 			'WNPenanggungJawab' => $_POST['WNPenanggungJawab'],
 			'Status' => $_POST['Status'],
 			'Luas' => $_POST['Luas'],
-			'PtgsRekam' => $this->session->userdata('NipUser')
+			'PtgsRekam' => $this->session->userdata('NipUser'),
+			'idSikabayan' => $_POST['idSikabayan'],
 		);
 
-		$this->peloro->insert('tb_perusahaan',$data);
-		if($this->peloro->trans_status() === FALSE){
+		$this->peloro->insert('tb_perusahaan', $data);
+		if ($this->peloro->trans_status() === FALSE) {
 			$this->peloro->trans_rollback();
 			return FALSE;
 		} else {
@@ -141,7 +143,7 @@ class Tpb_model extends CI_Model {
 		}
 	}
 
-	public function update(){
+	public function update() {
 
 		$this->peloro->trans_begin();
 		$data = array(
@@ -162,13 +164,14 @@ class Tpb_model extends CI_Model {
 			'WNPenanggungJawab' => $_POST['WNPenanggungJawab'],
 			'Status' => $_POST['Status'],
 			'Luas' => $_POST['Luas'],
-			'PtgsUpdate' => $this->session->userdata('NipUser')
+			'PtgsUpdate' => $this->session->userdata('NipUser'),
+			'idSikabayan' => $_POST['idSikabayan'],
 		);
 
-		$this->peloro->where('IdPerusahaan',$_POST['id']);
-		$this->peloro->update('tb_perusahaan',$data);
+		$this->peloro->where('IdPerusahaan', $_POST['id']);
+		$this->peloro->update('tb_perusahaan', $data);
 
-		if($this->peloro->trans_status() === FALSE){
+		if ($this->peloro->trans_status() === FALSE) {
 			$this->peloro->trans_rollback();
 			return FALSE;
 		} else {

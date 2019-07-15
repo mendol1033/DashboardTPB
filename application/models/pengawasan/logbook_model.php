@@ -69,7 +69,11 @@ class Logbook_model extends CI_Model {
 		}
 
 		if ($_POST['jnsLogbook'] != NULL) {
-			$this->peloro->where('type',$_POST['jnsLogbook']);
+			$this->peloro->where('type', $_POST['jnsLogbook']);
+		}
+
+		if (!empty($_POST['id'])) {
+			$this->peloro->where('idTpb', $_POST['id']);
 		}
 
 		$query = $this->peloro->get();
@@ -89,7 +93,11 @@ class Logbook_model extends CI_Model {
 		}
 
 		if ($_POST['jnsLogbook'] != NULL) {
-			$this->peloro->where('type',$_POST['jnsLogbook']);
+			$this->peloro->where('type', $_POST['jnsLogbook']);
+		}
+
+		if (!empty($_POST['id'])) {
+			$this->peloro->where('idTpb', $_POST['id']);
 		}
 
 		$query = $this->peloro->get();
@@ -99,12 +107,16 @@ class Logbook_model extends CI_Model {
 	public function count_all() {
 		$this->peloro->from($this->table);
 
+		if (!empty($_POST['id'])) {
+			$this->peloro->where('idTpb', $_POST['id']);
+		}
+
 		return $this->peloro->count_all_results();
 	}
 
-	public function getById(){
+	public function getById() {
 		$this->peloro->from("logbook_detail");
-		$this->peloro->where('id',$_GET['id']);
+		$this->peloro->where('id', $_GET['id']);
 
 		$logbook = $this->peloro->get()->row_array();
 
@@ -116,40 +128,40 @@ class Logbook_model extends CI_Model {
 		return array($logbook, $pic);
 	}
 
-	private function addHistory($action,$detail) {
+	private function addHistory($action, $detail) {
 		$this->peloro->trans_begin();
 		switch ($action) {
-			case 'add':
+		case 'add':
 			$data = array(
 				'IdUser' => $this->session->userdata('NipUser'),
 				'KdHistory' => 1,
-				'DetailHistory' => $detail
+				'DetailHistory' => $detail,
 			);
 			break;
-			case 'update':
+		case 'update':
 			$data = array(
 				'IdUser' => $this->session->userdata('NipUser'),
 				'KdHistory' => 2,
-				'DetailHistory' => $detail
+				'DetailHistory' => $detail,
 			);
 			break;
-			case 'delete':
+		case 'delete':
 			$data = array(
 				'IdUser' => $this->session->userdata('NipUser'),
 				'KdHistory' => 3,
-				'DetailHistory' => $detail
+				'DetailHistory' => $detail,
 			);
 			break;
-			
-			default:
+
+		default:
 			$data = array(
 				'IdUser' => $this->session->userdata('NipUser'),
 				'KdHistory' => 99,
-				'DetailHistory' => $detail
+				'DetailHistory' => $detail,
 			);
 			break;
 		}
-		$this->peloro->insert('tb_history',$data);
+		$this->peloro->insert('tb_history', $data);
 		if ($this->peloro->trans_status() === FALSE) {
 			$this->peloro->trans_rollback();
 			return FALSE;
@@ -159,7 +171,7 @@ class Logbook_model extends CI_Model {
 		}
 	}
 
-	public function add(){
+	public function add() {
 		$this->peloro->trans_begin();
 
 		$data = array(
@@ -168,10 +180,10 @@ class Logbook_model extends CI_Model {
 			'tglLaporan' => $_POST['tglLaporan'],
 			'kondisi' => $_POST['kondisi'],
 			'isiLaporan' => $_POST['isiLaporan'],
-			'ptgsRekam' => $this->session->userdata('NipUser')
+			'ptgsRekam' => $this->session->userdata('NipUser'),
 		);
 
-		$this->peloro->insert('logbook',$data);
+		$this->peloro->insert('logbook', $data);
 		$idLogbook = $this->peloro->insert_id();
 
 		foreach ($_FILES['upload']['error'] as $key => $value) {
@@ -184,7 +196,7 @@ class Logbook_model extends CI_Model {
 					$tmpFilePath = $_FILES['upload']['tmp_name'][$a];
 					if ($tmpFilePath != "") {
 						if (is_dir("assets/upload/logbook") === FALSE) {
-							mkdir("assets/upload/logbook",0777);
+							mkdir("assets/upload/logbook", 0777);
 						}
 						$newFilePath = "assets/upload/logbook/" . $_FILES['upload']['name'][$a];
 						if (move_uploaded_file($tmpFilePath, $newFilePath)) {
@@ -199,9 +211,8 @@ class Logbook_model extends CI_Model {
 				}
 			}
 
-			$this->peloro->insert_batch('logbook_pic',$fileLaporan);
+			$this->peloro->insert_batch('logbook_pic', $fileLaporan);
 		}
-		
 
 		if ($this->peloro->trans_status() === FALSE) {
 			$this->peloro->trans_rollback();
@@ -209,30 +220,30 @@ class Logbook_model extends CI_Model {
 		} else {
 			$this->peloro->trans_commit();
 			switch ($_POST['Logbook']) {
-				case '1':
+			case '1':
 				$detail = "Menambahkan data logbook CCTV";
 				break;
-				case '2':
+			case '2':
 				$detail = "Menambahkan data logbook IT INVENTORY";
 				break;
-				case '3':
+			case '3':
 				$detail = "Menambahkan data logbook E-SEAL";
 				break;
-				
-				default:
+
+			default:
 				$detail = "Gagal menambah data logbook";
 				break;
 			}
-			if ($this->addHistory('add',$detail) === TRUE){
+			if ($this->addHistory('add', $detail) === TRUE) {
 				return TRUE;
 			} else {
 				return FALSE;
 			}
-			
+
 		}
 	}
 
-	public function update(){
+	public function update() {
 		$this->peloro->trans_begin();
 
 		$data = array(
@@ -241,11 +252,11 @@ class Logbook_model extends CI_Model {
 			'tglLaporan' => $_POST['tglLaporan'],
 			'kondisi' => $_POST['kondisi'],
 			'isiLaporan' => $_POST['isiLaporan'],
-			'ptgsRekam' => $this->session->userdata('NipUser')
+			'ptgsRekam' => $this->session->userdata('NipUser'),
 		);
 
-		$this->peloro->where('id',$_POST['id']);
-		$this->peloro->update('logbook',$data);
+		$this->peloro->where('id', $_POST['id']);
+		$this->peloro->update('logbook', $data);
 		$idLogbook = $_POST['id'];
 
 		foreach ($_FILES['upload']['error'] as $key => $value) {
@@ -258,7 +269,7 @@ class Logbook_model extends CI_Model {
 					$tmpFilePath = $_FILES['upload']['tmp_name'][$a];
 					if ($tmpFilePath != "") {
 						if (is_dir("assets/upload/logbook") === FALSE) {
-							mkdir("assets/upload/logbook",0777);
+							mkdir("assets/upload/logbook", 0777);
 						}
 						$newFilePath = "assets/upload/logbook/" . $_FILES['upload']['name'][$a];
 						if (move_uploaded_file($tmpFilePath, $newFilePath)) {
@@ -272,8 +283,8 @@ class Logbook_model extends CI_Model {
 					}
 				}
 			}
-			
-			$this->peloro->insert_batch('logbook_pic',$fileLaporan);
+
+			$this->peloro->insert_batch('logbook_pic', $fileLaporan);
 		}
 
 		if ($this->peloro->trans_status() === FALSE) {
@@ -282,30 +293,30 @@ class Logbook_model extends CI_Model {
 		} else {
 			$this->peloro->trans_commit();
 			switch ($_POST['Logbook']) {
-				case '1':
+			case '1':
 				$detail = "Ubah data logbook CCTV";
 				break;
-				case '2':
+			case '2':
 				$detail = "Ubah data logbook IT INVENTORY";
 				break;
-				case '3':
+			case '3':
 				$detail = "Ubah data logbook E-SEAL";
 				break;
-				
-				default:
+
+			default:
 				$detail = "Gagal Ubah data logbook";
 				break;
 			}
-			if ($this->addHistory('update',$detail) === TRUE){
+			if ($this->addHistory('update', $detail) === TRUE) {
 				return TRUE;
 			} else {
 				return FALSE;
 			}
-			
+
 		}
 	}
 
-	public function deletepic(){
+	public function deletepic() {
 		$this->peloro->from('logbook_pic');
 		$this->peloro->where('id', $_GET['id']);
 
@@ -323,9 +334,9 @@ class Logbook_model extends CI_Model {
 					return FALSE;
 				} else {
 					$this->peloro->trans_commit();
-					if ($this->addHistory('delete','Menghapus Foto Logbook') === TRUE) {
+					if ($this->addHistory('delete', 'Menghapus Foto Logbook') === TRUE) {
 						$this->peloro->from('logbook_pic');
-						$this->peloro->where('idLogbook',$pic['idLogbook']);
+						$this->peloro->where('idLogbook', $pic['idLogbook']);
 						$sisaPic = $this->peloro->get();
 						if ($sisaPic->num_rows() > 0) {
 							return array("status" => TRUE, "data" => $sisaPic->result_array());

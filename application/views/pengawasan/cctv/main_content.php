@@ -1,6 +1,6 @@
 <section class="form">
 	<div class="container-fluid">
-		<?php if (isset($JudulPanelBesar)){?>
+		<?php if (isset($JudulPanelBesar)) {?>
 			<header><h3><?php echo $JudulPanelBesar; ?></h3></header>
 		<?php }?>
 		<div class="row">
@@ -29,10 +29,10 @@
 							</div>
 						</div>
 					</div> -->
-				<!-- </form> -->
-			</div>
+					<!-- </form> -->
+				</div>
 		<!-- </div>
-		<div class="row"> -->
+			<div class="row"> -->
 			<!-- <div class="col-lg-6 col-md-6 col-sm-6">
 				<div class="col-lg-12 col-md-12 col-sm-12">
 					<div class="row">
@@ -58,8 +58,8 @@
 									<th><p class="text-justify"> Browser </p></th>
 									<th><p class="text-center" style="margin-bottom: 0px"> Username <br> Password</p></th>
 									<th>
-										<p class="text-center"> 
-											Status <br> Keterangan 
+										<p class="text-center">
+											Status <br> Keterangan
 										</p>
 									</th>
 									<th style="width: 5%;"><p class="text-justify"> View </p></th>
@@ -76,8 +76,8 @@
 									<th><p class="text-justify"> Browser </p></th>
 									<th><p class="text-center" style="margin-bottom: 0px"> Username <br> Password</p></th>
 									<th>
-										<p class="text-center"> 
-											Status <br> Keterangan 
+										<p class="text-center">
+											Status <br> Keterangan
 										</p>
 									</th>
 									<th style="width: 5%;"><p class="text-justify"> View </p></th>
@@ -90,7 +90,29 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="box box-default">
+					<div class="box-body">
+						<table id="tableLog" class="table table-striped table-responsive table-hover">
+							<thead>
+								<tr>
+									<th style="width: 5%;"><p class="text-justify"> No </p></th>
+									<th style="width: 10%;"><p class="text-justify"> Kode </p></th>
+									<th style="width: 20%;"><p class="text-justify"> Nama Perusahaan | Fasilitas | SKEP </p></th><th style="width: 10%;"><p class="text-justify">Tanggal Laporan</p></th>
+									<th style="width: 50%;"><p class="text-justify">Isi Laporan</p></th>
+									<th style="width: 5%;"><p class="text-justify"> Action </p></th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
-<?php if(isset($modal)){$this->load->view($modal);} ?>
-<?php if(isset($js)){$this->load->view($js);} ?>
+<?php if (isset($modal)) {$this->load->view($modal);}?>
+<?php if (isset($js)) {$this->load->view($js);}?>
