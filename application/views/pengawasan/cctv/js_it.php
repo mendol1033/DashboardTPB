@@ -2,6 +2,7 @@
 	var table;
 	var save_method;
 	var idEdit;
+	var tableLog = $("#tableLog").DataTable();
 	$(document).ready(function() {
 		// initialize class select2
 		$(".select2").select2({
@@ -59,9 +60,46 @@
 			"bFilter" 	 : false,
 			"order" : [],
 			"ajax" : {
-				"url" : "<?php echo base_url().'pengawasan/it/ajax_list'?>",
+				"url" : "<?php echo base_url() . 'pengawasan/it/ajax_list' ?>",
 				"type" : "POST",
 			},
+		});
+
+		$("#dataTable tbody").on('click', 'tr', function(event) {
+			tableLog.destroy();
+			var date = new Date();
+			var d = date.toLocaleDateString();
+			var data = table.row(this).data();
+
+			tableLog = $('#tableLog').DataTable({
+				initComplete : function(){
+					var api = this.api();
+					$("#dataTable_filter input")
+					.off('.DT')
+					.on('keyup.DT', function(e){
+						if(e.keyCode == 13){
+							api.search(this.value).draw();
+						}
+					});
+				},
+				"processing" : true,
+				"serverSide" : true,
+				"responsive" : true,
+				"autoWidth"	 : false,
+				"bFilter" 	 : false,
+				"order" : [],
+				"ajax" : {
+					"url" : "<?php echo base_url() . 'pengawasan/logbook/ajax_list' ?>",
+					"type" : "POST",
+					"data" : function(a){
+						a.perusahaan = null;
+						a.id = data[9];
+						a.tglAwal = "2019-01-01";
+						a.tglAkhir = "2099-12-31";
+						a.jnsLogbook = 2;
+					}
+				},
+			});
 		});
 
 		$("#NamaPerusahaan").select2({
@@ -70,7 +108,7 @@
 			minimumInputLength: 5,
 			allowClear: true,
 			ajax : {
-				url : "<?php echo base_url().'pengawasan/it/getDropDownNPWP/';?>",
+				url : "<?php echo base_url() . 'pengawasan/it/getDropDownNPWP/'; ?>",
 				dataType : "JSON",
 				delay : 250,
 				data : function(params){
@@ -137,7 +175,7 @@
 
 	function edit(id){
 		$.ajax({
-			url: "<?php echo base_url().'pengawasan/it/getById/';?>"+id,
+			url: "<?php echo base_url() . 'pengawasan/it/getById/'; ?>"+id,
 			type: 'GET',
 			dataType: 'JSON',
 			data: {id: id},
@@ -158,7 +196,7 @@
 				$("#Keterangan").val(data.Keterangan);
 				$("#modal").modal('show');
 			}
-		})		
+		})
 	}
 
 	function selectedValue(a,b){
@@ -181,10 +219,10 @@
 		data = $("#formCCTV").serializeArray();
 
 		if(save_method == "add"){
-			url = "<?php echo base_url().'pengawasan/it/ajax_add'?>";
+			url = "<?php echo base_url() . 'pengawasan/it/ajax_add' ?>";
 		} else {
 			data[data.length] = {name: "id", value: idEdit};
-			url = "<?php echo base_url().'pengawasan/it/ajax_update'?>";
+			url = "<?php echo base_url() . 'pengawasan/it/ajax_update' ?>";
 		}
 
 		if($("#formCCTV").valid()){
@@ -221,12 +259,12 @@
 	});
 
 	function ajax_load_table(filter){
-		table.ajax.url("<?php echo base_url().'pengawasan/it/ajax_list/'?>" + filter).load();
+		table.ajax.url("<?php echo base_url() . 'pengawasan/it/ajax_list/' ?>" + filter).load();
 	}
 
 	function getGraph(id){
 		$.ajax({
-			url: "<?php echo base_url()?>"+"pengawasan/it/getGraph",
+			url: "<?php echo base_url() ?>"+"pengawasan/it/getGraph",
 			type: "GET",
 			dataType: "JSON",
 			data: {Id: id},

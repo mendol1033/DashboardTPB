@@ -118,23 +118,9 @@
 			errorClass: "text-danger",
 			rules:{
 				idPerusahaan: "required",
-				laporan1: "required",
-				laporan2: "required",
-				laporan3: "required",
-				laporan4: "required",
-				laporan5: "required",
-				laporan6: "required",
-				kesimpulan: "required"
 			},
 			messages: {
 				idPerusahaan: "Pilih Perusahaan yang akan di Monitoring",
-				laporan1: "Isi hasil Laporan Monitoring",
-				laporan2: "Isi hasil Laporan Monitoring",
-				laporan3: "Isi hasil Laporan Monitoring",
-				laporan4: "Isi hasil Laporan Monitoring",
-				laporan5: "Isi hasil Laporan Monitoring",
-				laporan6: "Isi hasil Laporan Monitoring",
-				kesimpulan: "Isi Kesimpulan Laporan Monev Umum Monitoring Room"
 			},
 			errorElement: "td",
 			errorPlacement:function(error,element){
@@ -185,7 +171,7 @@
 		})
 
 		$.ajax({
-			url: '<?php echo base_url()?>pengawasan/monevmoncer/getAkses',
+			url: '<?php echo base_url() ?>pengawasan/monevmoncer/getAkses',
 			type: 'GET',
 			dataType: 'JSON)',
 			data: {id: id},
@@ -195,7 +181,7 @@
 				$("#linkESEAL").removeClass('sr-only');
 			}
 		})
-		
+
 	});
 
 	$("#tambah").on('click', function(event) {
@@ -252,7 +238,7 @@
 
 				console.log(d);
 			}
-		})		
+		})
 	}
 
 	function save() {
@@ -318,7 +304,7 @@
 	function hapus(id){
 		if (confirm("data monev akan dihapus?")) {
 			$.ajax({
-				url: "<?php echo base_url()?>pengawasan/monevmoncer/hapus",
+				url: "<?php echo base_url() ?>pengawasan/monevmoncer/hapus",
 				type: "GET",
 				dataType: "JSON",
 				data: {id: id},

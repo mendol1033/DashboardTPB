@@ -40,6 +40,38 @@
 			$(this).val('');
 		});
 
+		$("#idSikabayan").select2({
+			dropdownParent:$("#form"),
+			width : '100%',
+			placeholder: 'Pilih Nama Perusahaan',
+			minimumInputLength: 5,
+			allowClear: true,
+			ajax : {
+				url : "<?php echo base_url() . 'hanggar/monevumum/getPerusahaan'; ?>",
+				dataType : "JSON",
+				delay : 250,
+				data : function(params){
+					return{
+						nama : params.term
+					};
+				},
+				processResults: function(data){
+					var results = [];
+
+					$.each(data, function(index, laporan){
+						results.push({
+							id : laporan.id_perusahaan,
+							text : laporan.nama_perusahaan + " | " + laporan.nama_tpb + " | " + laporan.ijin_kelola_tpb
+						})
+					});
+					return{
+						results : results
+					};
+				},
+				cache : true
+			}
+		});
+
 		// initialize dataTable
 		table = $('#dataTable').DataTable({
 			initComplete : function(){
@@ -59,7 +91,7 @@
 			"bFilter" 	 : false,
 			"order" : [],
 			"ajax" : {
-				"url" : "<?php echo base_url().'pengawasan/tpb/ajax_list'?>",
+				"url" : "<?php echo base_url() . 'pengawasan/tpb/ajax_list' ?>",
 				"type" : "POST",
 			},
 		});
@@ -126,7 +158,7 @@
 
 	function edit(id){
 		$.ajax({
-			url: "<?php echo base_url().'pengawasan/tpb/getById/';?>"+id,
+			url: "<?php echo base_url() . 'pengawasan/tpb/getById/'; ?>"+id,
 			type: 'GET',
 			dataType: 'JSON',
 			data: {id: id},
@@ -160,12 +192,12 @@
 				$("#simpan").removeClass('sr-only');
 				$("#modal").modal('show');
 			}
-		})		
+		})
 	}
 
 	function view(id){
 		$.ajax({
-			url: "<?php echo base_url().'pengawasan/tpb/getById/';?>"+id,
+			url: "<?php echo base_url() . 'pengawasan/tpb/getById/'; ?>"+id,
 			type: 'GET',
 			dataType: 'JSON',
 			data: {id: id},
@@ -206,10 +238,10 @@
 		data = $("#form").serializeArray();
 
 		if (save_method == "add"){
-			url = "<?php echo base_url().'pengawasan/tpb/ajax_add';?>";
+			url = "<?php echo base_url() . 'pengawasan/tpb/ajax_add'; ?>";
 		} else {
 			data[data.length] = {name: "id", value: idEdit};
-			url = "<?php echo base_url().'pengawasan/tpb/ajax_update'?>";
+			url = "<?php echo base_url() . 'pengawasan/tpb/ajax_update' ?>";
 		}
 
 		if($("#form").valid()){
@@ -225,7 +257,7 @@
 					ajax_reload();
 					alert(data);
 				}
-			})			
+			})
 		}
 	}
 
@@ -246,6 +278,6 @@
 	});
 
 	function ajax_load_table(filter){
-		table.ajax.url("<?php echo base_url().'pengawasan/tpb/ajax_list/'?>"+filter).load();
+		table.ajax.url("<?php echo base_url() . 'pengawasan/tpb/ajax_list/' ?>"+filter).load();
 	}
 </script>
