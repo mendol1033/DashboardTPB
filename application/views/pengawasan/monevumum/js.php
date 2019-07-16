@@ -230,6 +230,7 @@
 				$('[name="tanggal"]').val(d.laporan.tanggalLaporan);
 				$("#modalForm").modal("show");
 				$('[name="kesimpulan"]').val(d.laporan.kesimpulan);
+				$(".modal-title").text('Form Laporan Monitoring Umum Pada Ruang Kendali (MONITORING ROOM)');
 
 				var isi = d.isi;
 				for (var i = 0; i < isi.length; i++) {
