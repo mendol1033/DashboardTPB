@@ -65,7 +65,7 @@
 			},
 		});
 
-		$("#dataTable tbody").on('click', 'tr', function(event) {
+		$("#dataTable tbody").on('dblclick', 'tr', function(event) {
 			tableLog.destroy();
 			var date = new Date();
 			var d = date.toLocaleDateString();

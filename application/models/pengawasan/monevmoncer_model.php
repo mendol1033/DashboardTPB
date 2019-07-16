@@ -69,16 +69,16 @@ class Monevmoncer_model extends CI_Model {
 		}
 
 		switch ($_POST['type']) {
-			case "pelaksana":
+		case "pelaksana":
 			$this->monev->where('status', 0);
 			break;
-			case "seksi":
+		case "seksi":
 			$this->monev->where('status', 1);
 			break;
-			case "browse":
+		case "browse":
 			$this->monev->where('status', 1);
 			break;
-			default:
+		default:
 
 			break;
 		}
@@ -91,16 +91,16 @@ class Monevmoncer_model extends CI_Model {
 		$this->GetListData();
 
 		switch ($_POST['type']) {
-			case "pelaksana":
+		case "pelaksana":
 			$this->monev->where('status', 0);
 			break;
-			case "seksi":
+		case "seksi":
 			$this->monev->where('status', 1);
 			break;
-			case "browse":
+		case "browse":
 			$this->monev->where('status', 1);
 			break;
-			default:
+		default:
 
 			break;
 		}
@@ -112,56 +112,56 @@ class Monevmoncer_model extends CI_Model {
 		$this->monev->from($this->table);
 
 		switch ($_POST['type']) {
-			case "pelaksana":
+		case "pelaksana":
 			$this->monev->where('status', 0);
 			break;
-			case "seksi":
+		case "seksi":
 			$this->monev->where('status', 1);
 			break;
-			case "browse":
+		case "browse":
 			$this->monev->where('status !=', 0);
 			break;
-			default:
+		default:
 
 			break;
 		}
 		return $this->monev->count_all_results();
 	}
 
-	private function addHistory($action,$detail) {
+	private function addHistory($action, $detail) {
 		$this->monev->trans_begin();
 		switch ($action) {
-			case 'add':
+		case 'add':
 			$data = array(
 				'IdUser' => $this->session->userdata('NipUser'),
 				'KdHistory' => 1,
-				'DetailHistory' => $detail
+				'DetailHistory' => $detail,
 			);
 			break;
-			case 'update':
+		case 'update':
 			$data = array(
 				'IdUser' => $this->session->userdata('NipUser'),
 				'KdHistory' => 2,
-				'DetailHistory' => $detail
+				'DetailHistory' => $detail,
 			);
 			break;
-			case 'delete':
+		case 'delete':
 			$data = array(
 				'IdUser' => $this->session->userdata('NipUser'),
 				'KdHistory' => 3,
-				'DetailHistory' => $detail
+				'DetailHistory' => $detail,
 			);
 			break;
-			
-			default:
+
+		default:
 			$data = array(
 				'IdUser' => $this->session->userdata('NipUser'),
 				'KdHistory' => 99,
-				'DetailHistory' => $detail
+				'DetailHistory' => $detail,
 			);
 			break;
 		}
-		$this->monev->insert('monev_history',$data);
+		$this->monev->insert('monev_history', $data);
 		if ($this->monev->trans_status() === FALSE) {
 			$this->monev->trans_rollback();
 			return FALSE;
@@ -171,25 +171,25 @@ class Monevmoncer_model extends CI_Model {
 		}
 	}
 
-	public function getById(){
-		$data1 = $this->monev->from('monev_moncer_detail')->where('id',$_GET['id'])->get()->row_array();
-		$data2 = $this->monev->from('monev_moncer_isi')->where('idLaporan',$_GET['id'])->get()->result_array();
+	public function getById() {
+		$data1 = $this->monev->from('monev_moncer_detail')->where('id', $_GET['id'])->get()->row_array();
+		$data2 = $this->monev->from('monev_moncer_isi')->where('idLaporan', $_GET['id'])->get()->result_array();
 
 		$data = array(
 			"laporan" => $data1,
-			"isi" => $data2
+			"isi" => $data2,
 		);
 
 		return $data;
 	}
 
-	public function add(){
+	public function add() {
 		$this->monev->trans_begin();
 		$data = array(
 			"idPerusahaan" => $_POST['idPerusahaan'],
 			"tanggalLaporan" => $_POST['tanggal'],
 			"kesimpulan" => $_POST['kesimpulan'],
-			"NipRekam" => $this->session->userdata('NipUser')
+			"NipRekam" => $this->session->userdata('NipUser'),
 		);
 
 		$this->monev->insert('monev_moncer', $data);
@@ -202,22 +202,79 @@ class Monevmoncer_model extends CI_Model {
 		unset($isi['kesimpulan']);
 
 		$isiLaporan = array();
-		for ($i=1; $i < (count($isi)+1); $i++) { 
+		for ($i = 1; $i < (count($isi) + 1); $i++) {
 			$isiLaporan[] = array(
 				'idLaporan' => $insert_id,
 				'item' => $i,
-				'keterangan' => $isi['laporan'.$i]
+				'keterangan' => $isi['laporan' . $i],
 			);
 		}
 
 		$this->monev->insert_batch("monev_moncer_isi", $isiLaporan);
+
+		foreach ($isiLaporan as $key => $value) {
+			switch ($value['item']) {
+			case 1:
+				$logbook = array(
+					'idMonev' => $insert_id,
+					'type' => 1,
+					'idPerusahaan' => $_POST['idPerusahaan'],
+					'tglLaporan' => $_POST['tanggal'],
+					'kondisi' => 'M',
+					'isiLaporan' => $value['keterangan'],
+					'ptgsRekam' => $this->session->userdata('NipUser'),
+				);
+				$this->peloro->insert('logbook', $logbook);
+				break;
+			case 2:
+				$logbook = array(
+					'idMonev' => $insert_id,
+					'type' => 2,
+					'idPerusahaan' => $_POST['idPerusahaan'],
+					'tglLaporan' => $_POST['tanggal'],
+					'kondisi' => 'M',
+					'isiLaporan' => $value['keterangan'],
+					'ptgsRekam' => $this->session->userdata('NipUser'),
+				);
+				$this->peloro->insert('logbook', $logbook);
+				break;
+			case 3:
+				$logbook = array(
+					'idMonev' => $insert_id,
+					'type' => 4,
+					'idPerusahaan' => $_POST['idPerusahaan'],
+					'tglLaporan' => $_POST['tanggal'],
+					'kondisi' => 'M',
+					'isiLaporan' => $value['keterangan'],
+					'ptgsRekam' => $this->session->userdata('NipUser'),
+				);
+				$this->peloro->insert('logbook', $logbook);
+				break;
+			case 4:
+				$logbook = array(
+					'idMonev' => $insert_id,
+					'type' => 3,
+					'idPerusahaan' => $_POST['idPerusahaan'],
+					'tglLaporan' => $_POST['tanggal'],
+					'kondisi' => 'M',
+					'isiLaporan' => $value['keterangan'],
+					'ptgsRekam' => $this->session->userdata('NipUser'),
+				);
+				$this->peloro->insert('logbook', $logbook);
+				break;
+			default:
+
+				break;
+			}
+
+		}
 
 		if ($this->monev->trans_status() === FALSE) {
 			$this->monev->trans_rollback();
 			return FALSE;
 		} else {
 			$this->monev->trans_commit();
-			if ($this->addHistory('add',"Menambahkan data laporan Monev Monitoring Room") === TRUE){
+			if ($this->addHistory('add', "Menambahkan data laporan Monev Monitoring Room") === TRUE) {
 				return TRUE;
 			} else {
 				return FALSE;
@@ -225,16 +282,16 @@ class Monevmoncer_model extends CI_Model {
 		}
 	}
 
-	public function update(){
+	public function update() {
 		$this->monev->trans_begin();
 		$data = array(
 			"idPerusahaan" => $_POST['idPerusahaan'],
 			"tanggalLaporan" => $_POST['tanggal'],
 			"kesimpulan" => $_POST['kesimpulan'],
-			"NipUpdate" => $this->session->userdata('NipUser')
+			"NipUpdate" => $this->session->userdata('NipUser'),
 		);
 
-		$this->monev->where('id',$_POST['id']);
+		$this->monev->where('id', $_POST['id']);
 		$this->monev->update('monev_moncer', $data);
 
 		$isi = $_POST;
@@ -245,14 +302,36 @@ class Monevmoncer_model extends CI_Model {
 		unset($isi['kesimpulan']);
 		$dataIsi = $this->monev->where('idLaporan', $_POST['id'])->get('monev_moncer_isi')->result_array();
 
-		for ($i=0; $i < count($isi); $i++) { 
+		for ($i = 0; $i < count($isi); $i++) {
 			$isiLaporan = array(
 				'idLaporan' => $_POST['id'],
-				'item' => $i+1,
-				'keterangan' => $isi['laporan'. ($i+1)]
+				'item' => $i + 1,
+				'keterangan' => $isi['laporan' . ($i + 1)],
 			);
 			$this->monev->where('id', $dataIsi[$i]['id']);
 			$this->monev->update('monev_moncer_isi', $isiLaporan);
+		}
+		$idMonev = $_POST['id'];
+		for ($i = 1; $i < 5; $i++) {
+			switch ($i) {
+			case 3:
+				$type = 4;
+				break;
+			case 4:
+				$type = 3;
+				break;
+
+			default:
+				$type = $i;
+				break;
+			}
+			$logbook = array(
+				'isiLaporan' => $_POST['laporan' . $i],
+				'ptgsUpdate' => $this->session->userdata('NipUser'),
+			);
+			$this->peloro->where('idMonev', $idMonev);
+			$this->peloro->where('type', $type);
+			$this->peloro->update('logbook', $logbook);
 		}
 
 		if ($this->monev->trans_status() === FALSE) {
@@ -260,7 +339,7 @@ class Monevmoncer_model extends CI_Model {
 			return FALSE;
 		} else {
 			$this->monev->trans_commit();
-			if ($this->addHistory('update',"Merubah data laporan Monev Monitoring Room") === TRUE){
+			if ($this->addHistory('update', "Merubah data laporan Monev Monitoring Room") === TRUE) {
 				return TRUE;
 			} else {
 				return FALSE;
@@ -268,7 +347,7 @@ class Monevmoncer_model extends CI_Model {
 		}
 	}
 
-	public function hapus(){
+	public function hapus() {
 		$this->monev->trans_begin();
 		$this->monev->where('id', $_GET['id']);
 		$this->monev->delete('monev_moncer');
@@ -279,7 +358,7 @@ class Monevmoncer_model extends CI_Model {
 		if ($this->monev->trans_status() === FALSE) {
 			$this->monev->trans_rollback();
 			return FALSE;
-		} else{
+		} else {
 			$this->monev->trans_commit();
 			return TRUE;
 		}
