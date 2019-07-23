@@ -76,6 +76,29 @@
 			},
 		});
 
+		tableBarang = $('#tableBarang').DataTable({
+			initComplete : function(){
+				var api = this.api();
+				$("#dataTable_filter input")
+				.off('.DT')
+				.on('keyup.DT', function(e){
+					if(e.keyCode == 13){
+						api.search(this.value).draw();
+					}
+				});
+			},
+			"processing" : true,
+			"serverSide" : true,
+			"responsive" : true,
+			"autoWidth"	 : false,
+			"bFilter" 	 : false,
+			"order" : [],
+			"ajax" : {
+				"url" : "<?php echo base_url() . 'perusahaan/tpb/ajax_list_barang' ?>",
+				"type" : "POST"
+			},
+		});
+
 		// initialize another select2
 		$("#Provinsi").select2({
 			width : '100%',
@@ -305,11 +328,6 @@
 					$("#LokasiTPB-error").remove();
 				});
 
-				$("#Hanggar").on('select2:select', function(event) {
-					$("#labelHanggar").parent().removeClass('has-error').addClass('has-success');
-					$("#Hanggar-error").remove();
-				});
-
 				$("#status").on('select2:select', function(event) {
 					$("#labelStatus").parent().removeClass('has-error').addClass('has-success');
 					$("#status-error").remove();
@@ -334,6 +352,10 @@
 		});
 	})
 
+function ajax_reloadBarang(id){
+	tableBarang.ajax.url("<?php echo base_url() . 'perusahaan/tpb/ajax_list_barang/' ?>"+id).load()
+}
+
 $("#btnTambah").click(function(e) {
 	e.preventDefault();
 	save_method = "add";
@@ -341,7 +363,6 @@ $("#btnTambah").click(function(e) {
 	$(".modal-title").text("Tambah Data Perusahaan");
 	$("#JenisTPB").trigger('change');
 	$("#LokasiTPB").trigger('change');
-	$("#Hanggar").trigger('change');
 	$("#status").trigger('change');
 	$("#Provinsi").trigger('change');
 	$("#Kabupaten").trigger('change');
@@ -375,40 +396,24 @@ function view(id){
 			$("#izin").val(data.ijin_kelola_tpb);
 			$("#latitude").val(data.latitude);
 			$("#longitude").val(data.longitude);
-			$("#Hanggar").val(data.id_hanggar);
-			$("#Hanggar").trigger('change');
 			$("#status").val(data.status);
 			$("#status").trigger('change');
 			$(".modal-title").text("Detail Perushaan");
 			$("#simpan").addClass('sr-only');
 			$("#modal").modal('show');
+			$(".formBarang").addClass('hidden');
+			ajax_reloadBarang(id);
 		}
 	})
 }
 
-// function getLokasi(ref_1, ref_2, ref_3, ref_4){
-// 	$.ajax({
-// 		url: '<?php echo base_url() ?>'+'perusahaan/tpb/getLokasi',
-// 		type: "POST",
-// 		dataType: "JSON",
-// 		data: {provinsi: ref_1, kota: ref_2, kecamatan: ref_3, kelurahan: ref_4},
-// 		success: function(data){
-// 			provinsi = data.provinsi;
-// 			kota = data.kota;
-// 			kecamatan = data.kecamatan;
-// 			kelurahan = data.kelurahan;
-// 		}
-// 	})
-// }
-
 function selectedValue(a, el){
 	$.ajax({
-		url: '<?php echo base_url()?>perusahaan/tpb/getLokasi',
+		url: '<?php echo base_url() ?>perusahaan/tpb/getLokasi',
 		type: 'GET',
 		dataType: 'JSON',
 		data: {kode: a},
 		success: function(d){
-			console.log(d);
 			var data = [{id:a, text:d.lokasi_nama}];
 			var selectedVal = $(el);
 			var option = new Option(d.lokasi_nama,a,true,true);
@@ -433,7 +438,6 @@ function edit(id){
 		success:function(data){
 			idEdit = id;
 			save_method = "edit";
-			// getLokasi(data.provinsi, data.kota, data.kecamatan, data.kelurahan);
 			$("#NPWP").val(data.NPWP);
 			$("#namatpb").val(data.nama_perusahaan);
 			$("#telepon").val(data.telepon);
@@ -451,13 +455,13 @@ function edit(id){
 			$("#izin").val(data.ijin_kelola_tpb);
 			$("#latitude").val(data.latitude);
 			$("#longitude").val(data.longitude);
-			$("#Hanggar").val(data.id_hanggar);
-			$("#Hanggar").trigger('change');
 			$("#status").val(data.status);
 			$("#status").trigger('change');
 			$(".modal-title").text("Detail Perushaan");
 			$("#simpan").removeClass('sr-only');
 			$("#modal").modal('show');
+			ajax_reloadBarang(id);
+			$(".formBarang").removeClass('hidden');
 		}
 	})
 }

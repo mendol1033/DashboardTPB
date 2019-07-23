@@ -237,7 +237,7 @@
 					$('[name="laporan'+isi[i].item+'"]').val(isi[i].keterangan);
 				}
 
-				console.log(d);
+				// console.log(d);
 			}
 		})
 	}

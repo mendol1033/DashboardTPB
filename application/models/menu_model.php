@@ -215,6 +215,10 @@ class Menu_model extends CI_Model {
 					'url' => 'pengawasan/logbook',
 					'menu' => 'Logbook Monitoring TPB',
 				),
+				'htp' => array(
+					'url' => 'pengawasan/htp',
+					'menu' => 'Survey Harga Transaksi Pasar',
+				),
 
 			),
 		);
