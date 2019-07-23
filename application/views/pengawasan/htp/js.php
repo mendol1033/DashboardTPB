@@ -1,4 +1,11 @@
 <script type="text/javascript">
+	var selectedProvince;
+	var selectedKabupaten;
+	var selectedKecamatan;
+	var provinsi;
+	var kota;
+	var kecamatan;
+	var kelurahan;
 	$(document).ready(function() {
 		$(".select2").select2({
 			width : '100%'
@@ -221,24 +228,24 @@
 	});
 
 	function selectedValue(a, el){
-	$.ajax({
-		url: '<?php echo base_url() ?>perusahaan/tpb/getLokasi',
-		type: 'GET',
-		dataType: 'JSON',
-		data: {kode: a},
-		success: function(d){
-			var data = [{id:a, text:d.lokasi_nama}];
-			var selectedVal = $(el);
-			var option = new Option(d.lokasi_nama,a,true,true);
-			selectedVal.append(option).trigger('change');
+		$.ajax({
+			url: '<?php echo base_url() ?>perusahaan/tpb/getLokasi',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {kode: a},
+			success: function(d){
+				var data = [{id:a, text:d.lokasi_nama}];
+				var selectedVal = $(el);
+				var option = new Option(d.lokasi_nama,a,true,true);
+				selectedVal.append(option).trigger('change');
 
-			selectedVal.trigger({
-				type: "select2:select",
-				params: {
-					data: data
-				}
-			})
-		}
-	})
-}
+				selectedVal.trigger({
+					type: "select2:select",
+					params: {
+						data: data
+					}
+				})
+			}
+		})
+	}
 </script>
