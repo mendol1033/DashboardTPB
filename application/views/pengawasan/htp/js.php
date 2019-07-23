@@ -19,48 +19,8 @@
 			autoclose : true,
 			format : 'yyyy-mm-dd'
 		});
-	});
 
-	$("#tambah").on('click', function(event) {
-		event.preventDefault();
-		$(".modal-title").text("Tambah Data Kuisioner Survey HTP");
-		$("#modal").modal("show");
-	});
-
-	$('[name="surveyor"]').keypress(function(event) {
-		getPegawai();
-	});
-
-	function getPegawai(){
-		var name = $('[name="surveyor"]').val();
-		$.ajax({
-			url: '<?php echo base_url() ?>pengawasan/htp/getPegawai',
-			type: 'GET',
-			dataType: 'JSON',
-			data: {nama: name},
-			success : function(d){
-				$("#surveyor").empty();
-				$.each(d, function(index, val) {
-					$("#surveyor").append('<option>'+val['NamaPegawai']+'</option>')
-				});
-			}
-		})
-	}
-
-	$('[name="surveyor"]').focusout(function(event) {
-		var name = $('[name="surveyor"]').val();
-		$.ajax({
-			url: '<?php echo base_url() ?>pengawasan/htp/getNip',
-			type: 'GET',
-			dataType: 'JSON',
-			data: {nama: name},
-			success: function(d){
-				$('[name="nip"]').val(d['NIPPegawai']);
-			}
-		})
-	});
-
-	// initialize another select2
+		// initialize another select2
 	$("#Provinsi").select2({
 		width : '100%',
 		placeholder: 'Masukkan Nama Provinsi',
@@ -225,6 +185,46 @@
 			},
 			cache : true,
 		}
+	});
+	});
+
+	$("#tambah").on('click', function(event) {
+		event.preventDefault();
+		$(".modal-title").text("Tambah Data Kuisioner Survey HTP");
+		$("#modal").modal("show");
+	});
+
+	$('[name="surveyor"]').keypress(function(event) {
+		getPegawai();
+	});
+
+	function getPegawai(){
+		var name = $('[name="surveyor"]').val();
+		$.ajax({
+			url: '<?php echo base_url() ?>pengawasan/htp/getPegawai',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {nama: name},
+			success : function(d){
+				$("#surveyor").empty();
+				$.each(d, function(index, val) {
+					$("#surveyor").append('<option>'+val['NamaPegawai']+'</option>')
+				});
+			}
+		})
+	}
+
+	$('[name="surveyor"]').focusout(function(event) {
+		var name = $('[name="surveyor"]').val();
+		$.ajax({
+			url: '<?php echo base_url() ?>pengawasan/htp/getNip',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {nama: name},
+			success: function(d){
+				$('[name="nip"]').val(d['NIPPegawai']);
+			}
+		})
 	});
 
 	function selectedValue(a, el){
