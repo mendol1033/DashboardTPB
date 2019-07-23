@@ -156,6 +156,29 @@
 		$("#modal").modal('show');
 	});
 
+	function selectedValue(a, el){
+	$.ajax({
+		url: '<?php echo base_url() ?>perusahaan/tpb/getById',
+		type: 'GET',
+		dataType: 'JSON',
+		data: {id: a},
+		success: function(d){
+			console.log(d);
+			var data = [{id:a, text:d.nama_perusahaan}];
+			var selectedVal = $(el);
+			var option = new Option(d.nama_perusahaan,a,true,true);
+			selectedVal.append(option).trigger('change');
+
+			selectedVal.trigger({
+				type: "select2:select",
+				params: {
+					data: data
+				}
+			})
+		}
+	})
+}
+
 	function edit(id){
 		$.ajax({
 			url: "<?php echo base_url() . 'pengawasan/tpb/getById/'; ?>"+id,
@@ -165,6 +188,7 @@
 			success:function(data){
 				idEdit = id;
 				save_method = "edit";
+				selectedValue(data.idSikabayan,"#idSikabayan");
 				$("#NPWP").val(data.NPWP);
 				$("#NamaPerusahaan").val(data.NmPerusahaan);
 				$("#Fasilitas").val(data.Fasilitas);

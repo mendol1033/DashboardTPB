@@ -6,6 +6,7 @@ class Tpb extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('perusahaan/perusahaan_model', 'perusahaan', true);
+		$this->load->model('perusahaan/barang_model', 'barang', true);
 	}
 
 	public function index($tpb = null) {
@@ -72,6 +73,38 @@ class Tpb extends MY_Controller {
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $this->perusahaan->count_all(),
 			"recordsFiltered" => $this->perusahaan->count_filtered(),
+			"data" => $data,
+		);
+
+		echo json_encode($output);
+	}
+
+	public function ajax_list_barang($id = null) {
+		//start datatable
+		$list = $this->barang->GetDataTable($id);
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($list as $ListData) {
+
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = strtoupper($ListData->nama_produk);
+			$row[] = strtoupper($ListData->merk);
+			$row[] = $ListData->hs_code;
+			$row[] = '<img src="' . base_url() . 'assets/upload/tpb/barang/' . $ListData->foto . '" style="width: 100%" class="text-center">';
+			$row[] = '<button type="button" class="btn btn-primary" onclick="view(' . $ListData->id_produk . ')"><i class="icon ion-md-document"><span hidden>View</span></i></button>';
+			$row[] = '<button type="button" class="btn btn-success" onclick="edit(' . $ListData->id_produk . ')"><i class="icon ion-md-open"><span hidden>Edit</span></i></button>';
+			$row[] = '<button type="submit" onclick="hapus(' . $ListData->id_produk . ')" class="btn btn-danger"><i class="icon ion-close"><span hidden>Hapus</span></i></button>';
+
+			$data[] = $row;
+		}
+
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->barang->count_all($id),
+			"recordsFiltered" => $this->barang->count_filtered($id),
 			"data" => $data,
 		);
 
