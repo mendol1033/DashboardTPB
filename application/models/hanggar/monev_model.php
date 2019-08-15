@@ -63,22 +63,23 @@ class Monev_model extends CI_Model {
 			$this->monev->limit($_POST['length'], $_POST['start']);
 		}
 		if ($ajax == "laporan") {
-			if (!empty($this->session->userdata('idSeksiPKC'))) {
-				$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+			if ($this->session->userdata('idSeksiPKC') != NULL) {
+				$this->monev->where('idJabatan', $this->session->userdata('idSeksiPKC'));
 			}
 
 			if (isset($_POST['type'])) {
 				switch ($_POST['type']) {
-					case "hanggar":
+				case "hanggar":
 					$this->monev->where('flag', 0);
 					break;
-					case "seksi":
+				case "seksi":
+					$this->monev->where('flag', 1);
+
+					break;
+				case "arsip":
 					$this->monev->where('flag', 1);
 					break;
-					case "arsip":
-					$this->monev->where('flag', 1);
-					break;
-					default:
+				default:
 					$this->monev->where('flag !=', 99);
 					$this->monev->where('flag !=', 1);
 					$this->monev->where('flag !=', 2);
@@ -96,8 +97,8 @@ class Monev_model extends CI_Model {
 		}
 
 		if (!empty($_POST['bulan'])) {
-			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$_POST['bulan']);
-			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$_POST['tahun']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", (int) $_POST['bulan']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int) $_POST['tahun']);
 		}
 
 		$query = $this->monev->get();
@@ -111,22 +112,22 @@ class Monev_model extends CI_Model {
 				$this->monev->where('IdHanggar', $this->Hanggar);
 			}
 
-			if (!empty($this->session->userdata('idSeksiPKC'))) {
-				$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+			if ($this->session->userdata('idSeksiPKC') != NULL) {
+				$this->monev->where('idJabatan', $this->session->userdata('idSeksiPKC'));
 			}
 
 			if (isset($_POST['type'])) {
 				switch ($_POST['type']) {
-					case "hanggar":
+				case "hanggar":
 					$this->monev->where('flag', 0);
 					break;
-					case "seksi":
+				case "seksi":
 					$this->monev->where('flag', 1);
 					break;
-					case "arsip":
+				case "arsip":
 					$this->monev->where('flag', 1);
 					break;
-					default:
+				default:
 					$this->monev->where('flag !=', 99);
 					$this->monev->where('flag !=', 1);
 					$this->monev->where('flag !=', 2);
@@ -140,8 +141,8 @@ class Monev_model extends CI_Model {
 		}
 
 		if (!empty($_POST['bulan'])) {
-			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$_POST['bulan']);
-			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$_POST['tahun']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", (int) $_POST['bulan']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int) $_POST['tahun']);
 		}
 
 		$query = $this->monev->get();
@@ -155,22 +156,22 @@ class Monev_model extends CI_Model {
 				$this->monev->where('IdHanggar', $this->Hanggar);
 			}
 
-			if (!empty($this->session->userdata('idSeksiPKC'))) {
-				$this->monev->where('idSeksiPKC', $this->session->userdata('idSeksiPKC'));
+			if ($this->session->userdata('idSeksiPKC') != NULL) {
+				$this->monev->where('idJabatan', $this->session->userdata('idSeksiPKC'));
 			}
 
 			if (isset($_POST['type'])) {
 				switch ($_POST['type']) {
-					case "hanggar":
+				case "hanggar":
 					$this->monev->where('flag', 0);
 					break;
-					case "seksi":
+				case "seksi":
 					$this->monev->where('flag', 1);
 					break;
-					case "arsip":
+				case "arsip":
 					$this->monev->where('flag', 1);
 					break;
-					default:
+				default:
 					$this->monev->where('flag !=', 99);
 					$this->monev->where('flag !=', 1);
 					$this->monev->where('flag !=', 2);
@@ -184,8 +185,8 @@ class Monev_model extends CI_Model {
 		}
 
 		if (!empty($_POST['bulan'])) {
-			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$_POST['bulan']);
-			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$_POST['tahun']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", (int) $_POST['bulan']);
+			$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int) $_POST['tahun']);
 		}
 
 		return $this->monev->count_all_results();
@@ -208,12 +209,12 @@ class Monev_model extends CI_Model {
 		$bulan = date('m', strtotime($_POST['tanggal']));
 		$tahun = date('Y', strtotime($_POST['tanggal']));
 		$this->monev->from('monev_hanggar');
-		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", (int)$bulan);
-		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int)$tahun);
-		$this->monev->where('idPerusahaan',$_POST['idPerusahaan']);
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", (int) $bulan);
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int) $tahun);
+		$this->monev->where('idPerusahaan', $_POST['idPerusahaan']);
 
 		$cekLaporan = $this->monev->get();
-		if ($cekLaporan->num_rows() === 0 ) {
+		if ($cekLaporan->num_rows() === 0) {
 			$this->monev->trans_begin();
 			$idPerusahaan = $_POST['idPerusahaan'];
 			$tanggal = $_POST['tanggal'];
@@ -259,31 +260,31 @@ class Monev_model extends CI_Model {
 						$tmpFilePath = $_FILES['file' . $i]['tmp_name'][$a];
 						if ($tmpFilePath != "") {
 							switch ($_FILES['file' . $i]['type'][$a]) {
-								case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+							case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
 								$dir = "ppt";
 								break;
-								case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+							case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
 								$dir = "doc";
 								break;
-								case 'application/pdf':
+							case 'application/pdf':
 								$dir = "pdf";
 								break;
-								case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+							case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
 								$dir = "xls";
 								break;
-								case 'image/jpeg':
+							case 'image/jpeg':
 								$dir = "img";
 								break;
-								case 'image/jpg':
+							case 'image/jpg':
 								$dir = "img";
 								break;
-								case 'image/png':
+							case 'image/png':
 								$dir = "img";
 								break;
-								case 'image/bmp':
+							case 'image/bmp':
 								$dir = "img";
 								break;
-								default:
+							default:
 								$dir = "other";
 								break;
 							}
@@ -317,8 +318,7 @@ class Monev_model extends CI_Model {
 			}
 		} else {
 			return "Laporan Sudah Pernah Dibuat";
-		} 
-		
+		}
 
 	}
 
@@ -369,31 +369,31 @@ class Monev_model extends CI_Model {
 					$tmpFilePath = $_FILES['file' . $i]['tmp_name'][$a];
 					if ($tmpFilePath != "") {
 						switch ($_FILES['file' . $i]['type'][$a]) {
-							case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+						case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
 							$dir = "ppt";
 							break;
-							case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+						case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
 							$dir = "doc";
 							break;
-							case 'application/pdf':
+						case 'application/pdf':
 							$dir = "pdf";
 							break;
-							case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+						case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
 							$dir = "xls";
 							break;
-							case 'image/jpeg':
+						case 'image/jpeg':
 							$dir = "img";
 							break;
-							case 'image/jpg':
+						case 'image/jpg':
 							$dir = "img";
 							break;
-							case 'image/png':
+						case 'image/png':
 							$dir = "img";
 							break;
-							case 'image/bmp':
+						case 'image/bmp':
 							$dir = "img";
 							break;
-							default:
+						default:
 							$dir = "other";
 							break;
 						}
@@ -502,13 +502,13 @@ class Monev_model extends CI_Model {
 		return $pesan;
 	}
 
-	public function test(){
+	public function test() {
 		$bulan = date('m', strtotime($_GET['tanggal']));
 		$tahun = date('Y', strtotime($_GET['tanggal']));
 		$this->monev->from('monev_hanggar');
 		$this->monev->select('idPerusahaan');
-		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')",(int)$bulan);
-		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')",(int)$tahun);
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%m')", (int) $bulan);
+		$this->monev->where("DATE_FORMAT(tanggalLaporan,'%Y')", (int) $tahun);
 		$this->monev->distinct();
 		$x = $this->monev->get();
 
@@ -519,8 +519,8 @@ class Monev_model extends CI_Model {
 		}
 
 		$this->sikabayan->from('tpbdetail');
-		$this->sikabayan->where('status',"Y");
-		$this->sikabayan->where_not_in('id_perusahaan',$z);
+		$this->sikabayan->where('status', "Y");
+		$this->sikabayan->where_not_in('id_perusahaan', $z);
 
 		$data = $this->sikabayan->get();
 
@@ -529,7 +529,7 @@ class Monev_model extends CI_Model {
 
 	public function deleteDraft() {
 		$this->monev->from('monev_hanggar');
-		$this->monev->where('id',$_GET['id']);
+		$this->monev->where('id', $_GET['id']);
 
 		$laporan = $this->monev->get();
 
