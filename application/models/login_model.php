@@ -48,6 +48,13 @@ class Login_model extends CI_Model {
 			} else {
 				$IdHanggar = 0;
 			}
+			$sqlSeksi = $this->db->where('idJabatan', $data->JabatanPegawai)->limit(1)->get('tb_setting_seksi_pkc');
+			if ($sqlSeksi->num_rows() === 1) {
+				$seksi = $sqlSeksi->row();
+				$idSeksiPKC = $seksi->idJabatan;
+			} else {
+				$idSeksiPKC = NULL;
+			}
 			$datauser = array(
 				'IdUser' => $data->IdUser,
 				'NipUser' => $data->NipUser,
@@ -62,12 +69,9 @@ class Login_model extends CI_Model {
 				'NamaUnit' => $data->NmUnit,
 				'Pangkat' => $data->Pangkat,
 				'IdHanggar' => $IdHanggar,
+				'idSeksiPKC' => $idSeksiPKC,
 				'StatusLogin' => TRUE,
 			);
-			$seksi = $this->db->where('idJabatan', $data->JabatanPegawai)->limit(1)->get('tb_setting_seksi_pkc')->row();
-			if ($seksi->idSeksi !== NULL) {
-				$datauser['idSeksiPKC'] = $seksi->idSeksi;
-			}
 
 			$this->session->set_userdata($datauser);
 		}
