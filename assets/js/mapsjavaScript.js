@@ -110,15 +110,22 @@
     $("#modal").modal('show');
   }
 
-  function load_page(c){
+  function load_page(c,d = null,e = null, f = null){
+    var url;
+    if (d == null) {
+      url = base_url+c;
+    } else {
+      url =base_url+c+d;
+    } 
     $.ajax({
-      url: base_url+c,
+      url: url,
       type: "GET",
       dataType: "html",
+      data : {id:e, tpb: f},
       success : function(data){
         $("#main-content").html(data);
         $(".breadcrumb_item").remove();
-        load_page_info(c);
+        load_page_info(c,e);
       },
       error : function(jqXHR, exception){
         if (jqXHR.status == 404) {
@@ -136,11 +143,12 @@
     })    
   }
 
-  function load_page_info(c){
+  function load_page_info(c, id){
     $.ajax({
       url: base_url + c + "/page_info",
       type: "GET",
       dataType: "JSON",
+      data : { id: id},
       success: function(data){
         $.each(data.breadcrumb_item,function(index, el) {
           $("h1").append("<small class="+'breadcrumb_item active'+">"+el+"</small>");

@@ -1,5 +1,5 @@
-<div class="modal fade" id="modal" role="dialog" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog" role="document">
+<div class="modal fade" id="modal_lapkeu" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="close">
@@ -12,7 +12,7 @@
 					<div class="form-group">
 						<label class=" col-md-3 control-label">Nama Toko</label>
 						<div class="col-md-9">
-							<input type="text" name="nama" class="form-control" list="namaToko" style="text-transform: uppercase;">
+							<input type="text" name="nama" class="form-control" list="namaToko">
 							<datalist class="col-md-12" id="namaToko" style="width: 100%">
 
 							</datalist>
@@ -21,61 +21,53 @@
 					<div class="form-group">
 						<label class=" col-md-3 control-label">Alamat</label>
 						<div class="col-md-9">
-							<input type="text" name="alamat" class="form-control" style="text-transform: capitalize;">
+							<input type="text" name="alamat" class="form-control" >
 						</div>
 					</div>
 					<div class="form-group">
 						<label class=" col-md-3 control-label">Pemilik</label>
 						<div class="col-md-9">
-							<input type="text" name="pemilik" class="form-control" style="text-transform: capitalize;">
+							<input type="text" name="pemilik" class="form-control" >
 						</div>
 					</div>
 					<div class="form-group">
 						<label class=" col-md-3 control-label">No Telepon</label>
 						<div class="col-md-9">
-							<input type="text" name="telepon" class="form-control">
+							<input type="text" name="telepon" class="form-control" >
 						</div>
 					</div>
 					<div class="form-group">
 						<label class=" col-md-3 control-label">No Handphone</label>
 						<div class="col-md-9">
-							<input type="text" name="handphone" class="form-control">
+							<input type="text" name="handphone" class="form-control" >
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-3 control-label">Provinsi</label>
+						<?php echo form_label('Provinsi', 'Provinsi', 'class = "col-md-3 control-label" id="labelProvinsi"'); ?>
 						<div class="col-md-9">
-							<input type="text" name="Provinsi" class="form-control" list="Provinsi" style="text-transform: capitalize;">
-							<datalist id="Provinsi" style="widows: 100%">
-
-							</datalist>
+							<select id="Provinsi" name="provinsi" class="form-control select2"></select>
+							<span class="help-blok"></span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-3 control-label">Kota / Kabupaten</label>
+						<?php echo form_label('Kota', 'Kota', 'class = "col-md-3 control-label" id="labelKota"'); ?>
 						<div class="col-md-9">
-							<input type="text" name="Kabupaten" class="form-control" list="Kabupaten" style="text-transform: capitalize;">
-							<datalist id="Kabupaten" style="widows: 100%">
-
-							</datalist>
+							<select id="Kota" name="kota" class="form-control select2"></select>
+							<span class="help-blok"></span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-3 control-label">Kecamatan</label>
+						<?php echo form_label('Kecamatan', 'Kecamatan', 'class = "col-md-3 control-label" id="labelKecamatan"'); ?>
 						<div class="col-md-9">
-							<input type="text" name="Kecamatan" class="form-control" list="Kecamatan" style="text-transform: capitalize;">
-							<datalist id="Kecamatan" style="widows: 100%">
-
-							</datalist>
+							<select id="Kecamatan", name="kecamatan" class="form-control select2"></select>
+							<span class="help-blok"></span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-3 control-label">Kelurahan</label>
+						<?php echo form_label('Kelurahan', 'Kelurahan', 'class = "col-md-3 control-label" id="labelKelurahan"'); ?>
 						<div class="col-md-9">
-							<input type="text" name="Kelurahan" class="form-control" list="Kelurahan" style="text-transform: capitalize;">
-							<datalist id="Kelurahan" style="widows: 100%">
-
-							</datalist>
+							<select id="Kelurahan" name="kelurahan" class="form-control select2"></select>
+							<span class="help-blok"></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -87,7 +79,7 @@
 					<div class="form-group">
 						<label class=" col-md-3 control-label">Surveyor</label>
 						<div class="col-md-5">
-							<input type="text" name="surveyor" class="form-control" list="surveyor" style="text-transform: capitalize;">
+							<input type="text" name="surveyor" class="form-control" list="surveyor">
 							<datalist class="col-md-12" id="surveyor" style="width: 100%">
 
 							</datalist>

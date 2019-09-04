@@ -1,4 +1,5 @@
 <script type="text/javascript">
+	var save_method;
 	var selectedProvince;
 	var selectedKabupaten;
 	var selectedKecamatan;
@@ -6,6 +7,8 @@
 	var kota;
 	var kecamatan;
 	var kelurahan;
+	var table;
+	var idEdit;
 	$(document).ready(function() {
 		$(".select2").select2({
 			width : '100%'
@@ -20,213 +23,30 @@
 			format : 'yyyy-mm-dd'
 		});
 
-		// initialize another select2
-	$("#Provinsi").select2({
-		width : '100%',
-		placeholder: 'Masukkan Nama Provinsi',
-		minimumInputLength: 5,
-		allowClear: true,
-		ajax : {
-			url : "<?php echo base_url() . 'perusahaan/tpb/getProvinsi/'; ?>",
-			dataType : "JSON",
-			delay : 250,
-			data : function(params){
-				return{
-					nama : params.term
-				};
-			},
-			processResults: function(data){
-				var results = [];
-
-				$.each(data, function(index, item){
-					results.push({
-						id : item.lokasi_kode,
-						text : item.lokasi_nama
-					})
+		// initialize dataTable
+		table = $('#dataTable').DataTable({
+			initComplete : function(){
+				var api = this.api();
+				$("#dataTable_filter input")
+				.off('.DT')
+				.on('keyup.DT', function(e){
+					if(e.keyCode == 13){
+						api.search(this.value).draw();
+					}
 				});
-				return{
-					results : results
-				};
 			},
-			cache : true
-		}
-	});
-
-	$("#Provinsi").on('select2:select', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		selectedProvince = $(event.currentTarget).find("option:selected").val();
-	});
-
-	$("#Kota").select2({
-		width : '100%',
-		placeholder: 'Masukkan Nama Kota/Kabupaten',
-		minimumInputLength: 5,
-		allowClear: true,
-		ajax : {
-			url : "<?php echo base_url() . 'perusahaan/tpb/getKabupaten/'; ?>",
-			dataType : "JSON",
-			delay : 250,
-			data : function(params){
-				return{
-					nama : params.term,
-					provinsi : selectedProvince
-				};
+			"processing" : true,
+			"serverSide" : true,
+			"responsive" : true,
+			"autoWidth"	 : false,
+			// "bFilter" 	 : false,
+			"order" : [],
+			"ajax" : {
+				"url" : "<?php echo base_url() . 'pengawasan/htp/ajax_list' ?>",
+				"type" : "POST",
 			},
-			processResults: function(data){
-				if($.isArray(data) === true){
-					var results = [];
-
-					$.each(data, function(index, item){
-						results.push({
-							id : item.lokasi_kode,
-							text : item.lokasi_nama
-						})
-					});
-					return{
-						results : results
-					};
-				} else {
-					alert(data);
-					return{
-						results : data
-					}
-				}
-			},
-			cache : true,
-		}
-	});
-
-	$("#Kota").on('select2:select', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		selectedKabupaten = $(event.currentTarget).find('option:selected').val();
-	});
-
-	$("#Kecamatan").select2({
-		width : '100%',
-		placeholder: 'Masukkan Nama Kecamatan',
-		minimumInputLength: 5,
-		allowClear: true,
-		ajax : {
-			url : "<?php echo base_url() . 'perusahaan/tpb/getKecamatan/'; ?>",
-			dataType : "JSON",
-			delay : 250,
-			data : function(params){
-				return{
-					nama : params.term,
-					kabupaten : selectedKabupaten
-				};
-			},
-			processResults: function(data){
-				if($.isArray(data) === true){
-					var results = [];
-
-					$.each(data, function(index, item){
-						results.push({
-							id : item.lokasi_kode,
-							text : item.lokasi_nama
-						})
-					});
-					return{
-						results : results
-					};
-				} else {
-					alert(data);
-					return{
-						results : data
-					}
-				}
-			},
-			cache : true,
-		}
-	});
-
-	$("#Kecamatan").on('select2:select', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		selectedKecamatan = $(event.currentTarget).find('option:selected').val();
-	});
-
-	$("#Kelurahan").select2({
-		width : '100%',
-		placeholder: 'Masukkan Nama Kelurahan',
-		minimumInputLength: 5,
-		allowClear: true,
-		ajax : {
-			url : "<?php echo base_url() . 'perusahaan/tpb/getKelurahan/'; ?>",
-			dataType : "JSON",
-			delay : 250,
-			data : function(params){
-				return{
-					nama : params.term,
-					kecamatan : selectedKecamatan
-				};
-			},
-			processResults: function(data){
-				if($.isArray(data) === true){
-					var results = [];
-
-					$.each(data, function(index, item){
-						results.push({
-							id : item.lokasi_kode,
-							text : item.lokasi_nama
-						})
-					});
-					return{
-						results : results
-					};
-				} else {
-					alert(data);
-					return{
-						results : data
-					}
-				}
-			},
-			cache : true,
-		}
-	});
-	});
-
-	$("#tambah").on('click', function(event) {
-		event.preventDefault();
-		$(".modal-title").text("Tambah Data Kuisioner Survey HTP");
-		$("#modal").modal("show");
-	});
-
-	$('[name="surveyor"]').keypress(function(event) {
-		getPegawai();
-	});
-
-	function getPegawai(){
-		var name = $('[name="surveyor"]').val();
-		$.ajax({
-			url: '<?php echo base_url() ?>pengawasan/htp/getPegawai',
-			type: 'GET',
-			dataType: 'JSON',
-			data: {nama: name},
-			success : function(d){
-				$("#surveyor").empty();
-				$.each(d, function(index, val) {
-					$("#surveyor").append('<option>'+val['NamaPegawai']+'</option>')
-				});
-			}
-		})
-	}
-
-	$('[name="surveyor"]').focusout(function(event) {
-		var name = $('[name="surveyor"]').val();
-		$.ajax({
-			url: '<?php echo base_url() ?>pengawasan/htp/getNip',
-			type: 'GET',
-			dataType: 'JSON',
-			data: {nama: name},
-			success: function(d){
-				$('[name="nip"]').val(d['NIPPegawai']);
-			}
-		})
-	});
-
+		});
+	})
 	function selectedValue(a, el){
 		$.ajax({
 			url: '<?php echo base_url() ?>perusahaan/tpb/getLokasi',
@@ -247,5 +67,213 @@
 				})
 			}
 		})
+	}
+
+	$('[name="surveyor"]').keypress(function(event) {
+		getPegawai();
+	});
+
+	$('[name="Provinsi"]').keypress(function(event) {
+		getProvinsi();
+	});
+
+	$('[name="Provinsi"]').focusout(function(event) {
+		$(this).val( function() {return this.value.toLowerCase()});
+	});
+
+	$('[name="Kabupaten"]').keypress(function(event) {
+		getKabupaten();
+	});
+
+	$('[name="Kabupaten"]').focusout(function(event) {
+		$(this).val( function() {return this.value.toLowerCase()});
+	});
+
+	$('[name="Kecamatan"]').keypress(function(event) {
+		getKecamatan();
+	});
+
+	$('[name="Kecamatan"]').focusout(function(event) {
+		$(this).val( function() {return this.value.toLowerCase()});
+	});
+
+	$('[name="Kelurahan"]').keypress(function(event) {
+		getKelurahan();
+	});
+
+	$('[name="Kelurahan"]').focusout(function(event) {
+		$(this).val( function() {return this.value.toLowerCase()});
+	});
+
+	function getPegawai(){
+		var name = $('[name="surveyor"]').val();
+		$.ajax({
+			url: '<?php echo base_url() ?>pengawasan/htp/getPegawai',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {nama: name},
+			success : function(d){
+				$("#surveyor").empty();
+				$.each(d, function(index, val) {
+					$("#surveyor").append('<option>'+val['NamaPegawai']+'</option>')
+				});
+			}
+		})
+	}
+
+	function getProvinsi(){
+		var name = $('[name="Provinsi"]').val();
+		$.ajax({
+			url: '<?php echo base_url() ?>pengawasan/htp/getProvinsi',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {nama: name},
+			success : function(d){
+				$("#Provinsi").empty();
+				$.each(d, function(index, val) {
+					$("#Provinsi").append('<option>'+val['lokasi_nama']+'</option>')
+				});
+			}
+		})
+	}
+
+	function getKabupaten(){
+		var name = $('[name="Kabupaten"]').val();
+		var provinsi = $('[name="Provinsi"]').val();
+		$.ajax({
+			url: '<?php echo base_url() ?>pengawasan/htp/getKabupaten',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {nama: name, provinsi: provinsi},
+			success : function(d){
+				$("#Kabupaten").empty();
+				$.each(d, function(index, val) {
+					$("#Kabupaten").append('<option>'+val['lokasi_nama']+'</option>')
+				});
+			}
+		})
+	}
+
+	function getKecamatan(){
+		var name = $('[name="Kecamatan"]').val();
+		var kabupaten = $('[name="Kabupaten"]').val();
+		$.ajax({
+			url: '<?php echo base_url() ?>pengawasan/htp/getKecamatan',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {nama: name, kabupaten: kabupaten},
+			success : function(d){
+				$("#Kecamatan").empty();
+				$.each(d, function(index, val) {
+					$("#Kecamatan").append('<option>'+val['lokasi_nama']+'</option>')
+				});
+			}
+		})
+	}
+
+	function getKelurahan(){
+		var name = $('[name="Kelurahan"]').val();
+		var kecamatan = $('[name="Kecamatan"]').val();
+		$.ajax({
+			url: '<?php echo base_url() ?>pengawasan/htp/getKelurahan',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {nama: name, kecamatan: kecamatan},
+			success : function(d){
+				$("#Kelurahan").empty();
+				$.each(d, function(index, val) {
+					$("#Kelurahan").append('<option>'+val['lokasi_nama']+'</option>')
+				});
+			}
+		})
+	}
+
+	$('[name="surveyor"]').focusout(function(event) {
+		var name = $('[name="surveyor"]').val();
+		$.ajax({
+			url: '<?php echo base_url() ?>pengawasan/htp/getNip',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {nama: name},
+			success: function(d){
+				$('[name="nip"]').val(d['NIPPegawai']);
+			}
+		})
+	});
+
+	$("#tambah").on('click', function(event) {
+		event.preventDefault();
+		save_method = "add";
+		$("#form")[0].reset();
+		$(".modal-title").text("Tambah Data Kuisioner Survey HTP");
+		$("#Provinsi").trigger('change');
+		$("#Kabupaten").trigger('change');
+		$("#Kecamatan").trigger('change');
+		$("#Kelurahan").trigger('change');
+		$("#modal").modal("show");
+	});
+
+	function view(){
+
+	}
+
+	function edit(){
+
+	}
+
+	function save(){
+		var url;
+		var data = $("#form").serializeArray();
+		if (save_method === "add") {
+			url = '<?php echo base_url() ?>pengawasan/htp/ajax_add';
+		} else {
+			url = '<?php echo base_url() ?>pengawasan/htp/ajax_update';
+		}
+
+		$.ajax({
+			url: url,
+			type: 'POST',
+			dataType: 'JSON',
+			data: data,
+			success: function(data){
+				$("#alert").append('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-warning"></i> Alert!</h4>'+data.pesan+'</div>');
+				$("#modal").modal('hide');
+				setTimeout(dismiss, 5000);
+				dataTable_relod();
+			}
+		})
+	}
+
+	function dataTable_relod(){
+		table.ajax.reload(null,false);
+	}
+
+	function dismiss(){
+		$("#alert").empty();
+	}
+
+	function toDegreesMinutesAndSeconds(coordinate) {
+		var absolute = Math.abs(coordinate);
+		var degrees = Math.floor(absolute);
+		var minutesNotTruncated = (absolute - degrees) * 60;
+		var minutes = Math.floor(minutesNotTruncated);
+		var seconds = Math.floor((minutesNotTruncated - minutes) * 60 * 10) / 10;
+
+		return degrees + "°" + minutes + "'" + seconds + '"';
+	}
+
+	function convertDMS(c) {
+		var koordinat = c.split(',');
+		var lng = parseFloat(koordinat[1]);
+		var lat = parseFloat(koordinat[0]);
+		var latitude = toDegreesMinutesAndSeconds(lat);
+		var latitudeCardinal = lat >= 0 ? "N" : "S";
+
+		var longitude = toDegreesMinutesAndSeconds(lng);
+		var longitudeCardinal = lng >= 0 ? "E" : "W";
+
+		var url = "https://google.com/maps/place/"+latitude + latitudeCardinal+ "+" + longitude+ longitudeCardinal+"/"+lng+","+lat;
+
+		window.open(url, '_blank');
 	}
 </script>
