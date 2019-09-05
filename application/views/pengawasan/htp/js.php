@@ -9,6 +9,7 @@
 	var kelurahan;
 	var table;
 	var idEdit;
+	var tableDetail;
 	$(document).ready(function() {
 		$(".select2").select2({
 			width : '100%'
@@ -46,7 +47,35 @@
 				"type" : "POST",
 			},
 		});
+
+		tableDetail = $('#tableDetail').DataTable({
+			initComplete : function(){
+				var api = this.api();
+				$("#tableDetail_filter input")
+				.off('.DT')
+				.on('keyup.DT', function(e){
+					if(e.keyCode == 13){
+						api.search(this.value).draw();
+					}
+				});
+			},
+			"processing" : true,
+			"serverSide" : true,
+			"responsive" : true,
+			"autoWidth"	 : false,
+			// "bFilter" 	 : false,
+			"order" : [],
+			"ajax" : {
+				"url" : "<?php echo base_url() . 'pengawasan/htp/ajax_list_detail' ?>",
+				"type" : "POST",
+			},
+		});
 	})
+
+	function ajax_load_detail(id){
+		tableDetail.ajax.url("<?php echo base_url() . 'pengawasan/htp/ajax_list_detail' ?>"+"?id="+id).load();
+	}
+
 	function selectedValue(a, el){
 		$.ajax({
 			url: '<?php echo base_url() ?>perusahaan/tpb/getLokasi',
@@ -214,7 +243,9 @@
 	});
 
 	function view(){
-
+		$("#modalDetail").modal('show');
+		$(".modal-title").text('DETAIL KUISIONER');
+		ajax_load_detail(1);
 	}
 
 	function edit(){
