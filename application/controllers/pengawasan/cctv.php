@@ -70,6 +70,12 @@ class Cctv extends MY_Controller {
 				$background = "bg-red";
 			}
 
+			if (substr($ListData->IpAddress, 0, 7) == "http://") {
+				$url = $ListData->IpAddress;
+			} else {
+				$url = "http://" . $ListData->IpAddress;
+			}
+
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -78,7 +84,7 @@ class Cctv extends MY_Controller {
 			$row[] = $ListData->Browser;
 			$row[] = '<p class="text-center">' . $ListData->Username . '<br>' . $ListData->Password . '</p>';
 			$row[] = '<p class="text-center ' . $background . '">' . $statusCCTV . '</p> <br> <p class="text-center">' . $ListData->Keterangan . '</p>';
-			$row[] = '<a href="http://' . $ListData->IpAddress . '" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-globe"><span hidden>View</span></i></button></a>';
+			$row[] = '<a href="' . $url . '" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-globe"><span hidden>View</span></i></button></a>';
 			$row[] = '<div class="btn-group"><button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ACTION<span class="caret"></span></button><ul class="dropdown-menu"><li><a href="javascript:void({})" onclick="edit(' . $ListData->Id . ')">Edit User</a></li><li><a href="javascript:void({})" onclick="getGraph(' . $ListData->IdPerusahaan . ')">Cek History</a></li></ul></div>';
 			$row[] = $ListData->IdPerusahaan;
 
@@ -156,6 +162,53 @@ class Cctv extends MY_Controller {
 		);
 
 		echo json_encode($set);
+	}
+
+	public function ip_test() {
+		$data = $this->cctv->getAll();
+		$hasil = array();
+		for ($i = 0; $i < count($data); $i++) {
+
+			if (substr($data[$i]['IpAddress'], 0, 7) == "http://") {
+				$url = $data[$i]['IpAddress'];
+			} else {
+				$url = "http://" . $data[$i]['IpAddress'];
+			}
+
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$datach = curl_exec($ch);
+			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			curl_close($ch);
+			if ($httpcode >= 200 && $httpcode < 300) {
+				$ret_val = 0;
+				$hasil[$i]['Ip'] = $url;
+			} else {
+				$ip = preg_split("/[ :| \/]/", $data[$i]['IpAddress']);
+				exec('ping -c 1' . $ip[0], $output, $ret_val);
+				$hasil[$i]['Ip'] = $ip[0];
+			}
+
+			$hasil[$i]['IdPerusahaan'] = $data[$i]['IdPerusahaan'];
+			$hasil[$i]['NPWP'] = $data[$i]['NPWP'];
+			$hasil[$i]['NamaPerusahaan'] = $data[$i]['NmPerusahaan'];
+			$hasil[$i]['Skep'] = $data[$i]['NoSkepAkhir'];
+			$hasil[$i]['Browser'] = $data[$i]['Browser'];
+			$hasil[$i]['IpAddress'] = $data[$i]['IpAddress'];
+			$hasil[$i]['Status'] = $data[$i]['Status'];
+			// $hasil[$i]['output'] = $output;
+			$hasil[$i]['result'] = $ret_val;
+		}
+
+		$status = $this->cctv->post($hasil, $_POST['type']);
+
+		if ($status === TRUE) {
+			echo json_encode('DATA BERHASIL DISMIPAN');
+		} else {
+			echo json_encode('DATA GAGAL DISIMPAN');
+		}
 	}
 }
 

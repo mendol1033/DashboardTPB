@@ -8,6 +8,7 @@ class Index extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('perusahaan/perusahaan_model', 'perusahaan', TRUE);
+		$this->load->model('pengawasan/cctv_model', 'cctv', TRUE);
 	}
 
 	public function index() {
@@ -40,7 +41,6 @@ class Index extends MY_Controller {
 
 		echo json_encode($data);
 	}
-
 }
 
 /* End of file index.php */
