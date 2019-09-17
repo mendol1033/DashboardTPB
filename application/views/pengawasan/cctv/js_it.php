@@ -242,7 +242,7 @@
 	}
 
 	function ajax_reload(){
-		table.ajax.reload(null,null);
+		table.ajax.reload(null,false);
 	}
 
 	$("#filterPerusahaan").on('input', function(event) {
