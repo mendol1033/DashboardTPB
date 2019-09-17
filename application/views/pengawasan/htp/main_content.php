@@ -36,6 +36,9 @@
 				<button type="button" class="btn btn-primary pull-right " id="tambah" style="">TAMBAH</button>
 			</div>
 		</div>
+		<div class="row" id="alert">
+
+		</div>
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12">
 				<div class="box box-default">
@@ -45,9 +48,9 @@
 								<tr>
 									<th style="width: 5%;"><p class="text-justify"> No </p></th>
 									<th style="width: 10%;"><p class="text-justify"> Bulan </p></th>
-									<th style="width: 20%;"><p class="text-justify"> Nama Toko </p></th>
-									<th style="width: 10%;"><p class="text-justify"> Alamat </p></th>
-									<th style="width: 50%;"><p class="text-justify"> Pemilik </p></th>
+									<th style="width: 15%;"><p class="text-justify"> Nama Toko </p></th>
+									<th style="width: 15%;"><p class="text-justify"> Pemilik </p></th>
+									<th style="width: 50%;"><p class="text-justify"> Alamat </p></th>
 									<th style="width: 5%;"><p class="text-justify"> Detail </p></th>
 									<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
 								</tr>
@@ -57,9 +60,9 @@
 								<tr>
 									<th style="width: 5%;"><p class="text-justify"> No </p></th>
 									<th style="width: 10%;"><p class="text-justify"> Bulan </p></th>
-									<th style="width: 20%;"><p class="text-justify"> Nama Toko </p></th>
-									<th style="width: 10%;"><p class="text-justify"> Alamat </p></th>
-									<th style="width: 50%;"><p class="text-justify"> Pemilik </p></th>
+									<th style="width: 15%;"><p class="text-justify"> Nama Toko </p></th>
+									<th style="width: 15%;"><p class="text-justify"> Pemilik </p></th>
+									<th style="width: 50%;"><p class="text-justify"> Alamat </p></th>
 									<th style="width: 5%;"><p class="text-justify"> Detail </p></th>
 									<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
 								</tr>

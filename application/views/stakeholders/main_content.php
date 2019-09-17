@@ -1,6 +1,6 @@
 <section class="form">
 	<div class="container-fluid">
-		<?php if (isset($JudulPanelBesar)){?>
+		<?php if (isset($JudulPanelBesar)) {?>
 			<header><h3><?php echo $JudulPanelBesar; ?></h3></header>
 		<?php }?>
 		<div class="row">
@@ -80,5 +80,5 @@
 		</div>
 	</div>
 </section>
-<?php if(isset($modal)){$this->load->view($modal);} ?>
-<?php if(isset($js)){$this->load->view($js);} ?>
+<?php if (isset($modal)) {$this->load->view($modal);}?>
+<?php if (isset($js)) {$this->load->view($js);}?>

@@ -62,9 +62,9 @@ class Tpb extends MY_Controller {
 			$row[] = strtoupper($ListData->nama_perusahaan);
 			$row[] = $ListData->alamat;
 			$row[] = '<p class="text-center">' . $ListData->status . '</p>';
-			$row[] = '<button type="button" class="btn btn-primary" onclick="view(' . $ListData->id_perusahaan . ')"><i class="icon ion-md-document"><span hidden>View</span></i></button>';
-			$row[] = '<button type="button" class="btn btn-success" onclick="edit(' . $ListData->id_perusahaan . ')"><i class="icon ion-md-open"><span hidden>Edit</span></i></button>';
-			$row[] = '<button type="submit" onclick="hapus(' . $ListData->id_perusahaan . ')" class="btn btn-danger"><i class="icon ion-close"><span hidden>Hapus</span></i></button>';
+			$row[] = '<button type="button" class="btn btn-primary" onclick="load_page(' . "'perusahaan/profile','/index/'," . $ListData->id_perusahaan . "," . $ListData->id_tpb . ')"><i class="icon ion-md-document"><span hidden>View</span></i></button>';
+			$row[] = '<button type="button" class="btn btn-success" onclick="load_page(' . "'perusahaan/profile','/index/'," . $ListData->id_perusahaan . "," . $ListData->id_tpb . ')"><i class="icon ion-md-open"><span hidden>Edit</span></i></button>';
+			// $row[] = '<button type="submit" onclick="hapus(' . $ListData->id_perusahaan . ')" class="btn btn-danger"><i class="icon ion-close"><span hidden>Hapus</span></i></button>';
 
 			$data[] = $row;
 		}

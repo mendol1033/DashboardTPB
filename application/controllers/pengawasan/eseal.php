@@ -55,6 +55,12 @@ class Eseal extends MY_Controller {
 				$background = "bg-red";
 			}
 
+			if (substr($ListData->IpAddress, 0, 7) == "http://") {
+				$url = $ListData->IpAddress;
+			} else {
+				$url = "http://" . $ListData->IpAddress;
+			}
+
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -64,7 +70,7 @@ class Eseal extends MY_Controller {
 			$row[] = '<p class="text-center">' . $ListData->Username . '<br>' . $ListData->Password . '</p>';
 			// $row[] = $ListData->Password;
 			$row[] = '<p class="text-center ' . $background . '">' . $statusCCTV . '</p> <br> <p class="text-center">' . $ListData->Keterangan . '</p>';
-			$row[] = '<a href="http://' . $ListData->IpAddress . '" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-globe"><span hidden>View</span></i></button></a>';
+			$row[] = '<a href="' . $url . '" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-globe"><span hidden>View</span></i></button></a>';
 			$row[] = '<button type="button" class="btn btn-success" onclick="edit(' . $ListData->Id . ')"><i class="icon ion-md-open"><span hidden>Edit</span></i></button>';
 			$row[] = '<button type="submit" onclick="hapus(' . $ListData->Id . ')" class="btn btn-danger"><i class="icon ion-md-close"><span hidden>Hapus</span></i></button>';
 			$row[] = $ListData->IdPerusahaan;

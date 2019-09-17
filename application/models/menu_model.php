@@ -211,6 +211,10 @@ class Menu_model extends CI_Model {
 					'url' => 'pengawasan/random_check',
 					'menu' => 'Random Check CCTV dan IT',
 				),
+				'connection_check' => array(
+					'url' => 'pengawasan/connection_check',
+					'menu' => 'Cek Koneksi CCTV|IT|E-SEAL',
+				),
 				'log' => array(
 					'url' => 'pengawasan/logbook',
 					'menu' => 'Logbook Monitoring TPB',

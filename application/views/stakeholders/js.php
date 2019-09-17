@@ -487,7 +487,7 @@ function save(){
 			dataType: 'JSON',
 			data: data,
 			success : function(data){
-				$("#modal").modal("hide");
+				// $("#modal").modal("hide");
 				ajax_reload();
 				alert(data);
 			}
@@ -513,5 +513,9 @@ $("#filterPerusahaan").on('input', function(event) {
 
 function ajax_load_table(filter){
 	table.ajax.url("<?php echo base_url() . 'perusahaan/tpb/ajax_list/' ?>"+filter).load();
+}
+
+function tambahLapkeu(){
+	$("#modal_lapkeu").show('modal');
 }
 </script>

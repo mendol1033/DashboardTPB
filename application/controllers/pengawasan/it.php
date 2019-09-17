@@ -58,6 +58,12 @@ class It extends MY_Controller {
 				$background = "bg-red";
 			}
 
+			if (substr($ListData->IpAddress, 0, 7) == "http://") {
+				$url = $ListData->IpAddress;
+			} else {
+				$url = "http://" . $ListData->IpAddress;
+			}
+
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -67,7 +73,7 @@ class It extends MY_Controller {
 			$row[] = '<p class="text-center">' . $ListData->Username . '<br>' . $ListData->Password . '</p>';
 			// $row[] = $ListData->Password;
 			$row[] = '<p class="text-center ' . $background . '">' . $statusCCTV . '</p> <br> <p class="text-center">' . $ListData->Keterangan . '</p>';
-			$row[] = '<a href="http://' . $ListData->IpAddress . '" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-globe"><span hidden>View</span></i></button></a>';
+			$row[] = '<a href="' . $url . '" target="_blank"><button type="button" class="btn btn-primary"><i class="icon ion-md-globe"><span hidden>View</span></i></button></a>';
 			$row[] = '<div class="btn-group"><button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ACTION<span class="caret"></span></button><ul class="dropdown-menu"><li><a href="javascript:void({})" onclick="edit(' . $ListData->Id . ')">Edit User</a></li><li><a href="javascript:void({})" onclick="getGraph(' . $ListData->IdPerusahaan . ')">Cek History</a></li></ul></div>';
 			$row[] = '<button type="submit" onclick="hapus(' . $ListData->Id . ')" class="btn btn-danger"><i class="icon ion-md-close"><span hidden>Hapus</span></i></button>';
 			$row[] = $ListData->IdPerusahaan;
