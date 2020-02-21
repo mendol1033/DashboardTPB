@@ -122,7 +122,7 @@ class Perusahaan_model extends CI_Model {
 
 	// Get Data Perusahaan By ID
 	public function getById() {
-		$this->sikabayan_db->from('tb_perusahaan');
+		$this->sikabayan_db->from('tpbdetail');
 		$this->sikabayan_db->where('id_perusahaan', $_GET['id']);
 		$query = $this->sikabayan_db->get();
 

@@ -47,7 +47,7 @@
 			minimumInputLength: 5,
 			allowClear: true,
 			ajax : {
-				url : "<?php echo base_url() . 'hanggar/monevumum/getPerusahaan'; ?>",
+				url : "<?php echo base_url() . 'perusahaan/tpb/getDropDown'; ?>",
 				dataType : "JSON",
 				delay : 250,
 				data : function(params){

@@ -106,6 +106,13 @@ class Cctv_model extends CI_Model {
 		return $query->row();
 	}
 
+	public function getByIdTpb() {
+		$this->peloro->from($this->table);
+		$this->peloro->where('idTpbSikabayan', $_GET['id']);
+		$query = $this->peloro->get();
+		return $query->row();
+	}
+
 	public function getTpbNonCctv($search, $column) {
 		$this->peloro->from('tb_non_cctv');
 		$this->peloro->select($column);

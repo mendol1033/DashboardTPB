@@ -1,6 +1,8 @@
   var marker;
   var locations;
   var base_url = "http://"+window.location.host+"/DashboardTPB/";
+  var idPerusahaan;
+  var idTPB;
 
   function setLocation() {
 
@@ -116,7 +118,8 @@
       url = base_url+c;
     } else {
       url =base_url+c+d;
-    } 
+    }
+    
     $.ajax({
       url: url,
       type: "GET",
