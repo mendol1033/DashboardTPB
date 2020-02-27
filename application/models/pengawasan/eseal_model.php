@@ -105,6 +105,13 @@ class Eseal_model extends CI_Model {
 		return $query->row();
 	}
 
+	public function getByIdTpb() {
+		$this->peloro->from($this->table);
+		$this->peloro->where('IdTpbSikabayan', $_GET['id']);
+		$query = $this->peloro->get();
+		return $query->row();
+	}
+
 	public function getTpbNonIT($search,$column){
 		$this->peloro->from('tb_non_eseal');
 		$this->peloro->select($column);

@@ -7,6 +7,9 @@ class Tpb extends MY_Controller {
 		parent::__construct();
 		$this->load->model('perusahaan/perusahaan_model', 'perusahaan', true);
 		$this->load->model('perusahaan/barang_model', 'barang', true);
+		$this->load->model('pengawasan/cctv_model','cctv',true);
+		$this->load->model('pengawasan/it_model','it',true);
+		$this->load->model('pengawasan/eseal_model','eseal',true);
 	}
 
 	public function index($tpb = null) {
@@ -79,38 +82,6 @@ class Tpb extends MY_Controller {
 		echo json_encode($output);
 	}
 
-	public function ajax_list_barang($id = null) {
-		//start datatable
-		$list = $this->barang->GetDataTable($id);
-		$data = array();
-		$no = $_POST['start'];
-
-		foreach ($list as $ListData) {
-
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = strtoupper($ListData->nama_produk);
-			$row[] = strtoupper($ListData->merk);
-			$row[] = $ListData->hs_code;
-			$row[] = '<img src="' . base_url() . 'assets/upload/tpb/barang/' . $ListData->foto . '" style="width: 100%" class="text-center">';
-			$row[] = '<button type="button" class="btn btn-primary" onclick="view(' . $ListData->id_produk . ')"><i class="icon ion-md-document"><span hidden>View</span></i></button>';
-			$row[] = '<button type="button" class="btn btn-success" onclick="edit(' . $ListData->id_produk . ')"><i class="icon ion-md-open"><span hidden>Edit</span></i></button>';
-			$row[] = '<button type="submit" onclick="hapus(' . $ListData->id_produk . ')" class="btn btn-danger"><i class="icon ion-close"><span hidden>Hapus</span></i></button>';
-
-			$data[] = $row;
-		}
-
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->barang->count_all($id),
-			"recordsFiltered" => $this->barang->count_filtered($id),
-			"data" => $data,
-		);
-
-		echo json_encode($output);
-	}
-
 	public function ajax_add() {
 		if (!empty($_POST)) {
 			$status = $this->perusahaan->add(); //Masukkan fungsi update data TPB di model
@@ -134,15 +105,52 @@ class Tpb extends MY_Controller {
 		echo json_encode($pesan);
 	}
 
-	public function getById() {
-		$data = $this->perusahaan->getById();
+	public function getAllById() {
+		$d = $this->perusahaan->getById();
 
-		echo json_encode($data);
+		echo json_encode($d);
+	}
+
+	public function getById() {
+		$d = $this->perusahaan->getById();
+		if ((int)$d->lokasi_tpb === 1 ) {
+			$lokasi = "DI DALAM KAWASAN INDUSTRI";
+		} else {
+			$lokasi = "DI LUAR KAWASAN INDUSTRI";
+		}
+		if ($d->status === "Y") {
+			$status = "AKTIF";
+		} else {
+			$status = "TIDAK AKTIF";
+		}
+
+		$cctv = $this->cctv->getByIdTpb();
+		$it = $this->it->getByIdTpb();
+		$eseal = $this->eseal->getByIdTpb();
+
+		$data = array();
+		$data[] = array('desc' => "NPWP", 'data' => $d->NPWP);
+		$data[] = array('desc' => "Nama Perusahaan", 'data' => $d->nama_perusahaan);
+		$data[] = array('desc' => "Telepon/Fax", 'data' => $d->telepon."/".$d->fax);
+		$data[] = array('desc' => "Alamat", 'data' => strtoupper($d->alamat));
+		$data[] = array('desc' => "Jenis TPB", 'data' => strtoupper($d->detail_tpb));
+		$data[] = array('desc' => "SKEP Izin TPB", 'data' => $d->ijin_kelola_tpb);
+		$data[] = array('desc' => "Lokasi TPB", 'data' => $lokasi);
+		$data[] = array('desc' => "Status", 'data' => $status);
+
+		$echos = array(
+			'umum' => $data,
+			'cctv' => $cctv,
+			'it' => $it,
+			'eseal' => $eseal
+		);
+
+		echo json_encode($echos);
 	}
 
 	public function getDropDown() {
 		$search = $this->input->get('nama');
-		$column = array('id_perusahaan', 'nama_perusahaan');
+		$column = array('id_perusahaan', 'nama_perusahaan', 'nama_tpb', 'ijin_kelola_tpb');
 		$data = $this->perusahaan->getByNama($search, $column);
 
 		echo json_encode($data);

@@ -82,7 +82,8 @@
   <!-- date-range-picker -->
   <script src="<?php echo base_url(); ?>assets/bower_components/moment/min/moment.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+  <!-- AutoNumberic -->
+  <script src="<?php echo base_url();?>assets/bower_components/autoNumeric/autoNumeric.js"></script>
   <!-- Bootstrap WYSIHTML5 -->
   <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
   <script src="<?php echo base_url('assets/bower_components/select2/dist/js/select2.full.min.js') ?>" ></script>

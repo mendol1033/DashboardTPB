@@ -15,8 +15,8 @@ class Cctv_model extends CI_Model {
 	}
 
 	var $table = "tb_cctv_detail";
-	var $column_order = array(null, 'IdPerusahaan', 'NPWP', 'NmPerusahaan', 'AlamatPabrik');
-	var $column_search = array('IdPerusahaan', 'NPWP', 'NmPerusahaan', 'AlamatPabrik');
+	var $column_order = array(null, 'NPWP', 'NmPerusahaan', 'Browser', null,'Status');
+	var $column_search = array('NPWP', 'NmPerusahaan', 'Browser','Status');
 	var $order = array('NmPerusahaan' => 'asc');
 
 	private function GetListData() {
@@ -102,6 +102,13 @@ class Cctv_model extends CI_Model {
 	public function getById() {
 		$this->peloro->from($this->table);
 		$this->peloro->where('Id', $_GET['id']);
+		$query = $this->peloro->get();
+		return $query->row();
+	}
+
+	public function getByIdTpb() {
+		$this->peloro->from($this->table);
+		$this->peloro->where('idTpbSikabayan', $_GET['id']);
 		$query = $this->peloro->get();
 		return $query->row();
 	}

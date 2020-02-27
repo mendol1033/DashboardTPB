@@ -260,6 +260,10 @@ class Menu_model extends CI_Model {
 					'url' => 'admin/uploadtpb',
 					'menu' => 'Input Data TPB Baru',
 				),
+				'Upload Profile' => array(
+					'url' => 'admin/uploadprofile',
+					'menu' => 'Upload Data Profle'
+				)
 			),
 		);
 
