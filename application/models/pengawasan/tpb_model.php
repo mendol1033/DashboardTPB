@@ -131,7 +131,43 @@ class Tpb_model extends CI_Model {
 			'Lokasi' => $_POST['Lokasi'],
 			'Luas' => $_POST['Luas'],
 			'PtgsRekam' => $this->session->userdata('NipUser'),
-			'idSikabayan' => $_POST['idSikabayan'],
+			// 'idSikabayan' => $_POST['idSikabayan'],
+		);
+
+		$this->peloro->insert('tb_perusahaan', $data);
+		if ($this->peloro->trans_status() === FALSE) {
+			$this->peloro->trans_rollback();
+			return FALSE;
+		} else {
+			$this->peloro->trans_commit();
+			return TRUE;
+		}
+	}
+
+	public function addSikabayan($id) {
+
+		$this->peloro->trans_begin();
+		$data = array(
+			'NPWP' => $_POST['NPWP'],
+			'NmPerusahaan' => $_POST['namatpb'],
+			'Fasilitas' => null,
+			'Jenis' => null,
+			'AlamatPabrik' => $_POST['alamat'],
+			'AlamatKantor' => $_POST['alamat'],
+			'ProfilResiko' => null,
+			'NoSkepPendirian' => $_POST['izin'],
+			'TglSkepPendirian' => null,
+			'NoSkepAkhir' => $_POST['izin'],
+			'TglSkepAkhir' => null,
+			'TglJatuhTempo' => null,
+			'KategoriUsaha' => null,
+			'NamaPenanggungJawab' => null,
+			'WNPenanggungJawab' => null,
+			'Status' => $_POST['status'],
+			'Lokasi' => null,
+			'Luas' => null,
+			'PtgsRekam' => $this->session->userdata('NipUser'),
+			'idSikabayan' => $id,
 		);
 
 		$this->peloro->insert('tb_perusahaan', $data);
@@ -167,7 +203,7 @@ class Tpb_model extends CI_Model {
 			'Lokasi' => $_POST['Lokasi'],
 			'Luas' => $_POST['Luas'],
 			'PtgsUpdate' => $this->session->userdata('NipUser'),
-			'idSikabayan' => $_POST['idSikabayan'],
+			// 'idSikabayan' => $_POST['idSikabayan'],
 		);
 
 		$this->peloro->where('IdPerusahaan', $_POST['id']);

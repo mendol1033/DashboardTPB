@@ -81,3 +81,4 @@
 	</div>
 </section>
 <?php if (isset($js)) {$this->load->view($js);}?>
+<?php if (isset($modal)) {$this->load->view($modal);}?>

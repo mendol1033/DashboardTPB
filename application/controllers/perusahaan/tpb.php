@@ -10,6 +10,7 @@ class Tpb extends MY_Controller {
 		$this->load->model('pengawasan/cctv_model','cctv',true);
 		$this->load->model('pengawasan/it_model','it',true);
 		$this->load->model('pengawasan/eseal_model','eseal',true);
+		$this->load->model('pengawasan/tpb_model','tpb',true);
 	}
 
 	public function index($tpb = null) {
@@ -84,7 +85,8 @@ class Tpb extends MY_Controller {
 
 	public function ajax_add() {
 		if (!empty($_POST)) {
-			$status = $this->perusahaan->add(); //Masukkan fungsi update data TPB di model
+			$sikabayanId = $this->perusahaan->add(); //Masukkan fungsi update data TPB di model
+			$status = $this->tpb->addSikabayan($sikabayanId);
 			$operation = "Tambah";
 			$app = "Stakeholders";
 
