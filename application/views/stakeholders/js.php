@@ -32,6 +32,174 @@
 			},
 		});
 
+	// initialize another select2
+	$("#Provinsi").select2({
+		width : '100%',
+		placeholder: 'Masukkan Nama Provinsi',
+		minimumInputLength: 5,
+		allowClear: true,
+		ajax : {
+			url : "<?php echo base_url() . 'perusahaan/tpb/getProvinsi/'; ?>",
+			dataType : "JSON",
+			delay : 250,
+			data : function(params){
+				return{
+					nama : params.term
+				};
+			},
+			processResults: function(data){
+				var results = [];
+
+				$.each(data, function(index, item){
+					results.push({
+						id : item.lokasi_kode,
+						text : item.lokasi_nama
+					})
+				});
+				return{
+					results : results
+				};
+			},
+			cache : true
+		}
+	});
+
+
+	$("#Provinsi").on('select2:select', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		selectedProvince = $(event.currentTarget).find("option:selected").val();
+	});
+
+	$("#Kota").select2({
+		width : '100%',
+		placeholder: 'Masukkan Nama Kota/Kabupaten',
+		minimumInputLength: 5,
+		allowClear: true,
+		ajax : {
+			url : "<?php echo base_url() . 'perusahaan/tpb/getKabupaten/'; ?>",
+			dataType : "JSON",
+			delay : 250,
+			data : function(params){
+				return{
+					nama : params.term,
+					provinsi : selectedProvince
+				};
+			},
+			processResults: function(data){
+				if($.isArray(data) === true){
+					var results = [];
+
+					$.each(data, function(index, item){
+						results.push({
+							id : item.lokasi_kode,
+							text : item.lokasi_nama
+						})
+					});
+					return{
+						results : results
+					};
+				} else {
+					alert(data);
+					return{
+						results : data
+					}
+				}
+			},
+			cache : true,
+		}
+	});
+
+	$("#Kota").on('select2:select', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		selectedKabupaten = $(event.currentTarget).find('option:selected').val();
+	});
+
+	$("#Kecamatan").select2({
+		width : '100%',
+		placeholder: 'Masukkan Nama Kecamatan',
+		minimumInputLength: 5,
+		allowClear: true,
+		ajax : {
+			url : "<?php echo base_url() . 'perusahaan/tpb/getKecamatan/'; ?>",
+			dataType : "JSON",
+			delay : 250,
+			data : function(params){
+				return{
+					nama : params.term,
+					kabupaten : selectedKabupaten
+				};
+			},
+			processResults: function(data){
+				if($.isArray(data) === true){
+					var results = [];
+
+					$.each(data, function(index, item){
+						results.push({
+							id : item.lokasi_kode,
+							text : item.lokasi_nama
+						})
+					});
+					return{
+						results : results
+					};
+				} else {
+					alert(data);
+					return{
+						results : data
+					}
+				}
+			},
+			cache : true,
+		}
+	});
+
+	$("#Kecamatan").on('select2:select', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		selectedKecamatan = $(event.currentTarget).find('option:selected').val();
+	});
+
+	$("#Kelurahan").select2({
+		width : '100%',
+		placeholder: 'Masukkan Nama Kelurahan',
+		minimumInputLength: 5,
+		allowClear: true,
+		ajax : {
+			url : "<?php echo base_url() . 'perusahaan/tpb/getKelurahan/'; ?>",
+			dataType : "JSON",
+			delay : 250,
+			data : function(params){
+				return{
+					nama : params.term,
+					kecamatan : selectedKecamatan
+				};
+			},
+			processResults: function(data){
+				if($.isArray(data) === true){
+					var results = [];
+
+					$.each(data, function(index, item){
+						results.push({
+							id : item.lokasi_kode,
+							text : item.lokasi_nama
+						})
+					});
+					return{
+						results : results
+					};
+				} else {
+					alert(data);
+					return{
+						results : data
+					}
+				}
+			},
+			cache : true,
+		}
+	});
+
 		$("#form").validate({
 			errorClass : "text-danger",
 			validClass : "has-success",

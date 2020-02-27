@@ -353,7 +353,7 @@ function getDataPerusahaan(){
 			$("#tbAksesCCTV > tbody").append('<tr><td style="width:40%">Alamat</td><td>'+data.cctv.IpAddress+'&nbsp;<a href="http://'+data.cctv.IpAddress+'" target="_blank"><i class="fas fa-external-link-alt"></i></a></td></tr><tr><td style="width:40%">Username</td><td>'+data.cctv.Username+'</td></tr><tr><td style="width:40%">Password</td><td>'+data.cctv.Password+'</td></tr>')
 			$("#tbAksesIT > tbody").append('<tr><td style="width:40%">Alamat</td><td>'+data.it.IpAddress+'&nbsp;<a href="http://'+data.it.IpAddress+'" target="_blank"><i class="fas fa-external-link-alt"></i></a></td></tr><tr><td style="width:40%">Username</td><td>'+data.it.Username+'</td></tr><tr><td style="width:40%">Password</td><td>'+data.it.Password+'</td></tr>')
 
-			if (data.umum["Jenis TPB"] = "PUSAT LOGISTIK BERIKAT") {
+			if (data.eseal != null) {
 				$("#tbAksesEseal > tbody").append('<tr><td style="width:40%">Alamat</td><td>'+data.eseal.IpAddress+'&nbsp;<span><a href="http://'+data.eseal.IpAddress+'" target="_blank"><i class="fas fa-external-link-alt"></i></a></span></td></tr><tr><td style="width:40%">Username</td><td>'+data.eseal.Username+'</td></tr><tr><td style="width:40%">Password</td><td>'+data.eseal.Password+'</td></tr>')
 			} else {
 				$("#tbAksesEseal > tbody").append('<tr colspan="2"><td rowspan="3" class="text-center">DATA AKSES E-SEAL TIDAK DITEMUKAN</td></tr>')

@@ -269,13 +269,14 @@ class Perusahaan_model extends CI_Model {
 			'status' => $this->input->post('status'),
 		);
 		$this->sikabayan_db->insert('tb_perusahaan', $datatpb);
+		$insert_id = $this->sikabayan_db->insert_id();
 
 		if ($this->sikabayan_db->trans_status() === FALSE) {
 			$this->sikabayan_db->trans_rollback();
 			return FALSE;
 		} else {
 			$this->sikabayan_db->trans_commit();
-			return TRUE;
+			return $insert_id;
 		}
 	}
 
