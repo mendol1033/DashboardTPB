@@ -14,8 +14,8 @@ class It_model extends CI_Model {
 	}
 
 	var $table = "tb_it_detail";
-	var $column_order = array(null,'IdPerusahaan','NPWP','NmPerusahaan','AlamatPabrik');
-	var $column_search = array('IdPerusahaan','NPWP','NmPerusahaan','AlamatPabrik');
+	var $column_order = array(null, 'NPWP', 'NmPerusahaan', 'Browser', null,'Status');
+	var $column_search = array('NPWP', 'NmPerusahaan', 'Browser','Status');
 	var $order = array('NmPerusahaan'=>'asc');
 
 	private function GetListData(){
