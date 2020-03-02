@@ -7,8 +7,8 @@
 				</button>
 				<h4 class="modal-title">Disini Modal Title</h4>
 			</div>
-			<div class="modal-body">
-				<form class="form-horizontal" id="form" novalidate="true">
+			<form class="form-horizontal" id="formToko" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+				<div class="modal-body">
 					<div class="form-group">
 						<label class=" col-md-3 control-label">Nama Toko</label>
 						<div class="col-md-9">
@@ -102,12 +102,12 @@
 							<input type="text" name="tanggal" class="form-control">
 						</div>
 					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" id="tutup" class="btn btn-default" data-dismiss="modal">Tutup</button>
-				<button type="button" id="simpan" class="btn btn-primary" onclick="save()">Simpan</button>
-			</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="tutup" class="btn btn-default" data-dismiss="modal">Tutup</button>
+					<button type="submit" id="btn_formToko" class="btn btn-primary">Simpan</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -122,7 +122,7 @@
 				<h4 class="modal-title">Disini Modal Title</h4>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" id="form" novalidate="true">
+				<form class="form-horizontal" id="formRokok" novalidate="true">
 					<div class="row">
 						<div class="col-md-6">
 							<div class="row">
@@ -131,7 +131,7 @@
 							<div class="form-group">
 								<label class=" col-md-3 control-label">Merk</label>
 								<div class="col-md-9">
-									<input type="text" name="merek" class="form-control" list="merek" style="text-transform: uppercase;">
+									<input type="text" name="merek" class="form-control" list="merek" style="text-transform: capitalize;">
 									<datalist class="col-md-12" id="merek" style="width: 100%">
 
 									</datalist>
@@ -187,7 +187,7 @@
 							<div class="form-group">
 								<label class="col-md-3 control-label">Jenis HT</label>
 								<div class="col-md-9">
-									<input type="text" name="jenisHT" class="form-control" list="jenisHT" style="text-transform: capitalize;">
+									<input type="text" name="jenisHT" class="form-control" list="jenisHT" style="text-transform: uppercase;">
 									<datalist id="jenisHT" style="widows: 100%">
 
 									</datalist>
@@ -229,6 +229,9 @@
 						</div>
 					</div>
 				</form>
+				<div class="row" id="alertRokok">
+
+				</div>
 				<div class="row">
 					<style type="text/css">
 						.table thead,
@@ -245,6 +248,7 @@
 								<th colspan="5">INFORMASI PADA PITA CUKAI</th>
 								<th rowspan="2">JUMLAH<br>KEMASAN<br>(BUNGKUS)</th>
 								<th rowspan="2">KETERANGAN</th>
+								<th rowspan="2">HAPUS</th>
 							</tr>
 							<tr>
 								<th>MEREK</th>
@@ -262,9 +266,8 @@
 					</table>
 				</div>
 			</div>
-			<div class="modal-footer">
+			<div class="modal-footer" id="footerKuisioner">
 				<button type="button" id="tutup" class="btn btn-default" data-dismiss="modal">Tutup</button>
-				<button type="button" id="simpan" class="btn btn-primary" onclick="save()">Simpan</button>
 			</div>
 		</div>
 	</div>
