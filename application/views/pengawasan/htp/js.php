@@ -10,6 +10,8 @@
 	var table;
 	var idEdit;
 	var tableDetail;
+	var idKuisioner;
+
 	$(document).ready(function() {
 		$(".select2").select2({
 			width : '100%'
@@ -71,10 +73,6 @@
 			},
 		});
 	})
-
-	function ajax_load_detail(id){
-		tableDetail.ajax.url("<?php echo base_url() . 'pengawasan/htp/ajax_list_detail' ?>"+"?id="+id).load();
-	}
 
 	function selectedValue(a, el){
 		$.ajax({
@@ -233,7 +231,7 @@
 	$("#tambah").on('click', function(event) {
 		event.preventDefault();
 		save_method = "add";
-		$("#form")[0].reset();
+		$("#formToko")[0].reset();
 		$(".modal-title").text("Tambah Data Kuisioner Survey HTP");
 		$("#Provinsi").trigger('change');
 		$("#Kabupaten").trigger('change');
@@ -242,30 +240,79 @@
 		$("#modal").modal("show");
 	});
 
-	function view(){
-		$("#modalDetail").modal('show');
+	function ajax_load_detail(id){
+		tableDetail.ajax.url("<?php echo base_url() . 'pengawasan/htp/ajax_list_detail' ?>"+"?id="+id).load();
+	}
+
+	function view(id){
 		$(".modal-title").text('DETAIL KUISIONER');
-		ajax_load_detail(1);
+		$("#modalDetail").modal('show');
+		idKuisioner = id;
+		ajax_load_detail(id);
+		$("#footerKuisioner").append('<a href="<?php echo base_url()?>pengawasan/htp/printKuisioner?id='+id+'><button type="button" id="simpan" class="btn btn-primary">CETAK</button></a>');
 	}
 
-	function edit(){
+	$("#modalDetail").on('shown.bs.modal', function(event) {
+		$('[name="merek"]').focus();
+	});
 
+	$("#modal").on('shown.bs.modal', function(event) {
+		$('[name="nama"]').focus();
+	});
+
+	function edit(id){
+		$.ajax({
+			url: '<?php base_url()?>pengawasan/htp/ajax_edit',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {id: id},
+			success: function(data){
+				idEdit = id;
+				save_method = "update";
+				$("#formToko")[0].reset();
+				$(".modal-title").text("Ubah Data Kuisioner Survey HTP");
+				$('[name="nama"]').val(data.namaToko);
+				$('[name="alamat"]').val(data.alamat);
+				$('[name="pemilik"]').val(data.pemilik);
+				$('[name="telepon"]').val(data.telepon);
+				$('[name="handphone"]').val(data.handphone);
+				$('[name="Provinsi"]').val(data.provinsi);
+				$('[name="Kabupaten"]').val(data.kota);
+				$('[name="Kecamatan"]').val(data.kecamatan);
+				$('[name="Kelurahan"]').val(data.kelurahan);
+				$('[name="koordinat"]').val(data.koordinat);
+				$('[name="surveyor"]').val(data.namaSurveyor);
+				$('[name="nip"]').val(data.nipSurveyor);
+				$('[name="tanggal"]').val(data.tanggalKunjungan);
+				$("#Provinsi").trigger('change');
+				$("#Kabupaten").trigger('change');
+				$("#Kecamatan").trigger('change');
+				$("#Kelurahan").trigger('change');
+				$("#modal").modal("show");
+			}
+		})		
 	}
 
-	function save(){
+	$("#formToko").on('submit', function(event) {
+		event.preventDefault();
+		/* Act on the event */
 		var url;
-		var data = $("#form").serializeArray();
+		var formData = new FormData(this);
 		if (save_method === "add") {
 			url = '<?php echo base_url() ?>pengawasan/htp/ajax_add';
 		} else {
+			formData.append('id',idEdit);
 			url = '<?php echo base_url() ?>pengawasan/htp/ajax_update';
 		}
 
 		$.ajax({
 			url: url,
 			type: 'POST',
+			data: formData,
+			contentType : false,
+			cache : false,
+			processData : false,
 			dataType: 'JSON',
-			data: data,
 			success: function(data){
 				$("#alert").append('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-warning"></i> Alert!</h4>'+data.pesan+'</div>');
 				$("#modal").modal('hide');
@@ -273,7 +320,30 @@
 				dataTable_relod();
 			}
 		})
-	}
+	});
+
+	// function save(){
+	// 	var url;
+	// 	var data = $("#formToko").serializeArray();
+	// 	if (save_method === "add") {
+	// 		url = '<?php echo base_url() ?>pengawasan/htp/ajax_add';
+	// 	} else {
+	// 		url = '<?php echo base_url() ?>pengawasan/htp/ajax_update';
+	// 	}
+
+	// 	$.ajax({
+	// 		url: url,
+	// 		type: 'POST',
+	// 		dataType: 'JSON',
+	// 		data: data,
+	// 		success: function(data){
+	// 			$("#alert").append('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-warning"></i> Alert!</h4>'+data.pesan+'</div>');
+	// 			$("#modal").modal('hide');
+	// 			setTimeout(dismiss, 5000);
+	// 			dataTable_relod();
+	// 		}
+	// 	})
+	// }
 
 	function dataTable_relod(){
 		table.ajax.reload(null,false);
@@ -281,6 +351,34 @@
 
 	function dismiss(){
 		$("#alert").empty();
+		$("#alertRokok").empty();
+	}
+
+	function addRokok(){
+		var data = $("#formRokok").serializeArray();
+		data[data.length] = {name: "idHtp", value: idKuisioner};
+		$.ajax({
+			url: '<?php echo base_url()?>pengawasan/htp/ajax_add_rokok',
+			type: 'POST',
+			dataType: 'JSON',
+			data: data,
+			success: function(data){
+				$("#alertRokok").append('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-warning"></i> Alert!</h4>'+data.pesan+'</div>');
+				setTimeout(dismiss, 5000);
+				$("#formRokok")[0].reset();
+				$('[name="merek"]').focus();
+				ajax_load_detail(idKuisioner);
+			}
+		})
+	}
+
+	function cetak(id){
+		$.ajax({
+			url: '<?php echo base_url()?>pengawasan/htp/printKuisioner',
+			type: 'GET',
+			dataType: 'JSON',
+			data: {id: id},
+		})		
 	}
 
 	function toDegreesMinutesAndSeconds(coordinate) {

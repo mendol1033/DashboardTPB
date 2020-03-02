@@ -34,10 +34,11 @@ class Htp extends MY_Controller {
 			$row = array();
 			$row[] = $no;
 			$row[] = date('F', strtotime($ListData->tanggalKunjungan)) . " - " . date('Y', strtotime($ListData->tanggalKunjungan));
+			$row[] = strtoupper($ListData->nmrKuisioner);
 			$row[] = strtoupper($ListData->namaToko);
 			$row[] = strtoupper($ListData->pemilik);
-			$row[] = strtoupper($ListData->alamat . ', ' . $ListData->kelurahan . ', ' . $ListData->kecamatan . ', ' . $ListData->kabupaten . ', ' . $ListData->provinsi);
-			$row[] = '<button type="button" class="btn btn-primary" onclick="view(' . "'" . $ListData->koordinat . "'" . ')"><i class="icon ion-md-document"><span hidden>View</span></i></button>';
+			$row[] = strtoupper($ListData->alamat . ', ' . $ListData->kelurahan . ', ' . $ListData->kecamatan . ', ' . $ListData->kota . ', ' . $ListData->provinsi);
+			$row[] = '<button type="button" class="btn btn-primary" onclick="view(' . $ListData->id . ')"><i class="icon ion-md-document"><span hidden>View</span></i></button>';
 			$row[] = '<button type="button" class="btn btn-success" onclick="edit(' . $ListData->id . ')"><i class="icon ion-md-open"><span hidden>Edit</span></i></button>';
 			$row[] = '<button type="submit" onclick="hapus(' . $ListData->id . ')" class="btn btn-danger"><i class="icon ion-close"><span hidden>Hapus</span></i></button>';
 
@@ -65,7 +66,7 @@ class Htp extends MY_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
-			$row[] = strtoupper($ListData->merek);
+			$row[] = strtoupper($ListData->merk);
 			$row[] = strtoupper($ListData->namaPabrik);
 			$row[] = strtoupper($ListData->lokasiPabrik);
 			$row[] = 'Rp' . number_format($ListData->hargaJual, 2, ',', '.');
@@ -75,7 +76,8 @@ class Htp extends MY_Controller {
 			$row[] = strtoupper($ListData->jenisHT);
 			$row[] = $ListData->isi;
 			$row[] = number_format($ListData->jmlhKemasan, 0, ',', '.');
-			$row[] = '<button type="submit" onclick="hapus(' . $ListData->id . ')" class="btn btn-danger"><i class="icon ion-close"><span hidden>Hapus</span></i></button>';
+			$row[] = $ListData->keterangan;
+			$row[] = '<button type="submit" onclick="hapusRokok(' . $ListData->id . ')" class="btn btn-danger"><i class="fas fa-eraser"><span hidden>Hapus</span></i></button>';
 
 			$data[] = $row;
 		}
@@ -122,8 +124,46 @@ class Htp extends MY_Controller {
 		}
 	}
 
-	public function ajax_update() {
+	public function ajax_edit(){
+		if (!empty($_GET)) {
+			$data = $this->htp->getKuisionerById();
 
+			echo json_encode($data);
+		}
+	}
+
+	public function ajax_update() {
+		if (!empty($_POST)) {
+			$status = $this->htp->update();
+
+			if ($status === TRUE) {
+				$pesan = "Data berhasil diubah";
+			} else {
+				$pesan = "Data gagal diubah";
+			}
+
+			$data = array(
+				'pesan' => $pesan,
+			);
+
+			echo json_encode($data);
+		}
+	}
+
+	public function ajax_add_rokok(){
+		if(!empty($_POST)){
+			$status = $this->htp->addRokok();
+
+			if ($status === TRUE) {
+				$pesan = "Data Rokok Berhasil Ditambah";
+			} else {
+				$pesan = "Data Rokok Gagal Ditambah";
+			}
+
+			$data = array('pesan' => $pesan);
+
+			echo json_encode($data);
+		}
 	}
 
 	public function getProvinsi() {
@@ -161,6 +201,62 @@ class Htp extends MY_Controller {
 		} else {
 			$data = "Pilih Kecamatan Terlebih Dahulu";
 		}
+		echo json_encode($data);
+	}
+
+	public function printKuisioner(){
+
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('vendor/template/template_kuisioner_htp.xlsx');
+
+		$worksheet = $spreadsheet->getActiveSheet();
+		// $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+
+		// $drawing->setWorksheet($spreadsheet->getActiveSheet());
+
+		$dataHeader = $this->htp->getReportHeader();
+
+		$data = $this->htp->getReportData();
+
+		$worksheet->setCellValue('D3', $dataHeader['KPPBC']);
+		$worksheet->setCellValue('D4', $dataHeader['ftz']);
+		$worksheet->setCellValue('D5', $dataHeader['toko']);
+		$worksheet->setCellValue('D6', $dataHeader['alamat']);
+		$worksheet->setCellValue('D7', $dataHeader['provinsi']);
+		$worksheet->setCellValue('D8', $dataHeader['kota']);
+		$worksheet->setCellValue('D9', $dataHeader['kecamatan']);
+		$worksheet->setCellValue('D10', $dataHeader['kelurahan']);
+		$worksheet->setCellValue('D11', $dataHeader['tanggal']);
+		$worksheet->setCellValue('D12', $dataHeader['surveyor']);
+		$worksheet->setCellValue('K4', $dataHeader['nmrKuisioner']);
+		$worksheet->setCellValue('K12', $dataHeader['nama']);
+
+		$worksheet->fromArray($data,NULL,'A16');
+		// $lastCell = sizeof($data)+15;
+
+		// for ($i = 15; $i < $lastCell ; $i++) {
+		// 	$spreadsheet->getActiveSheet()->getRowDimension($i)->setRowHeight(45);	
+		// }
+
+		// $a = $data;
+		// end($a);
+		// $last = key($a);
+		// $cell = 15 + $last + 4;
+
+
+		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet,'Xlsx');
+
+		$filename = 'Kuisioner '.$dataHeader['nmrKuisioner'].'.xlsx';
+
+		$writer->save('vendor/report/'.$filename);
+		force_download('vendor/report/'.$filename,NULL);
+
+		// echo $cell;
+
+	}
+
+	public function test(){
+		$data = $this->htp->test();
+
 		echo json_encode($data);
 	}
 

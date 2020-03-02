@@ -90,17 +90,96 @@ class Htp_model extends CI_Model {
 		return $query->row_array();
 	}
 
-	public function add() {
-		$this->peloro->trans_begin();
+	public function getKuisionerById(){
+		$this->peloro->from('tb_htp');
+		$this->peloro->where('id',$_GET['id']);
+		$query = $this->peloro->get();
+
+		return $query->row();
+	}
+
+	public function getReportHeader(){
+		$this->peloro->from('tb_htp');
+		$this->peloro->where('id',$_GET['id']);
+		$query = $this->peloro->get()->row_array();
+		if ($query['ftz'] == "Y") {
+			$ftz = "IYA";
+		} else {
+			$ftz = "TIDAK";
+		}
 
 		$data = array(
+			'nmrKuisioner' => $query['nmrKuisioner'],
+			'KPPBC' 	=> ": ". strtoupper($query['kppbc']),
+			'ftz' 		=> ": ".$ftz,
+			'toko' 		=> ": ".strtoupper($query['namaToko']),
+			'alamat' 	=> ": ".strtoupper($query['alamat']),
+			'provinsi' 	=> ": ".strtoupper($query['provinsi']),
+			'kota' 		=> ": ".strtoupper($query['kota']),
+			'kecamatan' => ": ".strtoupper($query['kecamatan']),
+			'kelurahan' => ": ".strtoupper($query['kelurahan']),
+			'tanggal' 	=> ": ".$query['tanggalKunjungan'],
+			'surveyor' 	=> ": ".strtoupper($query['namaSurveyor']),
+			'nama' 		=> strtoupper($query['pemilik'])
+		);
+
+		return $data;
+	}
+
+	public function getReportData(){
+		$this->peloro->from('tb_htp_rokok');
+		$this->peloro->where('idHtp',$_GET['id']);
+		$query = $this->peloro->get()->result_array();
+
+		$data = array();
+		$count = sizeof($query);
+		$i = -1;
+		foreach ($query as $key => $value) {
+			$i++;
+			$data[] = array(
+				$i+1,
+				$value['merk'],
+				$value['namaPabrik'],
+				$value['lokasiPabrik'],
+				$value['hargaJual'],
+				$value['tahunPita'],
+				$value['tarif'],
+				$value['hje'],
+				$value['jenisHT'],
+				$value['isi'],
+				$value['jmlhKemasan'],
+				$value['keterangan'],
+			);
+		}
+
+		return $data;
+	}
+
+	public function add() {
+		$this->peloro->trans_begin();
+		$bulan = date('m',strtotime($_POST['tanggal']));
+		$tahun = date('Y',strtotime($_POST['tanggal']));
+		$this->peloro->select('nmrKuisioner');
+		$this->peloro->where("DATE_FORMAT(tanggalKunjungan,'%m')", (int)$bulan);
+		$this->peloro->where("DATE_FORMAT(tanggalKunjungan,'%Y')", (int)$tahun);
+		$this->peloro->order_by('id','DESC');
+		$this->peloro->limit(1);
+		$sql = $this->peloro->get('tb_htp');
+		$query = $sql->row_array();
+		if ($query === NULL) {
+			$nmrKuisioner = $tahun.$bulan."001";
+		} else {
+			$nmrKuisioner = (int)$query['nmrKuisioner']+1;
+		}
+		$data = array(
+			'nmrKuisioner' => $nmrKuisioner,
 			'namaToko' => $_POST['nama'],
 			'pemilik' => $_POST['pemilik'],
 			'telepon' => $_POST['telepon'],
 			'handphone' => $_POST['handphone'],
 			'alamat' => $_POST['alamat'],
 			'provinsi' => $_POST['Provinsi'],
-			'kabupaten' => $_POST['Kabupaten'],
+			'kota' => $_POST['Kabupaten'],
 			'kecamatan' => $_POST['Kecamatan'],
 			'kelurahan' => $_POST['Kelurahan'],
 			'koordinat' => $_POST['koordinat'],
@@ -111,6 +190,67 @@ class Htp_model extends CI_Model {
 		);
 
 		$this->peloro->insert('tb_htp', $data);
+
+		if ($this->peloro->trans_status() === FALSE) {
+			$this->peloro->trans_rollback();
+			return FALSE;
+		} else {
+			$this->peloro->trans_commit();
+			return TRUE;
+		}
+	}
+
+	public function update(){
+		$this->peloro->trans_begin();
+		$data = array(
+			// 'nmrKuisioner' => $nmrKuisioner,
+			'namaToko' => $_POST['nama'],
+			'pemilik' => $_POST['pemilik'],
+			'telepon' => $_POST['telepon'],
+			'handphone' => $_POST['handphone'],
+			'alamat' => $_POST['alamat'],
+			'provinsi' => $_POST['Provinsi'],
+			'kota' => $_POST['Kabupaten'],
+			'kecamatan' => $_POST['Kecamatan'],
+			'kelurahan' => $_POST['Kelurahan'],
+			'koordinat' => $_POST['koordinat'],
+			'namaSurveyor' => $_POST['surveyor'],
+			'nipSurveyor' => $_POST['nip'],
+			'tanggalKunjungan' => $_POST['tanggal'],
+			'NipUpdate' => $this->session->userdata('NipUser'),
+		);
+		$this->peloro->where('id',$_POST['id']);
+		$this->peloro->update('tb_htp', $data);
+
+		if ($this->peloro->trans_status() === FALSE) {
+			$this->peloro->trans_rollback();
+			return FALSE;
+		} else {
+			$this->peloro->trans_commit();
+			return TRUE;
+		}
+	}
+
+	public function addRokok(){
+		$this->peloro->trans_begin();
+
+		$data = array(
+			'idHtp' => $_POST['idHtp'],
+			'tahunPita' => $_POST['tahunPita'],
+			'merk' => $_POST['merek'],
+			'namaPabrik' => $_POST['namaPabrik'],
+			'lokasiPabrik' => $_POST['lokasiPabrik'],
+			'hargaJual' => $_POST['hargaJual'],
+			'tarif' => $_POST['tarif'],
+			'hje' => $_POST['hje'],
+			'jenisHT' => $_POST['jenisHT'],
+			'isi' => $_POST['isi'],
+			'jmlhKemasan' => $_POST['jmlhKemasan'],
+			'keterangan' => $_POST['keterangan'],
+			'nipRekam' => $this->session->userdata('NipUser'),
+		);
+
+		$this->peloro->insert('tb_htp_rokok',$data);
 
 		if ($this->peloro->trans_status() === FALSE) {
 			$this->peloro->trans_rollback();
@@ -176,6 +316,35 @@ class Htp_model extends CI_Model {
 
 		$query = $this->sikabayan_db->get();
 		return $query->result_array();
+	}
+
+	public function test(){
+		$this->peloro->from('tb_htp_rokok');
+		$this->peloro->where('idHtp',$_GET['id']);
+		$query = $this->peloro->get()->result_array();
+
+		$data = array();
+		$count = sizeof($query);
+		$i = -1;
+		foreach ($query as $key => $value) {
+			$i++;
+			$data[] = array(
+				$i+1,
+				$value['merk'],
+				$value['namaPabrik'],
+				$value['lokasiPabrik'],
+				$value['hargaJual'],
+				$value['tahunPita'],
+				$value['tarif'],
+				$value['hje'],
+				$value['jenisHT'],
+				$value['isi'],
+				$value['jmlhKemasan'],
+				$value['keterangan'],
+			);
+		}
+
+		return $data;
 	}
 
 }

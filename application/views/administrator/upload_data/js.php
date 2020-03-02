@@ -51,13 +51,13 @@
 						$("#Nopen > #loadingState").addClass('sr-only');
 						$("#NopenBody > #feedbackArea").removeClass('sr-only');
 						$("#NopenBody > #feedbackArea > div > p > #feedbackApp").text(data.pesan);
-						console.log(data);
+						// console.log(data);
 					},
 					error : function(jqXHR, exception){
 						$("#Nopen > #loadingState").addClass('sr-only');
 						$("#NopenBody > #feedbackArea").removeClass('sr-only');
 						$("#NopenBody > #feedbackArea > div > p > #feedbackApp").html(jqXHR.responseText);
-						console.log(jqXHR);
+						// console.log(jqXHR);
 					}
 				})				
 			}

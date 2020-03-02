@@ -9,9 +9,9 @@ class Htp_detail_model extends CI_Model {
 		$this->sikabayan_db = $this->load->database('sikabayan', TRUE);
 	}
 
-	var $table = "tb_rokok_htp";
-	var $column_order = array(null, 'merek', 'namaPabrik', 'lokasiPabrik', 'hargaJual', 'tahunPita', 'tarif', 'hje', 'jenisHT', 'isi', 'jmlhKemasan', 'keterangan');
-	var $column_search = array('merek', 'namaPabrik', 'lokasiPabrik', 'hargaJual', 'tahunPita', 'tarif', 'hje', 'jenisHT', 'isi', 'jmlhKemasan', 'keterangan');
+	var $table = "tb_htp_rokok";
+	var $column_order = array(null, 'merk', 'namaPabrik', 'lokasiPabrik', 'hargaJual', 'tahunPita', 'tarif', 'hje', 'jenisHT', 'isi', 'jmlhKemasan', 'keterangan');
+	var $column_search = array('merk', 'namaPabrik', 'lokasiPabrik', 'hargaJual', 'tahunPita', 'tarif', 'hje', 'jenisHT', 'isi', 'jmlhKemasan', 'keterangan');
 	var $order = array('id' => 'asc');
 
 	private function GetListData() {

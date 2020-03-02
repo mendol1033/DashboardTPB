@@ -48,9 +48,10 @@
 								<tr>
 									<th style="width: 5%;"><p class="text-justify"> No </p></th>
 									<th style="width: 10%;"><p class="text-justify"> Bulan </p></th>
+									<th style="width: 10%;"><p class="text-justify"> Nomor Kuisioner </p></th>
 									<th style="width: 15%;"><p class="text-justify"> Nama Toko </p></th>
 									<th style="width: 15%;"><p class="text-justify"> Pemilik </p></th>
-									<th style="width: 50%;"><p class="text-justify"> Alamat </p></th>
+									<th style="width: 35%;"><p class="text-justify"> Alamat </p></th>
 									<th style="width: 5%;"><p class="text-justify"> Detail </p></th>
 									<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
 								</tr>
@@ -60,9 +61,10 @@
 								<tr>
 									<th style="width: 5%;"><p class="text-justify"> No </p></th>
 									<th style="width: 10%;"><p class="text-justify"> Bulan </p></th>
+									<th style="width: 10%;"><p class="text-justify"> Nomor Kuisioner </p></th>
 									<th style="width: 15%;"><p class="text-justify"> Nama Toko </p></th>
 									<th style="width: 15%;"><p class="text-justify"> Pemilik </p></th>
-									<th style="width: 50%;"><p class="text-justify"> Alamat </p></th>
+									<th style="width: 35%;"><p class="text-justify"> Alamat </p></th>
 									<th style="width: 5%;"><p class="text-justify"> Detail </p></th>
 									<th style="width: 5%;"><p class="text-justify"> Edit </p></th>
 								</tr>
