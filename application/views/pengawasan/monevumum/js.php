@@ -158,7 +158,19 @@
 	}
 
 	$("#idPerusahaan").on("select2:selecting", function(e) {
-		id = e.params.args.data.id
+		id = e.params.args.data.id;
+		var linkEseal;
+		var userEseal;
+		var passEseal;
+		$("#akses").addClass('sr-only');
+		$("[name='alamat']").val("");
+		$("#linkCctv").removeAttr('href');
+		$("#linkIt").removeAttr('href');
+		$("#linkEseal").removeAttr('href');
+		$('[name="linkCctv"]').val("");
+		$('[name="linkIt"]').val("");
+		$('[name="linkEseal"]').val("");
+		$(".added").remove();
 
 		$.ajax({
 			url: "<?php echo base_url(); ?>perusahaan/tpb/getById",
@@ -166,23 +178,99 @@
 			dataType: "JSON",
 			data: {id: id},
 			success: function(data){
-				$("[name='alamat']").val(data.alamat);
+				if (data.cctv) {
+					var x = data.cctv.IpAddress.substring(0,4);
+					if ( x == "http") {
+						linkCctv = data.cctv.IpAddress;
+					} else {
+						linkCctv = "http://"+data.cctv.IpAddress;
+					}
+					userCctv = data.cctv.Username;
+					passCctv = data.cctv.Password;
+				} else {
+					linkCctv = "#";
+					userCctv = "Data Tidak Ditemukan";
+					passCctv = "Data Tidak Ditemukan";
+				}
+
+				if (data.it) {
+					var x = data.it.IpAddress.substring(0,4);
+					if ( x == "http") {
+						linkIt = data.it.IpAddress;
+					} else {
+						linkIt = "http://"+data.it.IpAddress;
+					}
+					userIt = data.it.Username;
+					passIt = data.it.Password;
+				} else {
+					linkIt = "#";
+					userIt = "Data Tidak Ditemukan";
+					passIt = "Data Tidak Ditemukan";
+				}
+
+				if (data.eseal) {
+					var x = data.eseal.IpAddress.substring(0,4);
+					console.log(x);
+					if ( x == "http") {
+						linkEseal = data.eseal.IpAddress;
+					} else {
+						linkEseal = "http://"+data.eseal.IpAddress;
+					}
+					userEseal = data.eseal.Username;
+					passEseal = data.eseal.Password;
+				} else {
+					linkEseal = "#";
+					userEseal = "Data Tidak Ditemukan";
+					passEseal = "Data Tidak Ditemukan";
+				}
+				$("#akses").removeClass('sr-only');
+				$("[name='alamat']").val(data.umum[3].data);
+				$("#linkCctv").attr('href', linkCctv);
+				$("#linkIt").attr('href', linkIt);
+				$("#linkEseal").attr('href', linkEseal);
+				$('[name="linkCctv"]').val(linkCctv);
+				$('[name="linkIt"]').val(linkIt);
+				$('[name="linkEseal"]').val(linkEseal);
+				$("#btnCctv").attr('data-clipboard-text', linkCctv);
+				$("#akses > tbody").append('<tr class="added"><td><strong>Username</strong></td><td class="text-center">'+userCctv+'</td><td class="text-center">'+userIt+'</td><td class="text-center">'+userEseal+'</td></tr>');
+				$("#akses > tbody").append('<tr class="added"><td><strong>Password</strong></td><td class="text-center">'+passCctv+'</td><td class="text-center">'+passIt+'</td><td class="text-center">'+passEseal+'</td></tr>');
 			}
 		})
-
-		$.ajax({
-			url: '<?php echo base_url() ?>pengawasan/monevmoncer/getAkses',
-			type: 'GET',
-			dataType: 'JSON)',
-			data: {id: id},
-			success: function(d){
-				$("#linkCCTV").removeClass('sr-only');
-				$("#linkIT").removeClass('sr-only');
-				$("#linkESEAL").removeClass('sr-only');
-			}
-		})
-
 	});
+
+	function salin(a){
+		var success = true;
+		var range = document.createRange();
+		var selection;
+
+		if (window.clipboardData) {
+			window.clipboardData.setData("text",$('[name="'+a+'"]').val());
+		} else {
+			var tmpElem = $('<div>');
+			tmpElem.css({
+				position : 'absolute',
+				left: '-1000px',
+				top: '-1000px'
+			});
+			tmpElem.text($('[name="'+a+'"]').val());
+			$('body').append(tmpElem);
+			range.selectNodeContents(tmpElem.get(0));
+			selection = window.getSelection ();
+			selection.removeAllRanges ();
+			selection.addRange (range);
+
+			try {
+				success = document.execCommand("copy",false,null);
+			} catch(e) {
+				copyToClipboardFF($('[name="'+a+'"]').val());
+				console.log(e);
+			}
+
+			if (success) {
+				tmpElem.remove();
+			}
+		}
+	}
 
 	$("#tambah").on('click', function(event) {
 		event.preventDefault();
@@ -200,6 +288,15 @@
 		$("input[type='hidden']").remove();
 		$("#formMonev")[0].reset();
 		$('.select2').val(null).trigger('change');
+		$("#akses").addClass('sr-only');
+		$("[name='alamat']").val("");
+		$("#linkCctv").removeAttr('href');
+		$("#linkIt").removeAttr('href');
+		$("#linkEseal").removeAttr('href');
+		$('[name="linkCctv"]').val("");
+		$('[name="linkIt"]').val("");
+		$('[name="linkEseal"]').val("");
+		$(".added").remove();
 	});
 
 	function selectedValue(a,b){
@@ -270,8 +367,21 @@
 					table.ajax.reload(null, false);
 				}
 			})
+			.done(function(){
+				$("#akses").addClass('sr-only');
+				$("[name='alamat']").val("");
+				$("#linkCctv").removeAttr('href');
+				$("#linkIt").removeAttr('href');
+				$("#linkEseal").removeAttr('href');
+				$('[name="linkCctv"]').val("");
+				$('[name="linkIt"]').val("");
+				$('[name="linkEseal"]').val("");
+				$(".added").remove();
+			})
 		}
 	}
+
+
 
 	function cetak(id){
 		$.ajax({

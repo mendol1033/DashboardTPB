@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalForm" role="dialog" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="modalForm" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
 	<div class="modal-dialog modal-lg" role="dokumen">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -19,7 +19,6 @@
 
 								</select>
 							</td>
-							<td class="sr-only" id="linkCCTV" style="width: 10%;"><button class="btn btn-success" style="width: 100%;">CCTV</button></td>
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
@@ -33,7 +32,6 @@
 							<td>
 								<input class="form-control" type="text" name="alamat" id="alamat">
 							</td>
-							<td class="sr-only" id="linkIT" style="width: 10%;"><button class="btn btn-info" style="width: 100%;">IT INVENTORY</button></td>
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
@@ -47,13 +45,48 @@
 							<td>
 								<input class="form-control" type="text" name="tanggal" id="tanggal">
 							</td>
-							<td class="sr-only" id="linkESEAL" style="width: 10%;"><button class="btn btn-danger" style="width: 100%;">E-SEAL</button></td>
 						</tr>
 						<tr class="hidden">
 							<td colspan="2">
 
 							</td>
 						</tr>
+					</table>
+					<table id="akses" class="table table-responsive table-hover table-striped sr-only">
+						<thead>
+							<th></th>
+							<th class="text-center">Akses CCTV</th>
+							<th class="text-center">Akses IT Inventory</th>
+							<th class="text-center">Akses E-Seal</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<strong>Link Akses</strong>
+								</td>
+								<td class="text-center">
+									<a id="linkCctv" target="_blank">
+										<i class="fas fa-video"></i>
+									</a> &nbsp; 
+									<input type="hidden" name="linkCctv">
+									<button type="button" id="btnCctv" class="btn btn-default" onclick="salin('linkCctv')">Copy Link</button>
+								</td>
+								<td class="text-center">
+									<a id="linkIt" target="_blank">
+										<i class="fas fa-boxes"></i>
+									</a> &nbsp; 
+									<input type="hidden" name="linkIt">
+									<button type="button" class="btn btn-default" onclick="salin('linkIt')">Copy Link</button>
+								</td>
+								<td class="text-center">
+									<a id="linkEseal" target="_blank">
+										<i class="fas fa-lock"></i>
+									</a> &nbsp;
+									<input type="hidden" name="linkEseal">
+									<button type="button" class="btn btn-default" onclick="salin('linkEseal')">Copy Link</button>
+								</td>
+							</tr>
+						</tbody>
 					</table>
 					<table class="table table-bordered table-responsive table-hover table-striped">
 						<thead>
@@ -97,8 +130,8 @@
 									<textarea class="form-control" name="laporan1" id="laporan1" style="width: 100%" rows="15"></textarea>
 								</td>
 							</tr>
-							<tr class="hidden">
-								<td colspan="6">
+							<tr id="linkCCTV" class="hidden">
+								<td colspan="4">
 
 								</td>
 							</tr>
