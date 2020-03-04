@@ -38,6 +38,7 @@
 		placeholder: 'Masukkan Nama Provinsi',
 		minimumInputLength: 5,
 		allowClear: true,
+		dropdownParent: $("#modal"),
 		ajax : {
 			url : "<?php echo base_url() . 'perusahaan/tpb/getProvinsi/'; ?>",
 			dataType : "JSON",
@@ -76,6 +77,7 @@
 		placeholder: 'Masukkan Nama Kota/Kabupaten',
 		minimumInputLength: 5,
 		allowClear: true,
+		dropdownParent: $("#modal"),
 		ajax : {
 			url : "<?php echo base_url() . 'perusahaan/tpb/getKabupaten/'; ?>",
 			dataType : "JSON",
@@ -121,6 +123,7 @@
 		placeholder: 'Masukkan Nama Kecamatan',
 		minimumInputLength: 5,
 		allowClear: true,
+		dropdownParent: $("#modal"),
 		ajax : {
 			url : "<?php echo base_url() . 'perusahaan/tpb/getKecamatan/'; ?>",
 			dataType : "JSON",
@@ -166,6 +169,7 @@
 		placeholder: 'Masukkan Nama Kelurahan',
 		minimumInputLength: 5,
 		allowClear: true,
+		dropdownParent: $("#modal"),
 		ajax : {
 			url : "<?php echo base_url() . 'perusahaan/tpb/getKelurahan/'; ?>",
 			dataType : "JSON",
