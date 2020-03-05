@@ -391,7 +391,7 @@ class Monevumum extends MY_Controller {
 
 	public function validate() {
 		if (!empty($_GET)) {
-			if ($_GET['type'] === "hanggar") {
+			if ($_GET['tipe'] === "hanggar") {
 				$validate_stat = 1;
 			} else {
 				$validate_stat = 2;
