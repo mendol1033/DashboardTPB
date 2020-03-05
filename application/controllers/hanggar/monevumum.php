@@ -119,6 +119,7 @@ class Monevumum extends MY_Controller {
 				<ul class="dropdown-menu">
 				<li><a href="javascript:void({})" onclick="edit(' . $ListData->id . ')">Edit Laporan</a></li>
 				<li><a href="javascript:void({})" onclick="lampiran(' . $ListData->id . ')">Edit Lampiran</a></li>
+				<li><a href="javascript:void({})" onclick="validasi(' . $ListData->id . ",'hanggar'" . ')">Edit Lampiran</a></li>
 				</ul></div>';
 				$action[2] ='<button class="btn btn-danger" type="button" onclick="hapus(' . $ListData->id . ')"><i class="far fa-trash-alt"></i></button>';
 				break;
