@@ -164,52 +164,7 @@ class Cctv extends MY_Controller {
 		echo json_encode($set);
 	}
 
-	public function ip_test() {
-		$data = $this->cctv->getAll();
-		$hasil = array();
-		for ($i = 0; $i < count($data); $i++) {
-
-			if (substr($data[$i]['IpAddress'], 0, 7) == "http://") {
-				$url = $data[$i]['IpAddress'];
-			} else {
-				$url = "http://" . $data[$i]['IpAddress'];
-			}
-
-			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			$datach = curl_exec($ch);
-			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			curl_close($ch);
-			if ($httpcode >= 200 && $httpcode < 300) {
-				$ret_val = 0;
-				$hasil[$i]['Ip'] = $url;
-			} else {
-				$ip = preg_split("/[ :| \/]/", $data[$i]['IpAddress']);
-				exec('ping -c 1' . $ip[0], $output, $ret_val);
-				$hasil[$i]['Ip'] = $ip[0];
-			}
-
-			$hasil[$i]['IdPerusahaan'] = $data[$i]['IdPerusahaan'];
-			$hasil[$i]['NPWP'] = $data[$i]['NPWP'];
-			$hasil[$i]['NamaPerusahaan'] = $data[$i]['NmPerusahaan'];
-			$hasil[$i]['Skep'] = $data[$i]['NoSkepAkhir'];
-			$hasil[$i]['Browser'] = $data[$i]['Browser'];
-			$hasil[$i]['IpAddress'] = $data[$i]['IpAddress'];
-			$hasil[$i]['Status'] = $data[$i]['Status'];
-			// $hasil[$i]['output'] = $output;
-			$hasil[$i]['result'] = $ret_val;
-		}
-
-		$status = $this->cctv->post($hasil, $_POST['type']);
-
-		if ($status === TRUE) {
-			echo json_encode('DATA BERHASIL DISMIPAN');
-		} else {
-			echo json_encode('DATA GAGAL DISIMPAN');
-		}
-	}
+	
 }
 
 /* End of file cctv.php */

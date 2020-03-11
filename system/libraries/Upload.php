@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -451,7 +451,7 @@ class CI_Upload {
 		// Skip MIME type detection?
 		if ($this->detect_mime !== FALSE)
 		{
-			$this->_file_mime_type($_file); 
+			$this->_file_mime_type($_file);
 		}
 
 		$this->file_type = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
@@ -523,7 +523,7 @@ class CI_Upload {
 		// Remove white spaces in the name
 		if ($this->remove_spaces === TRUE)
 		{
-			$this->file_name = preg_replace('/\s+/', ' ', $this->file_name);
+			$this->file_name = preg_replace('/\s+/', '_', $this->file_name);
 		}
 
 		if ($this->file_ext_tolower && ($ext_length = strlen($this->file_ext)))

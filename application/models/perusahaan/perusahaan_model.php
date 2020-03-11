@@ -13,7 +13,7 @@ class Perusahaan_model extends CI_Model {
 	}
 
 	var $table = "tpbdetail";
-	var $column_order = array(null, 'NPWP', 'nama_perusahaan', 'alamat', 'status');
+	var $column_order = array(null, 'NPWP', 'nama_perusahaan', 'alamat', 'status',null,null);
 	var $column_search = array('NPWP', 'nama_perusahaan', 'alamat', 'status');
 	var $order = array('nama_perusahaan' => 'asc');
 

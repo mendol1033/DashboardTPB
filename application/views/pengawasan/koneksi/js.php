@@ -138,17 +138,24 @@
 		$('.modal-title').text('PILIH JENIS JARINGAN YANG AKAN DI TES');
 	});
 
-	function ipCheck(type){
+	$("#btncheck").on('click', function(event) {
+		event.preventDefault();
+		var postData = $("#formCheck").serializeArray();
+		ipCheck(postData[0].value,postData[1].value);
+	});
+
+	function ipCheck(hanggar = null,type){
 		$("#modal").modal('hide');
 		$("#box_datatable").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
 		$.ajax({
-			url: '<?php echo base_url() ?>pengawasan/cctv/ip_test',
+			url: '<?php echo base_url() ?>pengawasan/connection_check/ip_test',
 			type: 'POST',
 			dataType: 'JSON',
-			data: {type : type},
+			data: {hanggar: hanggar, type : type},
 			success: function(d){
 				$('.overlay').remove();
 				ajax_reload();
+				console.log(d);
 			}
 		})
 	}

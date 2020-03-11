@@ -89,7 +89,7 @@
 									<th style="width: 10%;"><p class="text-justify"> NPWP </p></th>
 									<th style="width: 20%;"><p class="text-justify"> Nama Perusahaan </p></th>
 									<th style="width: 10%;"><p class="text-justify">SKEP</p></th>
-									<th style="width: 20%;"><p class="text-justify">Alamat CCTV</p></th>
+									<th style="width: 20%;"><p class="text-justify">Alamat CCTV / IT Inventory / E-Seal</p></th>
 									<th style="width: 20%;"><p class="text-justify">Browser</p></th>
 									<th style="width: 15%;"><p class="text-justify">Ip Address</p></th>
 									<th style="width: 10%;"><p class="text-justify">Status</p></th>
