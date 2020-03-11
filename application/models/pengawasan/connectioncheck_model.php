@@ -11,7 +11,7 @@ class Connectioncheck_model extends CI_Model {
 	var $table = "vw_master_cek_keaktifan";
 	var $column_order = array(null, 'TglRekam', 'Jumlah', 'JumlahAktif', 'JumlahTidakAktif');
 	var $column_search = array('TglRekam', 'Jumlah', 'JumlahAktif', 'JumlahTidakAktif');
-	var $order = array('TglRekam' => 'asc');
+	var $order = array('TglRekam' => 'desc');
 
 	private function GetListData() {
 		$this->peloro->from($this->table);
@@ -164,7 +164,9 @@ class Connectioncheck_model extends CI_Model {
 		$this->peloro->from($tabel);
 		$this->peloro->where('Status_TPB', "Y");
 		if (!empty($_POST['hanggar'])) {
-			$this->peloro->where('IdHanggar',$_POST['hanggar']);
+			if ((int)$_POST['hanggar'] > 0) {
+				$this->peloro->where('IdHanggar',$_POST['hanggar']);
+			}
 		}
 		$sql = $this->peloro->get();
 

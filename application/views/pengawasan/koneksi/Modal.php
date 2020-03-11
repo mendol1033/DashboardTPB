@@ -14,6 +14,7 @@
 							<div class="col-sm-3 control-label">PILIH HANGGAR</div>
 							<div class="col-sm-9">
 								<select name="hanggar" class="form-control select2">
+									<option value="0">SEMUA HANGGAR</option>
 									<?php
 										foreach ($hanggar as $key => $value) {
 											echo '<option value="'.$value['id'].'">'.$value['grupHanggar'].'</option>';
