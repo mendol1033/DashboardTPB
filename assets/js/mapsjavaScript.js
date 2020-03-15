@@ -103,6 +103,12 @@
               }
             })      
           });
+          marker.addListener('mouseover',function(e){
+            console.log(e);
+          });
+          marker.addListener('mouseout',function(e){
+            console.log(e);
+          });
         });
       }
     })

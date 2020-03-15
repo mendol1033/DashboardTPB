@@ -114,25 +114,33 @@ class Connection_check extends MY_Controller {
 			$hasil = array();
 			for ($i = 0; $i < count($data); $i++) {
 
-				if (substr($data[$i]['IpAddress'], 0,4) == "http") {
-					$url = $data[$i]['IpAddress'];
+				// if (substr($data[$i]['IpAddress'], 0,4) == "http") {
+				// 	$url = $data[$i]['IpAddress'];
+				// } else {
+				// 	$url = "http://" . $data[$i]['IpAddress'];
+				// }
+
+				if (substr($data[$i]['IpAddress'],0,5) == "https") {
+					$url = substr($data[$i]['IpAddress'],8);
+				} elseif (substr($data[$i]['IpAddress'],0,4) == "http"){
+					$url = substr($data[$i]['IpAddress'],7);
 				} else {
-					$url = "http://" . $data[$i]['IpAddress'];
+					$url = $data[$i]['IpAddress'];
 				}
 
 				$ch = curl_init($url);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+				curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				$datach = curl_exec($ch);
 				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				curl_close($ch);
-				if ($httpcode >= 200 && $httpcode < 300) {
+				if ($httpcode >= 200 && $httpcode < 303) {
 					$ret_val = 0;
 					$hasil[$i]['Ip'] = $url;
 				} else {
-					$ip = preg_split("/[ :| \/]/", $data[$i]['IpAddress']);
-					exec('ping -c 1' . $ip[0], $output, $ret_val);
+					$ip = preg_split("/[ :| \/]/", $url);
+					exec('ping ' . $ip[0], $output, $ret_val);
 					$hasil[$i]['Ip'] = $ip[0];
 				}
 
@@ -199,6 +207,68 @@ class Connection_check extends MY_Controller {
 		}
 
 		echo json_encode($m);
+	}
+
+	public function ip_check() {
+		// $data = $this->check->getAll();
+		$hasil = array();
+		// for ($i = 0; $i < count($data); $i++) {
+
+		if (substr($_GET['url'],0,5) == "https") {
+			$url = substr($_GET['url'],8);
+		} elseif (substr($_GET['url'],0,4) == "http"){
+			$url = substr($_GET['url'],7);
+		} else {
+			$url = $_GET['url'];
+		}
+
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$datach = curl_exec($ch);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		if ($httpcode >= 200 && $httpcode < 303	) {
+			$ret_val = 0;
+			$hasil['Ip'] = $url;
+			$hasil['source'] = "curl";
+			$hasil['ch'] = $datach;
+			$hasil['httpcode'] = $httpcode;
+			$hasil['ret_val'] = $ret_val;
+		} else {
+			$ip = preg_split("/[ :| \/]/", $url);
+			exec('ping ' . $ip[0], $output, $ret_val);
+			$hasil['Ip'] = $ip[0];
+			$hasil['source'] = "ping";
+			$hasil['output'] = $output;
+			$hasil['ret_val'] = $ret_val;
+			$hasil['ch'] = $datach;
+			$hasil['httpcode'] = $httpcode;
+		}
+
+		echo json_encode(array($hasil,$url,$_GET['url']));
+
+		// 	$hasil[$i]['IdPerusahaan'] = $data[$i]['IdPerusahaan'];
+		// 	$hasil[$i]['NPWP'] = $data[$i]['NPWP'];
+		// 	$hasil[$i]['NamaPerusahaan'] = $data[$i]['NmPerusahaan'];
+		// 	$hasil[$i]['Skep'] = $data[$i]['NoSkepAkhir'];
+		// 	$hasil[$i]['Browser'] = $data[$i]['Browser'];
+		// 	$hasil[$i]['IpAddress'] = $data[$i]['IpAddress'];
+		// 	$hasil[$i]['Status'] = $data[$i]['Status'];
+		// 	// $hasil[$i]['output'] = $output;
+		// 	$hasil[$i]['result'] = $ret_val;
+		// 	$hasil[$i]['data_curl'] = $datach;
+		// 	$hasil[$i]['httpcode'] = $httpcode;
+		// }
+
+		// $status = $this->check->post($hasil, $_POST['type']);
+
+		// if ($status === TRUE) {
+		// 	echo json_encode('DATA BERHASIL DISMIPAN');
+		// } else {
+		// 	echo json_encode('DATA GAGAL DISIMPAN');
+		// }
 	}
 
 }
