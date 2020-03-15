@@ -156,7 +156,7 @@
 			success: function(d){
 				$('.overlay').remove();
 				ajax_reload();
-				console.log(d);
+				// console.log(d);
 			}
 		})
 	}
@@ -181,7 +181,7 @@
 			dataType: 'JSON',
 			data: {id: id},
 			success: function(d){
-				console.log(d);
+				// console.log(d);
 			}
 		})
 	}

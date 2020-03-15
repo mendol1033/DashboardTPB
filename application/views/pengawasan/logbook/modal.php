@@ -159,7 +159,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="col-md-12 col-lg-12">
-					<form id="form" class="form-horizontal" method="post" enctype="multipart/form-data">
+					<form id="formView" class="form-horizontal" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label class="col-sm-2 col-md-2 control-label">Jenis Logbook</label>
 							<div class="col-sm-10 col-md-10">
