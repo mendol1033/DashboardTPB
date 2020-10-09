@@ -317,7 +317,12 @@ class Monevumum extends MY_Controller {
 
 	public function cetak() {
 		$data = $this->monev->getById();
-		$template = "assets/upload/monev/template/template_monev_umum_hanggar.docx";
+		if ($data[0]['flagMandiri'] == "N") {
+			$template = "assets/upload/monev/template/template_monev_umum_hanggar.docx";
+		} else {
+			$template = "assets/upload/monev/template/template_monev_umum_hanggar_kbm.docx";
+		}
+		
 		$dirDocx = 'assets/upload/monev/report_docx/';
 		$dirPdf = 'assets/upload/monev/report_pdf/';
 		$thick = mb_convert_encoding('&#x2714;', 'UTF-8', 'HTML-ENTITIES');
