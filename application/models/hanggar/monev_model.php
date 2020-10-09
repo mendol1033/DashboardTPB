@@ -218,6 +218,7 @@ class Monev_model extends CI_Model {
 			$this->monev->trans_begin();
 			$idPerusahaan = $_POST['idPerusahaan'];
 			$tanggal = $_POST['tanggal'];
+			$flagMandiri = $_POST['FlagMandiri'];
 			$keterangan = $_POST['keteranganLain'];
 
 			$laporan = array(
@@ -225,6 +226,7 @@ class Monev_model extends CI_Model {
 				'idPerusahaan' => $idPerusahaan,
 				'tanggalLaporan' => $tanggal,
 				'keterangan' => $keterangan,
+				'flagMandiri' => $flagMandiri,
 				'NipPegawai' => $this->session->userdata('NipUser'),
 			);
 
@@ -234,11 +236,22 @@ class Monev_model extends CI_Model {
 			unset($isi['idPerusahaan']);
 			unset($isi['alamat']);
 			unset($isi['tanggal']);
+			unset($isi['FlagMandiri']);
 			unset($isi['keteranganLain']);
 			$idLaporan = $this->monev->insert_id();
 
+			switch ($flagMandiri) {
+				case 'Y':
+					$maxFIeld = 25;
+					break;
+				
+				default:
+					$maxFIeld = 20;
+					break;
+			}
+
 			$isiLaporan = array();
-			for ($i = 1; $i < 20; $i++) {
+			for ($i = 1; $i < $maxFIeld; $i++) {
 				if (isset($isi['checklist' . $i]) === FALSE) {
 					$isi['checklist' . $i] = NULL;
 				}
@@ -254,7 +267,7 @@ class Monev_model extends CI_Model {
 			$status2 = $this->monev->insert_batch('monev_hanggar_isi', $isiLaporan);
 
 			$fileLaporan = array();
-			for ($i = 1; $i < 20; $i++) {
+			for ($i = 1; $i < $maxFIeld; $i++) {
 				for ($a = 0; $a < count($_FILES['file' . $i]['name']); $a++) {
 					if (!empty($_FILES['file' . $i]['name'][$a])) {
 						$tmpFilePath = $_FILES['file' . $i]['tmp_name'][$a];

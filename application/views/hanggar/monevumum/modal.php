@@ -118,6 +118,22 @@
 
 							</td>
 						</tr>
+						<tr>
+							<td class="col-md-3">
+								<label class="control-label">Flag KB Mandiri</label>
+							</td>
+							<td class="col-md-9">
+								<select class="form-control select2" name="FlagMandiri" id="FlagMandiri">
+									<option value="Y">YA</option>
+									<option value="N" selected>TIDAK</option>
+								</select>
+							</td>
+						</tr>
+						<tr class="hidden">
+							<td colspan="2">
+
+							</td>
+						</tr>
 					</table>
 					<table class="table table-bordered table-responsive table-hover table-striped">
 						<thead>
@@ -770,6 +786,184 @@
 									<input class="form-control" type="file" multiple="multiple" name="file19[]" style="width: 100%;">
 								</td>
 								<td style="vertical-align: top;">Mengecek layar monitor CCTV <br> <br> <i>Cukup dicentang jika Sesuai</i></td>
+							</tr>
+							<tr class="hidden">
+								<td colspan="6">
+
+								</td>
+							</tr>
+							<tr class="kbm sr-only">
+								<td style="text-align: center; vertical-align: top;">18</td>
+								<td style="vertical-align: top;">
+									Setiap pemasukan dan pengeluaran barang telah dilakukan dengan pemberitahuan pabean
+								</td>
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist20" value="Y" checked="checked">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist20" value="N">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td style="vertical-align: top; width: 25%">
+									<textarea class="form-control" style="width: 100%; height: 100px;" name="keterangan20"></textarea>
+									<br>
+									<label>Sertakan file jika ada</label>
+									<input class="form-control" type="file" multiple="multiple" name="file20[]" style="width: 100%;">
+								</td>
+								<td style="vertical-align: top;">Lakukan uji petik terhadap pemberitahuan pabean pemasukan dan pengeluaran barang pada: <br>
+									<ol>
+										<li><i>IT Inventory</i> dan SKP.</li>
+										<li>Catatan pemasukan dan pengeluaran barang laporan petugas <i>security</i>/Satpam terhadap (dapat di cek nomor polisi alat angkut)</li>
+									</ol>
+								</td>
+							</tr>
+							<tr class="hidden">
+								<td colspan="6">
+
+								</td>
+							</tr>
+							<tr class="kbm sr-only">
+								<td style="text-align: center; vertical-align: top;">19</td>
+								<td style="vertical-align: top;">
+									Setiap pemasukan dan pengeluaran barang ke dan dari TPB telah dilakukan pemeriksaan kebenaran peti kemas/kemasan
+								</td>
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist21" value="Y" checked="checked">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist21" value="N">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td style="vertical-align: top; width: 25%">
+									<textarea class="form-control" style="width: 100%; height: 100px;" name="keterangan21"></textarea>
+									<br>
+									<label>Sertakan file jika ada</label>
+									<input class="form-control" type="file" multiple="multiple" name="file21[]" style="width: 100%;">
+								</td>
+								<td style="vertical-align: top;">
+									<ol>
+										<li>Cek dokumen pengangkutan dengan dokumen pabean</li>
+										<li>Lihat Laporan atau catatan bagian yang bertanggung jawab terhadap ekspor-impor dan Laporan Penerimaan dan Pengeluaran Barang di Gudang</li>
+										<li>Lakukan Uji Petik</li>
+									</ol>
+								</td>
+							</tr>
+							<tr class="hidden">
+								<td colspan="6">
+
+								</td>
+							</tr>
+							<tr class="kbm sr-only">
+								<td style="text-align: center; vertical-align: top;">20</td>
+								<td style="vertical-align: top;">
+									Setiap pemasukan dan pengeluaran barang ke dan dari TPB telah dilakukan pemeriksaan keutuhan atau pelekatan tanda pengaman
+								</td>
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist22" value="Y" checked="checked">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist22" value="N">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td style="vertical-align: top; width: 25%">
+									<textarea class="form-control" style="width: 100%; height: 100px;" name="keterangan22"></textarea>
+									<br>
+									<label>Sertakan file jika ada</label>
+									<input class="form-control" type="file" multiple="multiple" name="file22[]" style="width: 100%;">
+								</td>
+								<td style="vertical-align: top;">
+									<ol>
+										<li>Cek Laporan Pemeriksaan kedatangan dan keberangkatan alat angkut dengan dokumen pabean</li>
+										<li>Cek dengan laporan petugas Security/Satpam dan bagian Exim</li>
+										<li>Lakukan Uji Sampling</li>
+									</ol>
+								</td>
+							</tr>
+							<tr class="hidden">
+								<td colspan="6">
+
+								</td>
+							</tr>
+							<tr class="kbm sr-only">
+								<td style="text-align: center; vertical-align: top;">21</td>
+								<td style="vertical-align: top;">
+									Setiap pembongkaran dan penimbunan barang telah dilakukan dengan baik dan benar
+								</td>
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist23" value="Y" checked="checked">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist23" value="N">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td style="vertical-align: top; width: 25%">
+									<textarea class="form-control" style="width: 100%; height: 100px;" name="keterangan23"></textarea>
+									<br>
+									<label>Sertakan file jika ada</label>
+									<input class="form-control" type="file" multiple="multiple" name="file23[]" style="width: 100%;">
+								</td>
+								<td style="vertical-align: top;">
+									<ol>
+										<li>Membandingkan kesesuaian jumlah dan/atau jenis kemasan barang dengan Laporan</li>
+										<li>Lihat Laporan atau catatan bagian Exim dan Laporan Penerimaan Barang di gudang Penerimaan Barang dan <i>IT Inventory</i></li>
+										<li>Lakukan Uji Sampling</li>
+									</ol>
+								</td>
+							</tr>
+							<tr class="hidden">
+								<td colspan="6">
+
+								</td>
+							</tr>
+							<tr class="kbm sr-only">
+								<td style="text-align: center; vertical-align: top;">22</td>
+								<td style="vertical-align: top;">
+									Setiap pemasukan dan pengeluaran barang telah dilakukan pencatatan pada <i>IT Inventory</i>
+								</td>
+								<td class="bg-success" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist24" value="Y" checked="checked">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td class="bg-danger" style="text-align: center; vertical-align: top;">
+									<label class="checkcontainer">
+										<input type="radio" name="checklist24" value="N">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td style="vertical-align: top; width: 25%">
+									<textarea class="form-control" style="width: 100%; height: 100px;" name="keterangan24"></textarea>
+									<br>
+									<label>Sertakan file jika ada</label>
+									<input class="form-control" type="file" multiple="multiple" name="file24[]" style="width: 100%;">
+								</td>
+								<td style="vertical-align: top;">
+									<ol>
+										<li>Membandingkan kesesuaian jumlah dan/atau jenis barang dengan Laporan Penerimaan Barang dan Laporan Pengeluaran Barang dengan <i>IT Inventory</i></li>
+										<li>Lakukan Uji Sampling</li>
+									</ol>
+								</td>
 							</tr>
 							<tr class="hidden">
 								<td colspan="6">
