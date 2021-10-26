@@ -55,6 +55,10 @@ class Monev_model extends CI_Model {
 	}
 
 	public function GetDataTable($ajax, $tabel, $urutan_kolom, $cari_kolom, $id = NULL) {
+		$hanggar = $this->db->from('tb_petugas_hanggar')->select('IdHanggar')->where('IdPegawai', $_SESSION['IdPegawai'])->get()->result_array();
+		foreach ($hanggar as $key->$value) {
+			$in[] = $value['IdHanggar'];
+		}
 		$this->table = $tabel;
 		$this->column_order = $urutan_kolom;
 		$this->column_search = $cari_kolom;
@@ -89,7 +93,7 @@ class Monev_model extends CI_Model {
 			}
 
 			if ($this->Hanggar !== 0) {
-				$this->monev->where('IdHanggar', $this->Hanggar);
+				$this->monev->where_in('IdHanggar', $in);
 			}
 		}
 
