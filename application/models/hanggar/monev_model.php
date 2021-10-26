@@ -6,6 +6,7 @@ class Monev_model extends CI_Model {
 	public function __construct() {
 		parent::__construct();
 		//Do your magic here
+		$this->db = $this->load->database('default', TRUE);
 		$this->peloro = $this->load->database('peloro', TRUE);
 		$this->sikabayan = $this->load->database('sikabayan', TRUE);
 		$this->monev = $this->load->database('monev', TRUE);
@@ -54,6 +55,10 @@ class Monev_model extends CI_Model {
 	}
 
 	public function GetDataTable($ajax, $tabel, $urutan_kolom, $cari_kolom, $id = NULL) {
+		$hanggar = $this->db->from('tb_petugas_hanggar')->select('IdHanggar')->where('IdPegawai', $_SESSION['IdPegawai'])->get()->result_array();
+		foreach ($hanggar as $key->$value) {
+			$in[] = $value['IdHanggar'];
+		}
 		$this->table = $tabel;
 		$this->column_order = $urutan_kolom;
 		$this->column_search = $cari_kolom;
@@ -88,7 +93,7 @@ class Monev_model extends CI_Model {
 			}
 
 			if ($this->Hanggar !== 0) {
-				$this->monev->where('IdHanggar', $this->Hanggar);
+				$this->monev->where_in('IdHanggar', $in);
 			}
 		}
 
@@ -193,11 +198,15 @@ class Monev_model extends CI_Model {
 	}
 
 	public function getTPB($search, $column) {
+		$hanggar = $this->db->from('tb_petugas_hanggar')->select('IdHanggar')->where('IdPegawai', $_SESSION['IdPegawai'])->get()->result_array();
+		foreach ($hanggar as $key->$value) {
+			$in[] = $value['IdHanggar'];
+		}
 		$this->sikabayan->from('tpbdetail');
 		$this->sikabayan->select($column);
 		$this->sikabayan->like('nama_perusahaan', $search);
 		if ($this->session->userdata('IdHanggar') !== 0) {
-			$this->sikabayan->where('IdHanggar', $this->session->userdata('IdHanggar'));
+			$this->sikabayan->where_in('IdHanggar', $in);
 		}
 		$this->sikabayan->where('status', "Y");
 		$query = $this->sikabayan->get();
