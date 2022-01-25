@@ -12,10 +12,10 @@
 	},
 	"require": {
 		"php": ">=5.3.7",
-		"phpoffice/phpspreadsheet": "^1.4",
 		"phpoffice/phpword": "^0.16.0",
 		"google/apiclient": "2.0",
-		"laminas/laminas-escaper": "^2.6"
+		"laminas/laminas-escaper": "^2.6",
+		"phpoffice/phpspreadsheet": "^1.8"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
